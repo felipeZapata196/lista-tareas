@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 
-import { NavBar } from './Components.js/NavBar';
+import { NavBar } from './Components/NavBar';
 
-import {Layout}  from './Components.js/Layout'
+import {Layout}  from './Components/Layout'
 
 import './App.css';
-import SideBar from './components/Sidebar';
+import SideBar from './Components/Sidebar';
 
 function App() {
   return (
