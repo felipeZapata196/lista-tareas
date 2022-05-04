@@ -1,0 +1,21 @@
+.container-all{
+    float: left;
+}
+
+.container-all h1{
+    font-size: 40px;
+}
+
+.content-list li a{
+    float: left;
+    text-decoration: none;
+    color: black;
+}
+
+.content-list li {
+    list-style: none;
+}
+
+li{
+    padding-top: 10px;
+}
