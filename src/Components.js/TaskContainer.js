@@ -31,7 +31,7 @@ export const TaskContainer = ()=>{
         <div className="taskStyles">
             Hola mundo
         </div>
-        <div className="taskStyles">
+           <div className="taskStyles">
             Hola mundo
         </div>
       
