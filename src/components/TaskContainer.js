@@ -4,42 +4,44 @@ import {Task} from './Task'
 
 export const TaskContainer = ()=>{
     const tasks = {
-     
+        padding: '50px',
+        justifyContent: 'space-between',
+        backgroundColor: 'orange',
+        height: '70%'
+    }
+
+    const row= {
         display: 'flex',
         flexDirection: 'row',
-        
+        width: '100%',
+        flexWrap: 'wrap',
+        gap: 30
+    }
 
-    }
-    const taskStyles = {
-     
-        border: 'solid 1px #eee',
-        boxShados: '0 5px 5px rgb(0, 0, 0, 0.1)',
-        width: '30%',
-        padding: '10px 15px',
-        borderRadius: '5px',
-    }
     const testTask = [
         {name: 'comprar huevos', info: 'lalala'},
         {name: 'comprar leche', info: 'lalala'},
+        {name: 'llamar', info: 'lalala'},
+        {name: 'llamar', info: 'lalala'},
+        {name: 'llamar', info: 'lalala'},
         {name: 'llamar', info: 'lalala'},
 
     ]
   
     return(
-      <div style={tasks} >
+        <div style={tasks} >
        
-        <div className="taskStyles">
-            Hola mundo
+            <div style={row}>
+            
+                {testTask.map(task => 
+                    <Task
+                        key={task.name}
+                    />
+                )}    
+                
+            </div>
+
         </div>
-           <div className="taskStyles">
-            Hola mundo
-        </div>
-      
-
-
-           
-
-    </div>
     
 
              
