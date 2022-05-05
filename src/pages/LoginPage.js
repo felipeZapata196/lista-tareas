@@ -14,6 +14,8 @@ const LoginPage = props => {
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
     })
+
+    console.log("Estado del login", loginStore.login)
   }
 
   return(
@@ -29,3 +31,9 @@ const LoginPage = props => {
 }
 
 export default LoginPage;
+
+// Funcionamiento de Login:
+//  1. Recoger email y password de los input
+//  2. Sacar el token del usuario
+//  3. Si todo funciona bien poner la variable global de login a true -> Esto solo se usa en App.js para indicar que página quieres renderizar
+//  4. Cambiar de página cuando este logueado
