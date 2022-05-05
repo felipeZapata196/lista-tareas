@@ -1,18 +1,20 @@
+
+//esto es simplemente una solución rapida, luego va a ir de otra forma sin repetir tanto código.
 import React from "react";
 import {Task} from './Task'
 
 
-export const TaskContainer = ()=>{
+export const ReduceTaskContainer = ()=>{
     const tasks = {
         padding: '50px',
         justifyContent: 'space-between',
-        height: '70%'
+        height: '70%',
+         backgrounColor: 'black'
     }
 
     const row= {
         display: 'flex',
         flexDirection: 'row',
-        width: '100%',
         flexWrap: 'wrap',
         gap: 30
     }

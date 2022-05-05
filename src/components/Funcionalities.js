@@ -5,28 +5,54 @@ import React from "react";
 export const Funcionalities= ()=>{
     const funcionalitiesStyle = {
         width: '100%',
-        height: '15%',
-        backgroundColor: 'blue',
-        alignItems: 'center'
+        height: '10%',
+        display: 'flex',
+        flexDirection: 'row'
+        
+       
 
     }
     const  buttonStyle = {
-        backgroundColor: '#0A283E',
-        color: '#fff',
-        padding: '15px 20px',
+        backgroundColor: '#f44336',
+        color: 'white',
+        padding: '15px 35px',
         border: 'none',
-        borderRadius: '5px',
+        borderRadius: '3px',
         cursor: 'pointer',
-
+        float: 'right',
+        height: '3rem',
+        margin: '5px 10px',
+        fontSize: '1rem'
 
     }
-   
+   const titleStlye = {
+       margin: '20px 40px',
+       width:'50%'
+   }
+
+   const divButton = {
+    margin: '20px 40px',
+    width:'50%'
+}
     return(
       
         <div style={funcionalitiesStyle}>
-            <h1>Lista de tareas</h1>
+
+            <div style={titleStlye}>
+            <h1 >Recent task</h1>    
+            </div>
+
+            <div style={divButton}> 
+
+            <button  style={buttonStyle}> + new Task</button>
+            </div>
             
-           <button  slyle={buttonStyle}> new Task</button>
+            
+           
+            
+
+            
+          
         </div>
 
   

@@ -4,10 +4,11 @@ import {Funcionalities}  from './Funcionalities'
 
 export const Layout= ()=>{
     const layout = {
-     
+        
         height: '100%',
         width: '100%',
-        backgroundColor: 'yellow'
+        backgroundColor:'#e5e4e2',
+    
     }
  
     return(
@@ -16,6 +17,10 @@ export const Layout= ()=>{
             <Funcionalities/>
        
             <TaskContainer/>
+            
+
+
+
         </div>
 
   
@@ -23,3 +28,4 @@ export const Layout= ()=>{
       
     )
 }
+

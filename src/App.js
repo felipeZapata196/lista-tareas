@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 
-import { NavBar } from './Components/NavBar';
+import { NavBar } from './components/NavBar';
 
-import {Layout}  from './Components/Layout'
-
+import {Layout}  from './components/Layout'
+import {Layoutprueba}  from './components/Layoutprueba'
 import './App.css';
-import SideBar from './Components/Sidebar';
+import SideBar from './components/Sidebar';
 
 function App() {
   return (
@@ -21,7 +21,6 @@ function App() {
         <NavBar/>
 
         <Layout/>
-
 
 
 
