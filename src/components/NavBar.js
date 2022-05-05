@@ -79,4 +79,6 @@ export const NavBar = ()=>{
             </div>
         </nav>  
     )
+
+    // Para buscar por nombre usaremos filter y buscaremos en el estado de la lista de tasks.
 }

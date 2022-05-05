@@ -16,7 +16,7 @@ const SideBar = () => {
                     <li>
                         <a href="#">My Tasks</a>
                         <div className="dropdown">
-                            <button onclick="dropDownBtn()" className="dropbtn">Dropdown</button>
+                            <button className="dropbtn">Dropdown</button>
                             <div id="myDropdown" className="dropdown-content">
                                 <ul>
                                     <li>

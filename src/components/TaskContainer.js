@@ -20,10 +20,10 @@ export const TaskContainer = ()=>{
     const testTask = [
         {name: 'comprar huevos', info: 'lalala'},
         {name: 'comprar leche', info: 'lalala'},
-        {name: 'llamar', info: 'lalala'},
-        {name: 'llamar', info: 'lalala'},
-        {name: 'llamar', info: 'lalala'},
-        {name: 'llamar', info: 'lalala'},
+        {name: 'llamar1', info: 'lalala'},
+        {name: 'llamar2', info: 'lalala'},
+        {name: 'llamar3', info: 'lalala'},
+        {name: 'llamar4', info: 'lalala'},
 
     ]
   

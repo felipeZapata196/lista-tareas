@@ -1,37 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {login} from '../../services/user.service';
+import {login} from '../services/user.service';
+import loginStore from '../store/loginStore';
 
-const LoginScreen = props => {
+const LoginPage = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setLogin = loginStore(state => state.setLogin);
 
-  function registerUser() {
+  const enterUser = () => {
     login(email, password).then(res => {
       setLogin(true);
+      // Falta el navigate o redirect para cambiar de página
     }).catch(err => {
-      console.log('Error el logear al usuario', err);
+      console.log('Error el loguear al usuario', err);
     })
   }
 
   return(
-    <form>
+    <div>
       <h3>Login to Continue</h3>
-      <input placeholder={'Enter email'} value={email} onChangeText={(value) => setEmail(value)}></input>
-      <input placeholder={'Enter password'} value={password} onChangeText={(value) => setPassword(value)}></input>
-    </form>
-
-    // <SafeAreaView style={{flex: 1}}>
-    //   <TextInput placeholder={'Email'} value={email} onChangeText={(value) => setEmail(value)}/>
-    //   <TextInput placeholder={'Contraseña'} value={password} onChangeText={(value) => setPassword(value)}/>
-    //   <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center', borderWidth: 1}} onPress={() => registerUser()}>
-    //     <Text>LOGIN</Text>
-    //   </TouchableOpacity>
-    // </SafeAreaView>
+      <form>
+        <input placeholder={'Enter email'} onChange={(value) => setEmail(value)}></input>
+        <input placeholder={'Enter password'} onChange={(value) => setPassword(value)}></input>
+        <button className='btn btn-primary' type="submit" onClick={enterUser}>Log in</button>
+      </form>
+    </div>
   )
 }
 
-export default LoginScreen;
-
-const styles = StyleSheet.create({
-})
+export default LoginPage;
