@@ -1,9 +1,9 @@
 import React from "react";
 import './Sidebar.css';
 
-const SideBar = () => {
+// No se puede 
 
-     
+const SideBar = () => {
 
     return (
         <div className="container-all">
@@ -15,19 +15,21 @@ const SideBar = () => {
                     </li>
                     <li>
                         <a href="#">My Tasks</a>
-                        <button onclick="myAccFunc()">Accordion</button>
-                        <div className="content-filters">
-                            <ol>
-                                <li>
-                                    <a href="#">Recent</a>
-                                </li>
-                                <li>
-                                    <a href="#">In Progress</a>
-                                </li>
-                                <li>
-                                    <a href="#">Completed</a>
-                                </li>
-                            </ol>  
+                        <div className="dropdown">
+                            <button onclick="dropDownBtn()" className="dropbtn">Dropdown</button>
+                            <div id="myDropdown" className="dropdown-content">
+                                <ul>
+                                    <li>
+                                        <a href="#">Recent</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">In Progress</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Completed</a>
+                                    </li>
+                                </ul>  
+                            </div>
                         </div>
                     </li>
                     <li>

@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import { NavBar } from './components/NavBar';
 
 import {Layout}  from './components/Layout'
-import {Layoutprueba}  from './components/Layoutprueba'
+//import {Layoutprueba}  from './components/Layoutprueba'
 import './App.css';
 import SideBar from './components/Sidebar';
 

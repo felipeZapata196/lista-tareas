@@ -1,5 +1,5 @@
 import React from "react";
-import {ReduceTaskContainer}  from './ReduceTaskContainer'
+
 import {Formulario} from './Formulario'
 
 import {Funcionalities}  from './Funcionalities'
@@ -29,6 +29,8 @@ export const Layoutprueba= ()=>{
         <div style={layout}>
 
         <Funcionalities/>
+
+
 
         <div style={containerTask}>
          <TaskContainer/>
