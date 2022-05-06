@@ -1,16 +1,38 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Task} from './Task'
 import './Formulario.css'
 
 
+import {postTask, getTask}  from './../services/TaskService'
+
+
 export const Formulario = ()=>{
-    
-    const cardFormulario = {
-        borderRadius: '4px',
-        backgroundColor: '#fff',
+    useEffect(()=>{
+        getTask()
+    }, [])
+
+  
+    const handleChange= ()=>{
+      const name= "comprar leche";
+      const description = "ir a comprar leche"
+
+      postTask(name, description).then(res =>{
+          console.log(res)
+          let storageData = []
+        storageData = JSON.parse(localStorage.getItem("nuevo"))
       
+        storageData.push(res)
+       localStorage.setItem("nuevo", JSON.stringify(storageData) )
+      })
+      .catch( err => {
+          console.error(err)
+      })
+
+     
+
     }
     
+
   
     return(
   
@@ -29,6 +51,7 @@ export const Formulario = ()=>{
                    <label>Description</label>
                     <input></input>
                 </div> 
+                <button type="button" onClick={handleChange}>Enviar</button>
            
 
             </form>
@@ -42,4 +65,10 @@ export const Formulario = ()=>{
 
              
     )
+}
+
+const cardFormulario = {
+    borderRadius: '4px',
+    backgroundColor: '#fff',
+  
 }

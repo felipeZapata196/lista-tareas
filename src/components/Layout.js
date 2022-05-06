@@ -13,12 +13,15 @@ export const Layout= ()=>{
         backgroundColor:'#e5e4e2',
     
     }
-    const valor =true
+    const valor =false
     return(
       
         <div style={layout}>
             <Funcionalities/>
-            <TaskContainer/>
+
+            {valor ? <TaskContainer/> 
+                    :<Formpage/> }
+          
        
             
 
