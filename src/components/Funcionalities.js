@@ -1,8 +1,10 @@
 import React from "react";
-
-
+import { Button } from "./Button";
+import Swal from 'sweetalert2'
 
 export const Funcionalities= ()=>{
+
+
     const funcionalitiesStyle = {
         width: '100%',
         height: '10%',
@@ -12,28 +14,33 @@ export const Funcionalities= ()=>{
        
 
     }
-    const  buttonStyle = {
-        backgroundColor: '#f44336',
-        color: 'white',
-        padding: '15px 35px',
-        border: 'none',
-        borderRadius: '3px',
-        cursor: 'pointer',
-        float: 'right',
-        height: '3rem',
-        margin: '5px 10px',
-        fontSize: '1rem'
 
-    }
    const titleStlye = {
        margin: '20px 40px',
        width:'50%'
    }
 
-   const divButton = {
-    margin: '20px 40px',
-    width:'50%'
-}
+   const handleChange = ()=>{
+    const { value: formValues } =Swal.fire({
+        title: 'Multiple inputs',
+        html:
+          '<input id="swal-input1" class="swal2-input">' +
+          '<input id="swal-input2" class="swal2-input">',
+        focusConfirm: false,
+        preConfirm: () => {
+          return [
+            document.getElementById('swal-input1').value,
+            document.getElementById('swal-input2').value
+          ]
+        }
+      })
+      
+      if (formValues) {
+        Swal.fire(JSON.stringify(formValues))
+      }
+   }
+
+
     return(
       
         <div style={funcionalitiesStyle}>
@@ -42,10 +49,7 @@ export const Funcionalities= ()=>{
             <h1 >Recent task</h1>    
             </div>
 
-            <div style={divButton}> 
-
-            <button  style={buttonStyle}> + new Task</button>
-            </div>
+            <Button onClick={handleChange}/> 
             
             
            

@@ -1,36 +1,30 @@
 import React from "react";
 
 import {Formulario} from './Formulario'
-
-import {Funcionalities}  from './Funcionalities'
 import { TaskContainer } from "./TaskContainer";
 
-export const Layoutprueba= ()=>{
+export const Formpage= ()=>{
     const layout = {
         
         height: '100%',
         width: '100%',
-        backgroundColor:'pink',
+       
     
     }
     const containerForm = {
         width: '70%',
         float: 'right',
-        backgroundColor: 'red'
+    
     }
     const containerTask = {
         width: '30%',
         float: 'left',
-        backgroundColor: 'yellow'
     }
  
     return(
       
-        <div style={layout}>
 
-        <Funcionalities/>
-
-
+        <div>
 
         <div style={containerTask}>
          <TaskContainer/>
