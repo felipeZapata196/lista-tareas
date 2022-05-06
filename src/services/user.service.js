@@ -1,56 +1,40 @@
 import axios from 'axios';
 
-// TOKEN
-const TOKEN_KEY = 'token'
-
-const setToken = (token) => {
-  localStorage.setItem(TOKEN_KEY, token);
-}
-
-const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
-}
-
-const deleteToken = () => {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
-const initAxiosInterceptors = () => {
-  axios.interceptors.request.use((config) => {
-    const token = getToken();
-
-    if (token) {
-      config.headers.Authorization = token
-    }
-    return config
-  });
-
-  axios.interceptors.response.use((res) => {
-    return res
-  }, (err) => {
-    return err
-  })
-}
-
 const headers = {
     'Content-Type': 'application/json',
     'Authorization': localStorage.getItem('token')
 }
 
-const axiosInstance = axios.create({baseURL: 'https://reqres.in/',  responseType: 'json'});
+const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType: 'json'});
 
 /**
  * Iniciar sesion
  * */
- export const login = (email, pass) => {
-  const data = {
-    email: email,
-    password: pass
-  }
-
+ export const doLogin = (email, pass) => {
     return new Promise((resolve, reject) => {
-      axios.post('https://reqres.in/api/api/login', data).then(res => {
-        localStorage.setItem('token', res.token);
+      axios.post(
+        'https://reqres.in/api/login', 
+        {
+          email: email,
+          password: pass
+        })
+        .then(res => {
+        localStorage.setItem('token', res.data.token);
+        resolve(res);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+  
+  /**
+   * Cerrar sesion
+   * */
+  // Necesito una función que borre el token y que ponga el login del store a false
+  // Igual estaría bien traer la lista de usuarios 
+  export const logout = () => {
+    return new Promise((resolve, reject) => {
+      axiosInstance.get('logout.json', {headers}).then(res => {
         resolve(res);
       }).catch(err => {
         reject(err);
@@ -58,41 +42,9 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/',  responseType
     })
   }
 
-// export async function loginn(email, password) {
-//   const { data } = await axios.post('https://reqres.in/api/login', {email: email, password: password});
-//   localStorage.setItem('token', data.token)
-// }
-
-// export const logine = async (email, pass) => {
-//   const dates = {
-//     email: email,
-//     password: pass,
-//   }
-
-//   const res = await fetch('https://reqres.in/api/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-type': 'application/json'
-//     },
-//     body: JSON.stringify(dates)
-//   })
-
-//   const data = await res.json()
-
-//   console.log(data)
-
-//   localStorage.setItem('token', data)
-//   }
+  // Para cambiar de usuario:
+  // Primero limpiar local storage
+  // Poner el setLogin a false
   
-  /**
-   * Cerrar sesion
-   * */
-//   export const logout = () => {
-//     return new Promise((resolve, reject) => {
-//       axiosInstance.get('logout.json', {headers}).then(res => {
-//         resolve(res);
-//       }).catch(err => {
-//         reject(err);
-//       })
-//     })
-//   }
+
+  // Nueva tarea 
