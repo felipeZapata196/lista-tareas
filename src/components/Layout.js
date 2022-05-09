@@ -19,8 +19,8 @@ export const Layout= ()=>{
         <div style={layout}>
             <Funcionalities/>
 
-            {valor ? <TaskContainer/> 
-                    :<Formpage/> }
+            <TaskContainer/> 
+                
           
        
             
