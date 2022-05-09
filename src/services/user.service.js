@@ -31,20 +31,16 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
    * Cerrar sesion
    * */
   // Necesito una función que borre el token y que ponga el login del store a false
-  // Igual estaría bien traer la lista de usuarios 
+  // Igual estaría bien traer la lista de usuarios
   export const logout = () => {
-    return new Promise((resolve, reject) => {
-      axiosInstance.get('logout.json', {headers}).then(res => {
-        resolve(res);
-      }).catch(err => {
-        reject(err);
-      })
-    })
+    localStorage.removeItem('token')
   }
 
   // Para cambiar de usuario:
   // Primero limpiar local storage
   // Poner el setLogin a false
   
+  // Necesito un "dropdown" en el navbar para que despliegue un boton que ponga "cerrar sesion o cambiar de usuario"
+  // Cuando le de a lo de Felipe Marcos
 
   // Nueva tarea 
