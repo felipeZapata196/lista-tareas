@@ -46,7 +46,7 @@ export const TaskContainer = ()=>{
    
       getTask().then(response =>{
             setData(data =response)    
-            console.log(data) 
+       
             })
             .catch( err => {
                 console.error(err)
@@ -71,7 +71,7 @@ export const TaskContainer = ()=>{
                 {data.map(task => 
                        <div style={taskStyles}>
                        <h3>{task.name}</h3>
-                       <p> prueba </p>
+                       <p> {task.description} </p>
                         </div>
                 )}
 
