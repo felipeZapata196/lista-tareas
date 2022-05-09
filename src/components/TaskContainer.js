@@ -1,5 +1,7 @@
 import React from "react";
+import { useState } from "react";
 import {Task} from './Task'
+import { getTask } from "../services/TaskService";
 
 
 export const TaskContainer = ()=>{
@@ -16,6 +18,16 @@ export const TaskContainer = ()=>{
         flexWrap: 'wrap',
         gap: 30
     }
+    const taskStyles = {
+     
+        border: 'solid 1px #eee',
+        boxShadow: '5px 5px 5px rgb(0, 0, 0, 0.1)',
+        minWidth: '28%',
+        height: '23vh',
+        padding: '10px 15px',
+        borderRadius: '5px',
+        backgroundColor:'white',
+    }
 
     const testTask = [
         {name: 'comprar huevos', info: 'lalala'},
@@ -26,17 +38,44 @@ export const TaskContainer = ()=>{
         {name: 'llamar4', info: 'lalala'},
 
     ]
+
+    React.useEffect(()=>{
+        getTask()
+    }, [])
+    let [data, setData ] =useState([])
+   
+      getTask().then(response =>{
+            setData(data =response)    
+            console.log(data) 
+            })
+            .catch( err => {
+                console.error(err)
+            })
+
+
+    
+   
+   
+   
+   
   
     return(
         <div style={tasks} >
        
             <div style={row}>
             
-                {testTask.map(task => 
-                    <Task
-                        key={task.name}
-                    />
-                )}    
+             
+
+            
+
+                {data.map(task => 
+                       <div style={taskStyles}>
+                       <h3>{task.name}</h3>
+                       <p> prueba </p>
+                        </div>
+                )}
+
+
                 
             </div>
 
