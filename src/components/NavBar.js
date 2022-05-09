@@ -71,12 +71,14 @@ export const NavBar = ()=>{
                </div>
                 <div className="content-input" style={middle}>
                     <input className="ipSearch" style={inputSearch} type="text" required placeholder="Enter task name"/>
-                    <button className='btnSearch' style={buttonSearch} type="submit">Search</button>
+                    <button className='btnSearch' style={buttonSearch} type="submit" onClick={() => console.log("Boton de search")}>Search</button>
                 </div>
                 <div className="content-btnLogin" style={right}>
-                    <button className='btnLogin' style={buttonLogin} type="submit" >Login</button>
+                    <button className='btnLogin' style={buttonLogin} type="submit">Login</button>
                 </div>
             </div>
         </nav>  
     )
+
+    // Para buscar por nombre usaremos filter y buscaremos en el estado de la lista de tasks.
 }
