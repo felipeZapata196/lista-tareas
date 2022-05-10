@@ -1,15 +1,8 @@
-import logo from './logo.svg';
-
-import { NavBar } from './components/NavBar';
-
-import {Layout}  from './components/Layout'
-//import {Layoutprueba}  from './components/Layoutprueba'
-import './App.css';
-import SideBar from './components/Sidebar';
-import LoginPage from './pages/LoginPage';
+import React from 'react';
 import { loginStore } from './store/loginStore';
 import { useEffect } from 'react';
 import { isLogged } from './services/auth.service';
+import { HomeNavigation, AuthNavigation } from './navigation/Navigation'
 
 function App() {
 
@@ -19,37 +12,20 @@ function App() {
   useEffect(() => {
     isLogged().then((res) => {
       console.log('res', res);
-      setLogin(true);
+      setLogin(res);
     }).catch((err) => {
       setLogin(false)
     })
   }, [])
 
   return (
-   <div className="general-containter">
-
-     <LoginPage />
-      <div className="sidebar">
-
-     <SideBar />
-
-      </div>
-
-      <div className="mainContainer">
-        <NavBar/>
-
-        <Layout/>
-
-
-
-
-
-
-      </div>
-
-
-
-   </div>
+    <>
+      {login === true ?
+        <HomeNavigation />
+      :
+        <AuthNavigation />
+      }
+    </>
   );
 }
 
