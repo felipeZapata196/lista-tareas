@@ -19,7 +19,7 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
           password: pass
         })
         .then(res => {
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', JSON.stringify(res.data.token));
         resolve(res);
       }).catch(err => {
         reject(err);
@@ -32,7 +32,7 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
    * */
   // Necesito una función que borre el token y que ponga el login del store a false
   // Igual estaría bien traer la lista de usuarios
-  export const logout = () => {
+  export const doLogout = () => {
     localStorage.removeItem('token')
   }
 
