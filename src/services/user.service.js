@@ -27,6 +27,21 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
     })
   }
   
+  // Tengo que decirle que saque los datos de la página 1, luego de la 2, luego 3, hasta que no encuentre nada
+  // necesito una variable incremental que vaya subiendo hasta que encuentre una página que no tenga nada.
+  export const getUsers = (page) => {
+    return new Promise((resolve, reject) => {
+      axios.get(
+        `https://reqres.in/api/users?page=${page}`
+      )
+      .then(res => {
+        resolve(res.data.email);
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+
   /**
    * Cerrar sesion
    * */
