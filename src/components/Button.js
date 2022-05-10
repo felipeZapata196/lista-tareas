@@ -1,8 +1,9 @@
-import React from "react";
+import { height } from "@mui/system";
+import React, { Children } from "react";
 
 
 
-export const Button= ({...rest})=>{
+export const Button= ({...rest}, {Children})=>{
     const  buttonStyle = {
         backgroundColor: '#f44336',
         color: 'white',
@@ -13,13 +14,18 @@ export const Button= ({...rest})=>{
         float: 'right',
         height: '3rem',
         margin: '5px 10px',
-        fontSize: '1rem'
+        fontSize: '1rem',
+      
 
     }
    
     const divButton = {
-        margin: '20px 40px',
-        width:'50%'
+   
+    width: '50vw',
+    margin: '30 120px',
+    paddingTop:'30px'
+
+
     }
 
 
@@ -31,8 +37,9 @@ export const Button= ({...rest})=>{
         <button  style={buttonStyle}
                 {...rest}
                         >
-                            + new Task
+                        Add
         </button>
+
         </div>
       
     )

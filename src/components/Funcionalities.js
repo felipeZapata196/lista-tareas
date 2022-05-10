@@ -1,3 +1,4 @@
+import { padding } from "@mui/system";
 import * as React from "react";
 import {Formulario} from './Formulario';
 
@@ -11,7 +12,8 @@ export const Funcionalities= ()=>{
         width: '100%',
         height: '10%',
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingTop:'20px'
         
        
 
@@ -23,7 +25,10 @@ export const Funcionalities= ()=>{
    }
  
 
- 
+ const buttonStyle = {
+
+    float: 'rigth'
+ }
    
 
 
@@ -36,7 +41,13 @@ export const Funcionalities= ()=>{
             <h1 >Recent task</h1>    
             </div>
             
-            <Formulario/>
+          
+
+
+            <Formulario />
+
+
+
                         
            
          

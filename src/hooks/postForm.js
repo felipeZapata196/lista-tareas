@@ -1,14 +1,15 @@
 import { postTask } from "../services/TaskService";
 
+const email =  JSON.stringify(localStorage.getItem("email"))
 
 export const postForm = (name, description)=>{
   postTask(name, description).then(res =>{
     console.log(res)
     let storageData = []
-  storageData = JSON.parse(localStorage.getItem("nuevo"))
+  storageData = JSON.parse(localStorage.getItem(email))
 
   storageData.push(res)
-localStorage.setItem("nuevo", JSON.stringify(storageData) )
+localStorage.setItem(email, JSON.stringify(storageData) )
 })
 .catch( err => {
     console.error(err)

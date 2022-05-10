@@ -19,7 +19,8 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
           password: pass
         })
         .then(res => {
-        localStorage.setItem('token', JSON.stringify(res.data.token));
+        localStorage.setItem('token', JSON.stringify(res.data.token))
+        localStorage.setItem('email', email);
         resolve(res);
       }).catch(err => {
         reject(err);
@@ -44,3 +45,5 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
   // Cuando le de a lo de Felipe Marcos
 
   // Nueva tarea 
+
+
