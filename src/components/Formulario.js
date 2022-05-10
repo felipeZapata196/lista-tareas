@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
-import useFormulario from './../hooks/useFormulario'
+import {postForm} from '../hooks/postForm'
 import {Task} from './Task'
 import './Formulario.css'
 
@@ -51,17 +51,9 @@ export const Formulario = ()=>{
       ...tasks,
       value
       ])
-          postTask(value.name, value.description).then(res =>{
-            console.log(res)
-            let storageData = []
-          storageData = JSON.parse(localStorage.getItem("nuevo"))
-        
-          storageData.push(res)
-        localStorage.setItem("nuevo", JSON.stringify(storageData) )
-        })
-        .catch( err => {
-            console.error(err)
-        })
+
+      postForm(value.name, value.description)
+          
         
 
   
@@ -110,10 +102,6 @@ export const Formulario = ()=>{
                 
                 <button >Enviar</button>
 
-                <div>
-              
-
-                </div>
            
 
             </form>
@@ -121,10 +109,6 @@ export const Formulario = ()=>{
             </Modal>
                         
             </div>
-       
-            
-
-    
 
              
     )
