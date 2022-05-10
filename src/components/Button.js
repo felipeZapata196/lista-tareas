@@ -1,9 +1,9 @@
-import { height } from "@mui/system";
-import React, { Children } from "react";
+
+import React from "react";
 
 
 
-export const Button= ({...rest}, {Children})=>{
+export const Button= ({children, ...rest} )=>{
     const  buttonStyle = {
         backgroundColor: '#f44336',
         color: 'white',
@@ -18,29 +18,18 @@ export const Button= ({...rest}, {Children})=>{
       
 
     }
-   
-    const divButton = {
-   
-    width: '50vw',
-    margin: '30 120px',
-    paddingTop:'30px'
-
-
-    }
 
 
     return(
       
   
-        <div style={divButton}> 
+       
 
         <button  style={buttonStyle}
-                {...rest}
-                        >
-                        Add
+                {...rest}>
+                       {children}
         </button>
 
-        </div>
       
     )
 }

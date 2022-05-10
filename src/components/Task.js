@@ -6,17 +6,20 @@ export const Task= ()=>{
      
         border: 'solid 1px #eee',
         boxShadow: '5px 5px 5px rgb(0, 0, 0, 0.1)',
-        minWidth: '28%',
+        minWidth: '28vw',
         height: '23vh',
         padding: '10px 15px',
-        borderRadius: '5px',
+        borderRadius: '3px',
         backgroundColor:'white',
     }
     return(
       
         <div style={taskStyles}>
-            <h3>Tarea principal</h3>
-            <p> prueba </p>
+            <h2>Tarea principal</h2>
+            <div style={{width: '50px'}}>
+            <p  style={{width: '50px'}}> prueba </p>
+            </div>
+           
         </div>
     )
 }

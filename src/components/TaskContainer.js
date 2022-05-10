@@ -20,12 +20,12 @@ export const TaskContainer = ()=>{
     }
     const taskStyles = {
      
-        border: 'solid 1px #eee',
+        border: 'solid 1.5px #eee',
         boxShadow: '5px 5px 5px rgb(0, 0, 0, 0.1)',
         minWidth: '28%',
-        height: '23vh',
+        height: '30vh',
         padding: '10px 15px',
-        borderRadius: '5px',
+        borderRadius: '3px',
         backgroundColor:'white',
     }
 
@@ -61,8 +61,8 @@ export const TaskContainer = ()=>{
 
                 {data.map(task => 
                        <div style={taskStyles}>
-                       <h3>{task.name}</h3>
-                       <p> {task.description} </p>
+                       <h2>{task.name}</h2>
+                       <p style={{width:'300px'}}> {task.description} </p>
                         </div>
                 )}
 

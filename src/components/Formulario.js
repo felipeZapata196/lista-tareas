@@ -59,8 +59,8 @@ export const Formulario = ()=>{
   
     return(
   
-            <div>
-            <Button onClick={handleOpen}> Add Task</Button>
+            <div style={buttonStyles}>
+            <Button onClick={handleOpen}> + Add Task</Button>
             <Modal
             open={open}
             onClose={handleClose}
@@ -68,12 +68,13 @@ export const Formulario = ()=>{
             aria-describedby="modal-modal-description"
           >
               <Box sx={modalStyle}>
-              <form style={{padding:80}} onSubmit={submit}>
+              <form style={{padding:30}} onSubmit={submit}>
           
+              <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
                
                 <TextField
                   id="outlined-multiline-flexible"
-                  label="Multiline"
+                  label="Name"
                   name="name" 
                   fullWidth
                   margin="normal"
@@ -86,7 +87,7 @@ export const Formulario = ()=>{
                 <TextField
                   id="outlined-multiline-flexible"
                   fullWidth
-                  label="Multiline"
+                  label="Date"
                   margin="normal"
                   multiline
                  
@@ -98,7 +99,7 @@ export const Formulario = ()=>{
                   <TextField
                     id="outlined-multiline-static"
                     fullWidth
-                    label="Multiline"
+                    label="Description"
                     name="description" 
                     onChange={handleChange}
                     margin="normal"
@@ -112,9 +113,15 @@ export const Formulario = ()=>{
 
                   
                 </div>
-                  <Button >Enviar</Button>
+                  <div style={{paddingTop:60}}>
+                
                   <Button onClick={handleClose}>Cerrar</Button>
+                  <Button  >Save </Button>
 
+
+
+                  </div>
+                
                 <div>
               
 
@@ -143,10 +150,18 @@ const modalStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 600,
-    height: 550,
+    height: 580,
     bgcolor: 'background.paper',
     border: '0,5px solid #000',
     boxShadow: 24,
     borderRadius: '3px',
     p: 4,
 };
+const buttonStyles ={
+   
+  width: '50vw',
+  margin: '30 50px',
+  paddingTop:'30px',
+  paddingRight:'60px'
+
+}
