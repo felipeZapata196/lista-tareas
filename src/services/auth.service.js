@@ -4,7 +4,6 @@
  * @returns true -> si encuentra un token | false -> si no encuentra nada
  */
 
-// Ahora me saca el token por consola. Antes no me lo sacaba porque he guardado
 export const isLogged = () => {
   console.log("Como va la cosa", localStorage.getItem('token'))
     return new Promise((resolve, reject) => {
