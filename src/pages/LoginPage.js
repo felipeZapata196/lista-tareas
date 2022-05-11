@@ -1,6 +1,5 @@
 import { TextField, Stack, Card, CardHeader, Button } from '@mui/material';
-import { width } from '@mui/system';
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import {doLogin, getUsers} from '../services/user.service';
 import { loginStore } from '../store/loginStore';
 
@@ -8,10 +7,8 @@ const LoginPage = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const setLogin = loginStore(state => state.setLogin)
+  const setLogin = loginStore(state => state.setLogin);
   const login = loginStore(state => state.login);
-
-  const page = 1;
 
   const enterUser = async () => {
     await doLogin(email, password).then(async res => {
@@ -20,13 +17,29 @@ const LoginPage = props => {
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
     })
-    await getUsers(page).then(async res => {
-      console.log("Llega a sacar los usuarios ", res.data)
-      page++;
-    }).catch(err => {
-      console.log('Error al sacar usuarios', err);
-    })
-    console.log("Estado del login ", login)
+
+    getUser()
+  }
+
+  const getUser = () => {
+    let users = []
+    let total_pages = 2;
+
+    for ( let page = 1; page <= total_pages; page++) {
+      getUsers(page).then(async res => {
+        // console.log("Llega a sacar los usuarios ", res.data.data)
+        total_pages = res.data.total_pages
+        users = res.data.data;
+        let user = users.filter(person => person.email === email)
+        if (user.length !== 0){
+          // console.log("Usuario con email del login ", user)
+          // console.log("Usuario que recoge ", user[0])
+          localStorage.setItem('user', JSON.stringify(user[0]));
+        }
+      }).catch(err => {
+        console.log('Error al sacar usuarios', err);
+      })
+    }
   }
 
   const formLogin = {
