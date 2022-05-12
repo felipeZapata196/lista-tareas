@@ -6,23 +6,24 @@ import queryStore from '../store/queryStore'
 
 export const TaskContainer = ()=>{
     
-   const query = queryStore((state) =>  state.dataQuery)
+    const query = queryStore((state) =>  state.dataQuery)
     //let search = false;
-    let [data, setData ] =useState([])
+    let [data, setData] = useState([])
    // let [request, setRequest ] =useState([])
 
     React.useEffect(()=>{
-        getTask()
+        getAllTasks()
     }, [])
-   
 
-    getTask().then(response =>{
-        setData(response)    
-        
-        })
-        .catch( err => {
-            console.error(err)
-        })
+    const getAllTasks = () => {
+        getTask().then(response =>{
+            setData(response)    
+            
+            })
+            .catch( err => {
+                console.error(err)
+            })
+    }
     /*
 
         if(search  ===  true){

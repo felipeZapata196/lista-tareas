@@ -3,10 +3,9 @@ import create from 'zustand'
 
 
 
-let queryStore = create((set) => ({
+const queryStore = create((set) => ({
   dataQuery: '',
-  addQuery: (query) => 
-  set(state=> ({ dataQuery: query })),
+  addQuery: (query2) => set(() => ({ dataQuery: query2 })),
 }))
 
 

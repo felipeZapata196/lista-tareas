@@ -14,8 +14,18 @@ export const NavBar = ()=>{
     const addQuery = queryStore((state) => state.addQuery)
 
     const submit =  ()=>{
+        console.log(query)
         addQuery(query)
     }
+
+
+
+
+
+
+
+
+    
     const [anchorEl, setAnchorEl] = useState(null)
     const openMenu = Boolean(anchorEl)
 
