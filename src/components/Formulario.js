@@ -8,7 +8,7 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-
+import changeStore from '../store/changeStore'
 
 
 export const Formulario = ()=>{
@@ -27,11 +27,11 @@ export const Formulario = ()=>{
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const addChange = changeStore((state) => state.addChange)
 
    
 
-    const [tasks, setTasks] = React.useState([])
-
+   
     const [value, setValue] = React.useState({
       name: '',
       description: '',
@@ -46,17 +46,15 @@ export const Formulario = ()=>{
         [event.target.name]: event.target.value
 
       } );
-      console.log(value)
+     
       
     };
     const submit = e =>{
       e.preventDefault()
-      setTasks([
-      ...tasks,
-      value
-      ])
+    
        postForm(value.name, value.description)
-   
+      console.log(value, "prueba definitiva")
+      addChange(value)
 
   
     }
@@ -115,7 +113,7 @@ export const Formulario = ()=>{
                   <div style={{paddingTop:60}}>
                 
                  
-                  <Button  >Save </Button>
+                  <Button>Save </Button>
                   <Button onClick={handleClose}>Close</Button>
 
 

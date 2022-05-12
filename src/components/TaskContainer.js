@@ -1,47 +1,56 @@
 import React from "react";
 import { useState } from "react";
-import {Task} from './Task'
+//import {Task} from './Task'
 import { getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
+import changeStore from '../store/queryStore'
+
+
+
 
 export const TaskContainer = ()=>{
     
     const query = queryStore((state) =>  state.dataQuery)
+    const change = changeStore((state)=> state.change)
     //let search = false;
-    let [data, setData] = useState([])
-   const [request, setRequest ] =useState([])
-
+    const [data, setData] = useState([])
+    
+    const [search, setSearch] =useState(false)
+  
     React.useEffect(()=>{
-        getAllTasks()
-        console.log(query)
-    }, [])
-    const search =true
+       
+       
+        getAllTasks(query)
+      console.log("change")
+        
+    }, [change])
+
+  
+   
     const getAllTasks = (query) => {
-        if(search  ===  true){
-            getTask().then(response =>{
-                setRequest(response)    
-                setData(request.filter(task => task.name ===query))
-                console.log(data, "hola")
-                //esto genera un bucle, entender por qué
+
+        
+        
+        getTask().then(response =>{
+                setData(response)  
+               
+                if(search===true){
+                setData(data.filter((task) =>{
+                    return task.name.match(query)
+                }))
                 
+            }
                 })
                 .catch( err => {
                     console.error(err)
                 })
-        }else {
-            getTask().then(response =>{
-                setData(data =response)    
-                
-                })
-                .catch( err => {
-                    console.error(err)
-                })
-        }
       
+    
     }
  
     return(
         <div style={tasks} >
+       
        
             <div style={row}>
             

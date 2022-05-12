@@ -3,15 +3,17 @@ import create from 'zustand'
 
 
 
-const queryStore = create((set) => ({
-  dataQuery: '',
-  addQuery: (query2) => set(() => ({ dataQuery: query2 })),
+
+
+
+const changeStore = create((set) => ({
+  change: '',
+  addChange: (state) => set(() => ({ change: state})),
 }))
 
 
 
-
-export default queryStore;
+export default changeStore;
 
 /*
 import create from 'zustand';
