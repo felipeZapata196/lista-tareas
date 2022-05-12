@@ -1,16 +1,14 @@
 
 import * as React from "react";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
-
-import {Task} from './Task'
+import {Button} from './Button'
+import {InputDate} from './InputDate'
 import './Formulario.css'
-
-import {postTask, getTask}  from './../services/TaskService'
+import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
+
 
 
 export const Formulario = ()=>{
@@ -19,6 +17,9 @@ export const Formulario = ()=>{
     
     React.useEffect(()=>{
         getTask()
+  
+
+        
     }, [])
 
   
@@ -33,7 +34,9 @@ export const Formulario = ()=>{
 
     const [value, setValue] = React.useState({
       name: '',
-      description: ''
+      description: '',
+      date: ''
+
     });
 
     const handleChange = (event) => {
@@ -53,7 +56,7 @@ export const Formulario = ()=>{
       value
       ])
        postForm(value.name, value.description)
-        
+   
 
   
     }
@@ -62,9 +65,8 @@ export const Formulario = ()=>{
   
     return(
   
-            <div style={cardFormulario}>
-            
-            <Button onClick={handleOpen}> Add Task</Button>
+            <div style={buttonStyles}>
+            <Button onClick={handleOpen}> + Add Task</Button>
             <Modal
             open={open}
             onClose={handleClose}
@@ -72,35 +74,54 @@ export const Formulario = ()=>{
             aria-describedby="modal-modal-description"
           >
               <Box sx={modalStyle}>
-              <form style={{padding:80}} onSubmit={submit}>
+              <form style={{padding:30}} onSubmit={submit}>
           
+              <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
                
                 <TextField
                   id="outlined-multiline-flexible"
-                  label="Multiline"
+                  label="Name"
                   name="name" 
+                  fullWidth
+                  margin="normal"
                   multiline
                   maxRows={4}
                   value={value.name}
                   onChange={handleChange}
                  />
-                  
-          
+                     
+               
+               
                 
                   <TextField
                     id="outlined-multiline-static"
-                    label="Multiline"
+                    fullWidth
+                    label="Description"
                     name="description" 
                     onChange={handleChange}
-                    
+                    margin="normal"
                     multiline
-                    rows={4}
-                    defaultValue="Default Value"
+                    rows={2}
+                    
                   />
-                  
-                
-                <button >Enviar</button>
 
+                <InputDate/>
+                  
+                <div>
+
+
+                  
+                </div>
+                  <div style={{paddingTop:60}}>
+                
+                 
+                  <Button  >Save </Button>
+                  <Button onClick={handleClose}>Close</Button>
+
+
+
+                  </div>
+                
                 <div>
               
 
@@ -110,8 +131,8 @@ export const Formulario = ()=>{
             </form>
               </Box>
             </Modal>
-                        
             </div>
+           
        
             
 
@@ -121,20 +142,26 @@ export const Formulario = ()=>{
     )
 }
 
-const cardFormulario = {
-    borderRadius: '4px',
-    backgroundColor: '#fff',
-  
-}
+
 
 const modalStyle = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 600,
+    height: 580,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '0,5px solid #000',
     boxShadow: 24,
+    borderRadius: '3px',
     p: 4,
 };
+const buttonStyles ={
+   
+  width: '50vw',
+  margin: '30 50px',
+  paddingTop:'30px',
+  paddingRight:'60px'
+
+}

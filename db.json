@@ -1,6 +1,6 @@
 {
     "tasks": [
-        {"id":1, "idUser": "", "name": "task1", "date": "task1", "description": "task1" }
+        {"id":1, "idUser": "", "name": "comprar leche", "date": "", "description": "Tarea por defecto" }
        
     ]
 }

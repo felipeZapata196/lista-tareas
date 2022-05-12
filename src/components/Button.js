@@ -1,8 +1,9 @@
+
 import React from "react";
 
 
 
-export const Button= ({...rest})=>{
+export const Button= ({children, ...rest} )=>{
     const  buttonStyle = {
         backgroundColor: '#f44336',
         color: 'white',
@@ -13,27 +14,22 @@ export const Button= ({...rest})=>{
         float: 'right',
         height: '3rem',
         margin: '5px 10px',
-        fontSize: '1rem'
+        fontSize: '1rem',
+      
 
-    }
-   
-    const divButton = {
-        margin: '20px 40px',
-        width:'50%'
     }
 
 
     return(
       
   
-        <div style={divButton}> 
+       
 
         <button  style={buttonStyle}
-                {...rest}
-                        >
-                            + new Task
+                {...rest}>
+                       {children}
         </button>
-        </div>
+
       
     )
 }
