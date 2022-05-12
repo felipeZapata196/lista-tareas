@@ -9,27 +9,17 @@ export const TaskContainer = ()=>{
     const query = queryStore((state) =>  state.dataQuery)
     //let search = false;
     let [data, setData] = useState([])
-   // let [request, setRequest ] =useState([])
+   const [request, setRequest ] =useState([])
 
     React.useEffect(()=>{
         getAllTasks()
     }, [])
-
-    const getAllTasks = () => {
-        getTask().then(response =>{
-            setData(response)    
-            
-            })
-            .catch( err => {
-                console.error(err)
-            })
-    }
-    /*
-
+    const search = false
+    const getAllTasks = (query) => {
         if(search  ===  true){
             getTask().then(response =>{
                 setRequest(response)    
-                setData(request.filter(task => task.name ==='task1'))
+                setData(request.filter(task => task.name ===query))
                 
                 //esto genera un bucle, entender por qué
                 
@@ -46,8 +36,9 @@ export const TaskContainer = ()=>{
                     console.error(err)
                 })
         }
-
-        */
+      
+    }
+ 
     return(
         <div style={tasks} >
        
