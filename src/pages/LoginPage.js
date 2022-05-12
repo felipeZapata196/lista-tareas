@@ -1,14 +1,13 @@
 import { TextField, Stack, Card, CardHeader, Button } from '@mui/material';
-import { width } from '@mui/system';
-import React, {useEffect, useState, useRef} from 'react';
-import {doLogin} from '../services/user.service';
+import React, { useState } from 'react';
+import {doLogin, getUsers} from '../services/user.service';
 import { loginStore } from '../store/loginStore';
 
 const LoginPage = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const setLogin = loginStore(state => state.setLogin)
+  const setLogin = loginStore(state => state.setLogin);
   const login = loginStore(state => state.login);
 
   const enterUser = async () => {
@@ -18,7 +17,29 @@ const LoginPage = props => {
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
     })
-    console.log("Estado del login ", login)
+  }
+
+  const getUser = () => {
+    let users = []
+    let total_pages = 2;
+
+    for ( let page = 1; page <= total_pages; page++) {
+      getUsers(page).then(async res => {
+        // console.log("Llega a sacar los usuarios ", res.data.data)
+        total_pages = res.data.total_pages
+        users = res.data.data;
+        let user = await users.filter(person => person.email === email)
+        if (user.length !== 0){
+          // console.log("Usuario con email del login ", user)
+          // console.log("Usuario que recoge ", user[0])
+          await localStorage.setItem('user', JSON.stringify(user[0]));
+        }
+
+        enterUser();
+      }).catch(err => {
+        console.log('Error al sacar usuarios', err);
+      })
+    }
   }
 
   const formLogin = {
@@ -50,27 +71,6 @@ const LoginPage = props => {
   }
 
   return (
-    // <div>
-    //   <h3>Login to Continue</h3>
-    //   {login && <form onSubmit={(e) => { e.preventDefault(); enterUser(); }}>
-    //     <input 
-    //       name='email'
-    //       type="text" 
-    //       placeholder={'Enter email'} 
-    //       value={email}
-    //       onChange={(e) => setEmail(e.target.value)}
-    //     />
-    //     <input 
-    //       name='password'
-    //       type="text" 
-    //       placeholder={'Enter password'} 
-    //       value={password} 
-    //       onChange={(e) => setPassword(e.currentTarget.value)}
-    //     />
-    //     <input type={"submit"} value={"Submit"}/>
-    //   </form>}
-      
-    // </div>
     <div>
       <h1 style={styleTitle}>ListApp</h1>
       <Card style={formLogin}>
@@ -92,7 +92,7 @@ const LoginPage = props => {
             type="password"                 
           />
           <Button style={styleButton}
-            onClick={() => enterUser()}
+            onClick={() => getUser()}
             disabled={
               password.length === 0 ||
               email.length === 0
@@ -114,4 +114,6 @@ export default LoginPage;
 //  1. Recoger email y password de los input -> HECHO
 //  2. Sacar el token del usuario -> HECHO
 //  3. Si todo funciona bien poner la variable global de login a true -> Esto solo se usa en App.js para indicar que página quieres renderizar -> HECHO
-//  4. Cambiar de página cuando este logueado
+//  4. Cambiar de página cuando este logueado -> HECHO
+
+// Tengo que hacer una llamada a la api para traerme los usuarios

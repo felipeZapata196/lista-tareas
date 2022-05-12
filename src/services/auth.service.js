@@ -5,9 +5,9 @@
  */
 
 export const isLogged = () => {
-  console.log("Como va la cosa", localStorage.getItem('token'))
+  // console.log("Como va la cosa", localStorage.getItem('token'))
     return new Promise((resolve, reject) => {
-      if (localStorage.getItem('token') !== null) resolve(true);
+      if (localStorage.getItem('token')) resolve(true);
       else reject(false);
     })     
 };
