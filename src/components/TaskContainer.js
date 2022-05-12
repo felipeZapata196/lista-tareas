@@ -13,14 +13,15 @@ export const TaskContainer = ()=>{
 
     React.useEffect(()=>{
         getAllTasks()
+        console.log(query)
     }, [])
-    const search = false
+    const search =true
     const getAllTasks = (query) => {
         if(search  ===  true){
             getTask().then(response =>{
                 setRequest(response)    
                 setData(request.filter(task => task.name ===query))
-                
+                console.log(data, "hola")
                 //esto genera un bucle, entender por qué
                 
                 })
