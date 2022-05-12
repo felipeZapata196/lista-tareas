@@ -70,7 +70,8 @@ export const NavBar = ()=>{
     const [anchorEl, setAnchorEl] = useState(null)
     const openMenu = Boolean(anchorEl)
 
-    let myUser = JSON.parse(localStorage.getItem("user"));
+    const [ withUser, setWithUser ] = useState(null)
+
     const setLogin = loginStore(state => state.setLogin)
 
     const handleOpen = (e) => {
@@ -81,11 +82,16 @@ export const NavBar = ()=>{
         setAnchorEl(null)
     }
 
-    useEffect(() => {
-        if (myUser === null){
-            myUser = JSON.parse(localStorage.getItem("user"));
+    const getUser = async () => {
+        if (localStorage.getItem("user")) {
+            const user = await JSON.parse(localStorage.getItem("user"));
+            await setWithUser(user);
         }
-    })
+    }
+
+    useEffect(() => {
+        getUser();
+    }, [])
 
         return(
             <nav style={navbarStyles}>
@@ -99,17 +105,19 @@ export const NavBar = ()=>{
                     </div>
                     <div className="content-btnLogin" style={right}>
                         <Box sx={{ display: 'flex', alignItems: 'center'}} >
-                            <Avatar
+                            {withUser && <Avatar
                                 sx={{ width: 60, height: 60 }}
-                                src={myUser.avatar}
-                            />
-                            <Typography 
-                                variant="span" 
-                                fontSize={"21px"} 
-                                style={styleNameUser}
-                            >
-                            {myUser.first_name} {myUser.last_name}
-                            </Typography>
+                                src={withUser.avatar}
+                            /> }
+                            {withUser &&
+                                <Typography 
+                                    variant="span" 
+                                    fontSize={"21px"} 
+                                    style={styleNameUser}
+                                >
+                                    {withUser.first_name} {withUser.last_name}
+                                </Typography>
+                            }
                             <ExpandMore 
                                 onClick={handleOpen}
                                 aria-expanded={openMenu ? "true" : undefined}
@@ -119,7 +127,7 @@ export const NavBar = ()=>{
                                 onClose={handleClose}
                                 anchorEl={anchorEl}
                             >
-                                <MenuItem>{myUser.email}</MenuItem>
+                                { withUser && <MenuItem>{withUser ? withUser.email : null}</MenuItem>}
                                 <MenuItem onClick={() => { setLogin(false); doLogout() }}>
                                     <ListItemIcon>
                                         <Logout fontSize="small" />

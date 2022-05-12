@@ -17,8 +17,6 @@ const LoginPage = props => {
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
     })
-
-    getUser()
   }
 
   const getUser = () => {
@@ -30,12 +28,14 @@ const LoginPage = props => {
         // console.log("Llega a sacar los usuarios ", res.data.data)
         total_pages = res.data.total_pages
         users = res.data.data;
-        let user = users.filter(person => person.email === email)
+        let user = await users.filter(person => person.email === email)
         if (user.length !== 0){
           // console.log("Usuario con email del login ", user)
           // console.log("Usuario que recoge ", user[0])
-          localStorage.setItem('user', JSON.stringify(user[0]));
+          await localStorage.setItem('user', JSON.stringify(user[0]));
         }
+
+        enterUser();
       }).catch(err => {
         console.log('Error al sacar usuarios', err);
       })
@@ -92,7 +92,7 @@ const LoginPage = props => {
             type="password"                 
           />
           <Button style={styleButton}
-            onClick={() => enterUser()}
+            onClick={() => getUser()}
             disabled={
               password.length === 0 ||
               email.length === 0
