@@ -4,6 +4,7 @@ import { doLogout } from "../services/user.service";
 import { loginStore } from '../store/loginStore';
 import { Logout, ExpandMore } from "@mui/icons-material";
 import queryStore from '../store/queryStore'
+
 export const NavBar = ()=>{
 
     let today = new Date().toLocaleDateString()
@@ -15,38 +16,38 @@ export const NavBar = ()=>{
     const submit =  ()=>{
         addQuery(query)
     }
-     const [anchorEl, setAnchorEl] = useState(null)
-        const openMenu = Boolean(anchorEl)
+    const [anchorEl, setAnchorEl] = useState(null)
+    const openMenu = Boolean(anchorEl)
 
-        const [ withUser, setWithUser ] = useState(null)
+    const [ withUser, setWithUser ] = useState(null)
 
-        const setLogin = loginStore(state => state.setLogin)
+    const setLogin = loginStore(state => state.setLogin)
 
-        const handleOpen = (e) => {
-            setAnchorEl(e.currentTarget)
+    const handleOpen = (e) => {
+        setAnchorEl(e.currentTarget)
+    }
+
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
+
+    const getUser = async () => {
+        if (localStorage.getItem("user")) {
+            const user = await JSON.parse(localStorage.getItem("user"));
+            await setWithUser(user);
         }
+    }
 
-        const handleClose = () => {
-            setAnchorEl(null)
-        }
-
-        const getUser = async () => {
-            if (localStorage.getItem("user")) {
-                const user = await JSON.parse(localStorage.getItem("user"));
-                await setWithUser(user);
-            }
-        }
-
-        useEffect(() => {
-            getUser();
-        }, [])
+    useEffect(() => {
+        getUser();
+    }, [])
 
 
     return(
      <nav style={navbarStyles}>
                    <div className="top-container" style={container}>
                        <div style={left}>
-                           <p>{date}</p>
+                           <p>{today}</p>
                        </div>
                         <div className="content-input" style={middle}>
 
@@ -96,7 +97,7 @@ export const NavBar = ()=>{
     )
 
 
-    // Para buscar por nombre usaremos filter y buscaremos en el estado de la lista de tasks.
+   
 }
 
 const navbarStyles ={
