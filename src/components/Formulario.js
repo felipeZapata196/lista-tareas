@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
 import {Button} from './Button'
+import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
@@ -16,6 +17,9 @@ export const Formulario = ()=>{
     
     React.useEffect(()=>{
         getTask()
+  
+
+        
     }, [])
 
   
@@ -30,7 +34,9 @@ export const Formulario = ()=>{
 
     const [value, setValue] = React.useState({
       name: '',
-      description: ''
+      description: '',
+      date: ''
+
     });
 
     const handleChange = (event) => {
@@ -50,7 +56,7 @@ export const Formulario = ()=>{
       value
       ])
        postForm(value.name, value.description)
-        
+   
 
   
     }
@@ -84,16 +90,7 @@ export const Formulario = ()=>{
                   onChange={handleChange}
                  />
                      
-                <TextField
-                  id="outlined-multiline-flexible"
-                  fullWidth
-                  label="Date"
-                  margin="normal"
-                  multiline
-                 
-                  value={value.name}
-                 
-                 />
+               
                
                 
                   <TextField
@@ -107,6 +104,8 @@ export const Formulario = ()=>{
                     rows={2}
                     
                   />
+
+                <InputDate/>
                   
                 <div>
 
@@ -115,8 +114,9 @@ export const Formulario = ()=>{
                 </div>
                   <div style={{paddingTop:60}}>
                 
-                  <Button onClick={handleClose}>Cerrar</Button>
+                 
                   <Button  >Save </Button>
+                  <Button onClick={handleClose}>Close</Button>
 
 
 

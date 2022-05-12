@@ -4,14 +4,15 @@ import axios from "axios";
 
 
 
-export const postTask = async(name, description) => {
+export const postTask = async(name, description, date) => {
     return new Promise((resolve,reject)=>{
         axios({
             method: 'POST',
             url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',
             data: {
                 name,
-                description
+                description, 
+                date
             }
            
         })
