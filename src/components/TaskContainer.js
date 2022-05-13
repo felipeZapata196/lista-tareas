@@ -30,8 +30,8 @@ export const TaskContainer = ()=>{
        
        
        getAllTasks(query)
-        
-    }, [])
+        setSearch(true)
+    }, [query])
   React.useEffect(()=>{
        
        
