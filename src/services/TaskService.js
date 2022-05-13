@@ -37,7 +37,7 @@ export const getTask =async() => {
     return new Promise((resolve,reject)=>{
         
         const email = JSON.stringify(localStorage.getItem("email"))
-       
+       console.log(email, "hola mundillo")
         if(localStorage.getItem(email)){
             resolve(JSON.parse(localStorage.getItem(email)))  
         }else{
@@ -49,6 +49,7 @@ export const getTask =async() => {
             .then((response)=> {
                 localStorage.setItem(email, JSON.stringify(response.data))
                 resolve(response.data);
+               
             })
             .catch((err) =>{
                 reject(err)

@@ -3,7 +3,7 @@ import { useState } from "react";
 //import {Task} from './Task'
 import { getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
-import changeStore from '../store/queryStore'
+import useStore from '../store/queryStore'
 
 
 
@@ -11,23 +11,38 @@ import changeStore from '../store/queryStore'
 export const TaskContainer = ()=>{
     
     const query = queryStore((state) =>  state.dataQuery)
-    const change = changeStore((state)=> state.change)
+    const bears = useStore((state)=> state.bears)
+
+    
     //let search = false;
     const [data, setData] = useState([])
     
     const [search, setSearch] =useState(false)
+    const [oso, setOso] =useState(false)
+    setOso(bears)
+    
   
+
+    
+  
+
+
     React.useEffect(()=>{
        
        
-        getAllTasks(query)
-      console.log("change")
+       getAllTasks(query)
         
-    }, [change])
-
+    }, [])
+  React.useEffect(()=>{
+       
+       
+        getAllTasks(query)
+      console.log(bears, "change +1")
+        
+    }, [oso])
   
-   
-    const getAllTasks = (query) => {
+  
+  const getAllTasks = () => {
 
         
         

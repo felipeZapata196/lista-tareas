@@ -53,6 +53,7 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
   export const doLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+
   }
 
   // Para cambiar de usuario:

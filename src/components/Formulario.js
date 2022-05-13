@@ -8,36 +8,33 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-import changeStore from '../store/changeStore'
+import useStore from '../store/useStore'
+import { TextIncrease } from "@mui/icons-material";
 
 
 export const Formulario = ()=>{
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const bears = useStore(state => state.bears)
+  const increasePopulation = useStore((state) => state.increasePopulation)
 
     
     React.useEffect(()=>{
         getTask()
-  
 
-        
     }, [])
 
-  
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const addChange = changeStore((state) => state.addChange)
-
-   
-
-   
     const [value, setValue] = React.useState({
+    
       name: '',
       description: '',
       date: ''
 
     });
+  
 
     const handleChange = (event) => {
      
@@ -46,17 +43,13 @@ export const Formulario = ()=>{
         [event.target.name]: event.target.value
 
       } );
-     
+   
       
     };
     const submit = e =>{
+      increasePopulation(!bears);
       e.preventDefault()
-    
-       postForm(value.name, value.description)
-      console.log(value, "prueba definitiva")
-      addChange(value)
-
-  
+      postForm(value.name, value.description)
     }
     
 
@@ -72,10 +65,10 @@ export const Formulario = ()=>{
             aria-describedby="modal-modal-description"
           >
               <Box sx={modalStyle}>
-              <form style={{padding:30}} onSubmit={submit}>
-          
+            
               <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
-               
+
+               <form onSubmit={submit}>
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Name"
@@ -113,20 +106,21 @@ export const Formulario = ()=>{
                   <div style={{paddingTop:60}}>
                 
                  
-                  <Button>Save </Button>
+                  <Button  type="submit" >Save </Button>
                   <Button onClick={handleClose}>Close</Button>
-
+                 
 
 
                   </div>
-                
+                  </form>
+
                 <div>
               
 
                 </div>
            
 
-            </form>
+       
               </Box>
             </Modal>
             </div>

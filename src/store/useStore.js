@@ -5,15 +5,14 @@ import create from 'zustand'
 
 
 
-
-const changeStore = create((set) => ({
-  change: '',
-  addChange: (state) => set(() => ({ change: state})),
+const useStore = create((set) => ({
+  bears: false,
+  increasePopulation: valor => set((state) => ({bears: valor}), console.log(valor)),
+  removeAllBears: () => set({ bears: 0 }),
 }))
 
 
-
-export default changeStore;
+export default useStore;
 
 /*
 import create from 'zustand';
