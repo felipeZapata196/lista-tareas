@@ -47,9 +47,10 @@ export const Formulario = ()=>{
       
     };
     const submit = e =>{
-      increasePopulation(!bears);
+      
       e.preventDefault()
       postForm(value.name, value.description)
+      increasePopulation();
     }
     
 

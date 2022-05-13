@@ -18,8 +18,7 @@ export const TaskContainer = ()=>{
     const [data, setData] = useState([])
     
     const [search, setSearch] =useState(false)
-    const [oso, setOso] =useState(false)
-    setOso(bears)
+    
     
   
 
@@ -39,7 +38,7 @@ export const TaskContainer = ()=>{
         getAllTasks(query)
       console.log(bears, "change +1")
         
-    }, [oso])
+    }, [bears])
   
   
   const getAllTasks = () => {

@@ -6,6 +6,13 @@ import '../App.css';
 import SideBar from '../components/Sidebar';
 
 const HomePage = ()=> {
+    const layout = {
+        
+        minHeight: '100%',
+        width: '100%',
+        backgroundColor:'#e5e4e2',
+    
+    }
 
 
 
@@ -16,7 +23,20 @@ const HomePage = ()=> {
             </div>
             <div className="mainContainer">
                 <NavBar/>
-                <Layout/>
+              
+
+        <div style={layout}>
+            <Funcionalities/>
+
+            <TaskContainer  />
+        
+          
+          
+       
+            
+
+
+        </div>
             </div>
         </div>
     )
