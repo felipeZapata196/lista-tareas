@@ -8,36 +8,20 @@ import SideBar from '../components/Sidebar';
 
 const HomePage = ()=> {
     const layout = {
-        
         minHeight: '100%',
         width: '100%',
         backgroundColor:'#e5e4e2',
-    
     }
-
-
 
     return (
         <div className="general-containter">
-            <div className="sidebar">
-                <SideBar />
-            </div>
+            <SideBar/>
             <div className="mainContainer">
                 <NavBar/>
-              
-
-        <div style={layout}>
-            <Funcionalities/>
-
-            <TaskContainer  />
-        
-          
-          
-       
-            
-
-
-        </div>
+                <div style={layout}>
+                    <Funcionalities/>
+                    <TaskContainer/>
+                </div>
             </div>
         </div>
     )

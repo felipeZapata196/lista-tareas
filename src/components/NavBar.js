@@ -8,33 +8,27 @@ import moment from 'moment'
 
 export const NavBar = ()=>{
 
-
     const today = moment().format('ll');
+
     const [open, setOpen] = useState(false)
+
     const [query, setQuery]= useState('')
 
     const addQuery = queryStore((state) => state.addQuery)
+
+    const [anchorEl, setAnchorEl] = useState(null)
+
+    const openMenu = Boolean(anchorEl)
+
+    const [ withUser, setWithUser ] = useState(null)
+
+    const setLogin = loginStore(state => state.setLogin)
 
     const submit =  (e)=>{
         console.log(query)
         setQuery(e.target.value)
         addQuery(query)
     }
-
-
-
-
-
-
-
-
-    
-    const [anchorEl, setAnchorEl] = useState(null)
-    const openMenu = Boolean(anchorEl)
-
-    const [ withUser, setWithUser ] = useState(null)
-
-    const setLogin = loginStore(state => state.setLogin)
 
     const handleOpen = (e) => {
         setAnchorEl(e.currentTarget)
@@ -58,117 +52,84 @@ export const NavBar = ()=>{
 
     return(
      <nav style={navbarStyles}>
-                   <div className="top-container" style={container}>
-                       <div style={left}>
-                           <p>{today}</p>
-                       </div>
-                        <div className="content-input" style={middle}>
+            <div className="top-container" style={container}>
+                <div>
+                    <p style={{fontSize: 18}}>{today}</p>
+                </div>
+                <div className="content-input">
 
-                           <input className="ipSearch" style={inputSearch}  name="search" value={query}  onChange={submit}type="text"  required placeholder="Enter task name"/>
-                           <button className='btnSearch' style={buttonSearch}  >Search</button>
+                    <input className="ipSearch" style={inputSearch}  name="search" value={query}  onChange={(e)=>setQuery(e.target.value)}type="text"  required placeholder="Enter task name"/>
+                    <button className='btnSearch' style={buttonSearch}  onClick={submit}>Search</button>
 
-                        </div>
+                </div>
 
-                        <div className="content-btnLogin" style={right}>
-                            <Box sx={{ display: 'flex', alignItems: 'center'}} >
-                                {withUser && <Avatar
-                                    sx={{ width: 60, height: 60 }}
-                                    src={withUser.avatar}
-                                /> }
-                                {withUser &&
-                                    <Typography
-                                        variant="span"
-                                        fontSize={"21px"}
-                                        style={styleNameUser}
-                                    >
-                                        {withUser.first_name} {withUser.last_name}
-                                    </Typography>
-                                }
-                                <ExpandMore
-                                    onClick={handleOpen}
-                                    aria-expanded={openMenu ? "true" : undefined}
-                                />
-                                <Menu
-                                    open={openMenu}
-                                    onClose={handleClose}
-                                    anchorEl={anchorEl}
-                                >
-                                    { withUser && <MenuItem>{withUser ? withUser.email : null}</MenuItem>}
-                                    <MenuItem onClick={() => { setLogin(false); doLogout() }}>
-                                        <ListItemIcon>
-                                            <Logout fontSize="small" />
-                                        </ListItemIcon>
-                                        Logout
-                                    </MenuItem>
-                                </Menu>
-                            </Box>
-                        </div>
-                    </div>
-                </nav>
-
-
+                <div className="content-btnLogin">
+                    <Box sx={{ display: 'flex', alignItems: 'center'}} >
+                        {withUser && <Avatar
+                            sx={{ width: 60, height: 60 }}
+                            src={withUser.avatar}
+                        /> }
+                        {withUser &&
+                            <Typography
+                                variant="span"
+                                fontSize={"21px"}
+                                style={styleNameUser}
+                            >
+                                {withUser.first_name} {withUser.last_name}
+                            </Typography>
+                        }
+                        <ExpandMore
+                            onClick={handleOpen}
+                            aria-expanded={openMenu ? "true" : undefined}
+                        />
+                        <Menu
+                            open={openMenu}
+                            onClose={handleClose}
+                            anchorEl={anchorEl}
+                        >
+                            { withUser && <MenuItem>{withUser ? withUser.email : null}</MenuItem>}
+                            <MenuItem onClick={() => { setLogin(false); doLogout() }}>
+                                <ListItemIcon>
+                                    <Logout fontSize="small" />
+                                </ListItemIcon>
+                                Logout
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                </div>
+            </div>
+        </nav>
     )
-
-
-   
 }
 
 const navbarStyles ={
-    display:'flex',
-    flexDirection: 'row',
-    height: '11%',
-    justifyContent: 'space-between',
-    padding: '0 50px',
-    boxShadow: '0 2px 3px rgb(0,0,0,0.1)',
+    width: '100%',
+    paddingTop: '1%',
+    paddingBottom: '1%',
+    boxShadow: '0 2px 3px rgb(0,0,0,0.1)'
 }
 
-    const container = {
-        flex: 1,
-        flexDirection: 'row',
-        display: 'flex',
-        alignItems: 'center'
-    }
+const container = {
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+}
 
-    const left = {
-        flex: 1,
-        justifyContent: 'center',
-        float: 'left',
-        paddingLeft: '13%'
-    }
+const inputSearch = {
+    fontSize: '20px',
+    padding: '10px',
+    width: '60%'
+}
 
-    const middle = {
-        flex: 5,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'relative',
-        marginLeft: '10%',
-        float: 'left'
-    }
+const buttonSearch = {
+    fontSize: '20px',
+    padding: '12px',
+    backgroundColor: 'blue',
+    color: 'white',
+    border: 'none'
+}
 
-    const right = {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        float: 'right',
-        marginRight: '10%',
-        marginLeft: '7%',
-        cursor: "pointer"
-    }
-
-    const inputSearch = {
-        fontSize: '20px',
-        padding: '10px',
-        width: '60%'
-    }
-
-    const buttonSearch = {
-        fontSize: '20px',
-        padding: '12px',
-        backgroundColor: 'blue',
-        color: 'white',
-        border: 'none'
-    }
-
-    const styleNameUser = {
-        paddingLeft: "15px",
-    }
+const styleNameUser = {
+    paddingLeft: "15px"
+}

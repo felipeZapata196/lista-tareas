@@ -18,11 +18,11 @@ const SideBar = () => {
     }
 
     const contentAll = {
-        float: 'left',
+        top: 0,
+        position: 'sticky',
         height: '100%',
-        width: '100%',
-        paddingTop: '40px',
-        backgroundColor: 'white'
+        width: '15%',
+        paddingTop: '40px'
     }
 
     const titleStyle = {
@@ -31,10 +31,10 @@ const SideBar = () => {
     }
 
     return (
-        <div  style={contentAll}>
+        <div style={contentAll}>
             <h1 style={titleStyle}>Listapp</h1>
             <List
-                sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}
+                sx={{ width: '100%' }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
             >

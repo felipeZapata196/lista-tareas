@@ -1,21 +1,13 @@
 .general-containter{
-  position:relative;
-}
-.sidebar{
-  height: 100%;
-  width: 20vw;
-  position: fixed;
-
-  
-
+  flex: 1;
+  display: flex;
+  flex-direction: row;
 }
 
 .mainContainer{
-  height: 100vh;
-  width: 80vw;
- float: right;
- 
-
-
-  
+  height: 100%;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  background-color:'#e5e4e2';
 }
