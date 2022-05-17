@@ -12,12 +12,3 @@ const queryStore = create((set) => ({
 
 
 export default queryStore;
-
-/*
-import create from 'zustand';
-const loginStore = create((set, get) => ({
-  login: false,
-  setLogin: login => set(state => ({login: login})),
-}));
-export default loginStore;
-*/

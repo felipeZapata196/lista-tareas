@@ -8,32 +8,35 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-import useStore from '../store/useStore'
 import { TextIncrease } from "@mui/icons-material";
+import useStore from '../store/useStore'
+import { set } from "date-fns";
 
 
 export const Formulario = ()=>{
 
+  
+  const increasePopulation = useStore(state => state.increasePopulation)
+  const bears = useStore(state => state.bears)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const bears = useStore(state => state.bears)
-  const increasePopulation = useStore((state) => state.increasePopulation)
+  
 
     
-    React.useEffect(()=>{
-        getTask()
-
-    }, [])
-
-
-    const [value, setValue] = React.useState({
+  
+   
+  
     
-      name: '',
-      description: '',
-      date: ''
+  const [value, setValue] = React.useState({
+    name: '',
+    description: '',
+    date: ''
 
-    });
+  });
+  
+
+ 
   
 
     const handleChange = (event) => {
@@ -47,14 +50,22 @@ export const Formulario = ()=>{
       
     };
     const submit = e =>{
-      
+   
       e.preventDefault()
+      
       postForm(value.name, value.description)
-      increasePopulation();
-    }
+     
+     
     
+    }
 
-  
+
+    React.useEffect(()=>{
+      getTask()
+
+  }, [bears])
+ 
+
     return(
   
             <div style={buttonStyles}>
@@ -107,7 +118,7 @@ export const Formulario = ()=>{
                   <div style={{paddingTop:60}}>
                 
                  
-                  <Button  type="submit" >Save </Button>
+                  <Button  onClick={increasePopulation} >Save </Button>
                   <Button onClick={handleClose}>Close</Button>
                  
 

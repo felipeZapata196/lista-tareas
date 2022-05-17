@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { NavBar } from '../components/NavBar';
-import {Layout}  from '../components/Layout'
 import {Funcionalities}  from '../components/Funcionalities'
 import {TaskContainer}  from '../components/TaskContainer'
-//import {Layoutprueba}  from './components/Layoutprueba'
+
 import '../App.css';
 import SideBar from '../components/Sidebar';
 

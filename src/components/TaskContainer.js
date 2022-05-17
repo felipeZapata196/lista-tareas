@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 //import {Task} from './Task'
-import { getTask } from "../services/TaskService";
+import { getAllTasks, getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
-import useStore from '../store/queryStore'
+import  useStore from '../store/useStore'
 
 
 
@@ -11,66 +11,63 @@ import useStore from '../store/queryStore'
 export const TaskContainer = ()=>{
     
     const query = queryStore((state) =>  state.dataQuery)
-    const bears = useStore((state)=> state.bears)
+   const bears = useStore(state => state.bears)
+   console.log(bears)
+   const [data, setData] = useState([])
+    
+  //const email =  JSON.stringify(localStorage.getItem("email"))
+   //const local = JSON.parse(localStorage.getItem(email))
 
-    
-    //let search = false;
-    const [data, setData] = useState([])
-    
-    const [search, setSearch] =useState(false)
-    
-    
-  
 
-    
-  
+   console.log(data, 'data container')
 
+
+
+       
+   React.useEffect(()=>{
+    getAllTasks(query)
+    console.log("hola puto mundo")
+   
+    }, [bears])
 
     React.useEffect(()=>{
-       
-       
-       getAllTasks(query)
-        setSearch(true)
-    }, [query])
-  React.useEffect(()=>{
-       
-       
         getAllTasks(query)
-      console.log(bears, "change +1")
-        
-    }, [bears])
-  
-  
-  const getAllTasks = () => {
-
-        
-        
+       
+       
+        }, [query])
+   
+    const getAllTasks= ()=> {
         getTask().then(response =>{
-                setData(response)  
-               
-                if(search===true){
-                setData(data.filter((task) =>{
-                    return task.name.match(query)
-                }))
-                
-            }
-                })
-                .catch( err => {
-                    console.error(err)
-                })
-      
+            setData(response)  
+            console.log(data, 'funciona?')
+        const search =false
+            if(query){
+            setData(data.filter((task) =>{
+                return task.name.match(query)
+            }))
+            
+        }
+            })
+            .catch( err => {
+                console.error(err)
+            })
     
-    }
+    }     
+    
+
+
  
     return(
         <div style={tasks} >
        
        
             <div style={row}>
-            
+        
+
                 {data.map(task => 
                        <div style={taskStyles}>
                        <h2>{task.name}</h2>
+                       <h1>{bears} around here ...</h1>
                        <p style={{width:'300px'}}> {task.description} </p>
                         </div>
                 )}

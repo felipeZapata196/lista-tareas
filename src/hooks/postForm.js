@@ -1,7 +1,8 @@
 import { postTask } from "../services/TaskService";
 
 const email =  JSON.stringify(localStorage.getItem("email"))
-console.log(email, "prueba 459")
+
+
 export const postForm = (name, description, date)=>{
   postTask(name, description, date).then(res =>{
 
@@ -11,6 +12,7 @@ export const postForm = (name, description, date)=>{
 
   storageData.push(res)
 localStorage.setItem(email, JSON.stringify(storageData) )
+   
 })
 .catch( err => {
     console.error(err)
