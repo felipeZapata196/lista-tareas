@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-//import {Task} from './Task'
-import { getAllTasks, getTask } from "../services/TaskService";
+import {Task} from './Task'
+import { getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
 import  useStore from '../store/useStore'
 
@@ -60,21 +60,10 @@ export const TaskContainer = ()=>{
     return(
         <div style={tasks} >
        
-       
-            <div style={row}>
-        
-
-                {data.map(task => 
-                       <div style={taskStyles}>
-                       <h2>{task.name}</h2>
-                       <h1>{bears} around here ...</h1>
-                       <p style={{width:'300px'}}> {task.description} </p>
-                        </div>
+       {data.map((task) =>
+                    <Task id={task.id} name={task.name} description={task.description}/>
+                   
                 )}
-        
-
-                
-            </div>
 
         </div>
     
@@ -87,25 +76,9 @@ export const TaskContainer = ()=>{
 }
 
 const tasks = {
-    padding: '50px',
-    justifyContent: 'space-between',
-    height: '70%'
-}
-
-const row= {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
     flexWrap: 'wrap',
-    gap: 30
-}
-const taskStyles = {
- 
-    border: 'solid 1.5px #eee',
-    boxShadow: '5px 5px 5px rgb(0, 0, 0, 0.1)',
-    minWidth: '28%',
-    height: '30vh',
-    padding: '10px 15px',
-    borderRadius: '3px',
-    backgroundColor:'white',
+    justifyContent: 'space-around',
+    width: '100%'
 }

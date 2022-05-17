@@ -4,10 +4,12 @@ import { doLogout } from "../services/user.service";
 import { loginStore } from '../store/loginStore';
 import { Logout, ExpandMore } from "@mui/icons-material";
 import queryStore from '../store/queryStore'
+import moment from 'moment'
 
 export const NavBar = ()=>{
 
-    let today = new Date().toLocaleDateString()
+
+    const today = moment().format('ll');
     const [open, setOpen] = useState(false)
     const [query, setQuery]= useState('')
 
