@@ -1,19 +1,16 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Task} from './Task'
 import { getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
 import  useStore from '../store/useStore'
 
-
-
-
 export const TaskContainer = ()=>{
     
     const query = queryStore((state) =>  state.dataQuery)
-   const bears = useStore(state => state.bears)
-   console.log(bears)
-   const [data, setData] = useState([])
+    const bears = useStore(state => state.bears)
+    console.log(bears)
+    const [data, setData] = useState([])
+   
     
   //const email =  JSON.stringify(localStorage.getItem("email"))
    //const local = JSON.parse(localStorage.getItem(email))
@@ -64,7 +61,6 @@ export const TaskContainer = ()=>{
                     <Task id={task.id} name={task.name} description={task.description}/>
                    
                 )}
-
         </div>
     
 

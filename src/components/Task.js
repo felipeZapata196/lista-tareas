@@ -1,9 +1,8 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { QueryBuilder, DeleteOutline, EditOutlined, DataObjectSharp } from '@mui/icons-material';
+import { getTask } from "../services/TaskService";
 import swal from 'sweetalert';
-
-// export const TaskContext = createContext()
 
 export const Task = props =>{
 
@@ -14,6 +13,8 @@ export const Task = props =>{
     const [ fewdays, setFewDays ] = useState(false)
 
     const [ idTask, setIdTask ] = useState(1)
+
+    const [data, setData] = useState([])
 
     const due = 2
 
@@ -80,16 +81,7 @@ export const Task = props =>{
         wordWrap: 'break-word'
     }
 
-    const iconsStyle = {
-        fontSize: 32, 
-        cursor: 'pointer',
-        '&:hover': {
-            color: 'blue'
-        }
-    }
-
-    const showDelete = () => {
-        setEdit(false)
+    const showDelete = (id) => {
         swal({
             title: "Are you sure?",
             text: "Task will be deleted",
@@ -104,12 +96,31 @@ export const Task = props =>{
                     icon: "success",
                 })
                 // Aquí llamaré al metodo del TaskService
-                .then (res => window.location.href="/")
+                let datos = (data.filter((task) => task.id !== id))
+                console.log('Tareas que quedan ', datos)
+                // .then (res => window.location.href="/")
             }
         });
     }
 
-    return(
+    useEffect(() => {
+        getAllTasks();
+        console.log("Estado de data al principio ", data)
+    },[])
+
+    const getAllTasks= ()=> {
+        getTask().then(response =>{
+            console.log("Respuesta de sacar todas las tasks ",response)
+            setData(response)  
+            console.log(data, 'funciona?')
+            
+        })
+        .catch( err => {
+            console.error(err)
+        })
+    }   
+
+    return (
         <div style={tasks}>
             {!edit ? 
             <Card style={taskStyle1} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
@@ -157,7 +168,7 @@ export const Task = props =>{
                             <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
                             onClick={() => console.log('Función editTask')} />
                             <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => showDelete()} />
+                            onClick={() => showDelete(props.id)} />
                         </div>
                     </Typography>
                     <Typography style={descriptionStyle} color="textSecondary" component="p">
