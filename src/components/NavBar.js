@@ -13,8 +13,9 @@ export const NavBar = ()=>{
 
     const addQuery = queryStore((state) => state.addQuery)
 
-    const submit =  ()=>{
+    const submit =  (e)=>{
         console.log(query)
+        setQuery(e.target.value)
         addQuery(query)
     }
 
@@ -61,8 +62,8 @@ export const NavBar = ()=>{
                        </div>
                         <div className="content-input" style={middle}>
 
-                           <input className="ipSearch" style={inputSearch}  name="search" value={query}  onChange={(e)=>setQuery(e.target.value)}type="text"  required placeholder="Enter task name"/>
-                           <button className='btnSearch' style={buttonSearch}  onClick={submit}>Search</button>
+                           <input className="ipSearch" style={inputSearch}  name="search" value={query}  onChange={submit}type="text"  required placeholder="Enter task name"/>
+                           <button className='btnSearch' style={buttonSearch}  >Search</button>
 
                         </div>
 

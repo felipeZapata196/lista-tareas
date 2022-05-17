@@ -3,7 +3,6 @@ import axios from "axios";
 
 
 
-
 export const postTask = async(name, description, date) => {
     return new Promise((resolve,reject)=>{
         axios({
@@ -11,8 +10,7 @@ export const postTask = async(name, description, date) => {
             url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',
             data: {
                 name,
-                description, 
-                date
+                description
             }
            
         })
@@ -59,4 +57,8 @@ export const getTask =async() => {
     
     })
 
+}
+
+export const getAllTasks = ()=> {
+    const email = JSON.stringify(localStorage.getItem("email"))
 }
