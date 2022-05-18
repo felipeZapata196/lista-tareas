@@ -3,12 +3,15 @@ import axios from "axios";
 
 
 
-export const postTask = async(name, description, date) => {
+export const postTask = async(id, name, description, date) => {
+    console.log("Holaaaaaaa")
+
     return new Promise((resolve,reject)=>{
         axios({
             method: 'POST',
             url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',
             data: {
+                id,
                 name,
                 description
             }
@@ -18,7 +21,7 @@ export const postTask = async(name, description, date) => {
 
             resolve(response.data)
 
-               
+            console.log(" a ver qué imprime", response.data)
 
             
         })

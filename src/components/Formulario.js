@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -11,60 +10,56 @@ import { postForm } from "../hooks/postForm";
 import { TextIncrease } from "@mui/icons-material";
 import useStore from '../store/useStore'
 import { set } from "date-fns";
-
+import { useState, useEffect } from 'react';
 
 export const Formulario = ()=>{
-
   
   const increasePopulation = useStore(state => state.increasePopulation)
   const bears = useStore(state => state.bears)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
 
-    
-  
-   
-  
-    
+  const email =  JSON.stringify(localStorage.getItem("email"))
+
+  const [ lista, setLista ] = useState([])
+
+  useEffect(() => {
+    console.log("Lista ", lista)
+    setLista(JSON.parse(localStorage.getItem(email)))
+  }, [])
+
   const [value, setValue] = React.useState({
     name: '',
     description: '',
     date: ''
-
   });
-  
-
- 
-  
 
     const handleChange = (event) => {
-     
       setValue({
         ...value, 
         [event.target.name]: event.target.value
 
       } );
-   
-      
     };
     const submit = e =>{
-   
       e.preventDefault()
-      
-      postForm(value.name, value.description)
-     
-     
-    
-    }
 
+      let nuevoId = lista[lista.length -1].id +1
+
+      if (lista.length === 0){
+        localStorage.removeItem(email)
+      }
+
+      postForm(nuevoId, value.name, value.description)
+
+      console.log("Valor de id ", nuevoId)
+  }
 
     React.useEffect(()=>{
       getTask()
 
   }, [bears])
- 
 
     return(
   
@@ -92,10 +87,6 @@ export const Formulario = ()=>{
                   value={value.name}
                   onChange={handleChange}
                  />
-                     
-               
-               
-                
                   <TextField
                     id="outlined-multiline-static"
                     fullWidth
@@ -108,41 +99,19 @@ export const Formulario = ()=>{
                     
                   />
 
-                <InputDate/>
-                  
+                <InputDate/>       
                 <div>
-
-
-                  
                 </div>
-                  <div style={{paddingTop:60}}>
-                
-                 
+                  <div style={{paddingTop:60}}>            
                   <Button  onClick={increasePopulation} >Save </Button>
                   <Button onClick={handleClose}>Close</Button>
-                 
-
-
                   </div>
                   </form>
-
                 <div>
-              
-
                 </div>
-           
-
-       
               </Box>
             </Modal>
-            </div>
-           
-       
-            
-
-    
-
-             
+            </div>         
     )
 }
 
