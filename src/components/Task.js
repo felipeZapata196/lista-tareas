@@ -3,18 +3,18 @@ import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined, DataObjectSharp } from '@mui/icons-material';
 import { getTask } from "../services/TaskService";
 import swal from 'sweetalert';
+import { tasksStore } from "../store/tasksStore";
 
 export const Task = props =>{
+
+    const data = tasksStore(state => state.data)
+    const setData = tasksStore(state => state.setData)
 
     const [ edit, setEdit ] = useState(false)
 
     const [ completeTask, setCompleteTask ] = useState(false)
 
     const [ fewdays, setFewDays ] = useState(false)
-
-    const [ idTask, setIdTask ] = useState(1)
-
-    const [data, setData] = useState([])
 
     const due = 2
 
@@ -81,6 +81,8 @@ export const Task = props =>{
         wordWrap: 'break-word'
     }
 
+    const email = JSON.stringify(localStorage.getItem("email"))
+
     const showDelete = (id) => {
         swal({
             title: "Are you sure?",
@@ -95,35 +97,19 @@ export const Task = props =>{
                 swal("Poof! Task has been deleted successfully", {
                     icon: "success",
                 })
-                // Aquí llamaré al metodo del TaskService
                 let datos = (data.filter((task) => task.id !== id))
+                
                 console.log('Tareas que quedan ', datos)
-                // .then (res => window.location.href="/")
+                setData(datos)
+                localStorage.setItem(email, JSON.stringify(datos));
             }
         });
     }
 
-    useEffect(() => {
-        getAllTasks();
-        console.log("Estado de data al principio ", data)
-    },[])
-
-    const getAllTasks= ()=> {
-        getTask().then(response =>{
-            console.log("Respuesta de sacar todas las tasks ",response)
-            setData(response)  
-            console.log(data, 'funciona?')
-            
-        })
-        .catch( err => {
-            console.error(err)
-        })
-    }   
-
     return (
         <div style={tasks}>
             {!edit ? 
-            <Card style={taskStyle1} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+            <Card style={taskStyle1} onClick={() => { setEdit(!edit) }}>
                 {fewdays && 
                     <CardHeader style={alertStyle}
                     subheader={`Due in ${due} days`}

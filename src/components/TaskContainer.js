@@ -3,23 +3,15 @@ import {Task} from './Task'
 import { getTask } from "../services/TaskService";
 import queryStore from '../store/queryStore'
 import  useStore from '../store/useStore'
+import { tasksStore } from "../store/tasksStore";
 
 export const TaskContainer = ()=>{
     
     const query = queryStore((state) =>  state.dataQuery)
     const bears = useStore(state => state.bears)
-    console.log(bears)
-    const [data, setData] = useState([])
-   
-    
-  //const email =  JSON.stringify(localStorage.getItem("email"))
-   //const local = JSON.parse(localStorage.getItem(email))
 
-
-   console.log(data, 'data container')
-
-
-
+    const data = tasksStore(state => state.data)
+    const setData = tasksStore(state => state.setData)
        
    React.useEffect(()=>{
     getAllTasks(query)
@@ -31,7 +23,7 @@ export const TaskContainer = ()=>{
         getAllTasks(query)
        
        
-        }, [query])
+    }, [query])
    
     const getAllTasks= ()=> {
         getTask().then(response =>{
@@ -48,27 +40,16 @@ export const TaskContainer = ()=>{
             .catch( err => {
                 console.error(err)
             })
-    
     }     
     
-
-
- 
     return(
         <div style={tasks} >
        
        {data.map((task) =>
-                    <Task id={task.id} name={task.name} description={task.description}/>
-                   
+                    <Task id={task.id} name={task.name} description={task.description}/> 
                 )}
-        </div>
-    
-
-             
+        </div>  
     )
-
-
-
 }
 
 const tasks = {
