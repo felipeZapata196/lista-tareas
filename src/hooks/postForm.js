@@ -3,10 +3,9 @@ import { postTask } from "../services/TaskService";
 const email =  JSON.stringify(localStorage.getItem("email"))
 
 
-export const postForm = (name, description, date)=>{
-  postTask(name, description, date).then(res =>{
+export const postForm = (name, description)=>{
+  postTask(name, description).then(res =>{
 
-    console.log(res, "qué imprime")
     let storageData = []
   storageData = JSON.parse(localStorage.getItem(email))
 

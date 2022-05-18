@@ -3,16 +3,11 @@ import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import swal from 'sweetalert';
 
-// export const TaskContext = createContext()
+
 
 export const Task = props =>{
 
-    // Aquí tengo que recoger el titulo, descripción, fecha y el estado de la tarea.
-    // Al editar la tarea, sacará radioButtons para cambiar el estado
-    // Necesito usar un onClick para cambiar el valor de una booleana "editar"
-    // La card y el contenido cambiará cuando la booleana "editar" este a true.
-    // La etiqueta / notificación 
-    // Cambiar que en vez de tener los botones de borrar y editar arriba, sean iconos dentro de la propia card
+    
 
     const [ edit, setEdit ] = useState(false)
 
@@ -22,18 +17,15 @@ export const Task = props =>{
 
     const [ idTask, setIdTask ] = useState(1)
 
-    // Necesito una bool que tengo que pasar al funcionalities y ahí dependiendo del valor que tenga la bool sacar unos componentes u otros
-    // Para interactuar con una tarea igual necesitaría cambiar de ruta. -> a /task/:id 
-    // Ya tengo la lista de tareas. Puedo simplemente que cunado le de click saque el valor de id
-
+ 
     const due = 2
 
     const tasks = {
         width: '27%',
-        // height: 300,
+        
         marginBottom: '2%',
         flexDirection: 'column',
-        // justifyContent: 'center',
+       
     }
 
     const taskStyle1 = {
@@ -111,12 +103,12 @@ export const Task = props =>{
             dangerMode: true
         })
         .then((willDelete) => {
-            console.log(willDelete);
+         
             if ( willDelete ) {
                 swal("Poof! Task has been deleted successfully", {
                     icon: "success",
                 })
-                // Aquí llamaré al metodo del TaskService
+               
                 .then (res => window.location.href="/")
             }
         });
@@ -186,5 +178,3 @@ export const Task = props =>{
         </div>
     )
 }
-
-// {padding: 2, float: 'right', fontSize: 12}
