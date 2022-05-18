@@ -4,8 +4,6 @@ import axios from "axios";
 
 
 export const postTask = async(id, name, description, date) => {
-    console.log("Holaaaaaaa")
-
     return new Promise((resolve,reject)=>{
         axios({
             method: 'POST',
@@ -21,9 +19,6 @@ export const postTask = async(id, name, description, date) => {
 
             resolve(response.data)
 
-            console.log(" a ver qué imprime", response.data)
-
-            
         })
         .catch((err) =>{
             reject(err)
@@ -38,7 +33,6 @@ export const getTask =async() => {
     return new Promise((resolve,reject)=>{
         
         const email = JSON.stringify(localStorage.getItem("email"))
-       console.log(email, "hola mundillo")
         if(localStorage.getItem(email)){
             resolve(JSON.parse(localStorage.getItem(email)))  
         }else{

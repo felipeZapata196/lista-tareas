@@ -7,7 +7,6 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-import { TextIncrease } from "@mui/icons-material";
 import useStore from '../store/useStore'
 import { set } from "date-fns";
 import { useState, useEffect } from 'react';
@@ -21,8 +20,7 @@ export const Formulario = ()=>{
   const handleClose = () => setOpen(false);
 
   const email =  JSON.stringify(localStorage.getItem("email"))
-
-  const [ lista, setLista ] = useState([])
+ const [ lista, setLista ] = useState([])
 
   useEffect(() => {
     console.log("Lista ", lista)
@@ -30,12 +28,18 @@ export const Formulario = ()=>{
   }, [])
 
   const [value, setValue] = React.useState({
+
     name: '',
     description: '',
     date: ''
   });
 
+
+
+
+
     const handleChange = (event) => {
+     
       setValue({
         ...value, 
         [event.target.name]: event.target.value
@@ -62,61 +66,73 @@ export const Formulario = ()=>{
   }, [bears])
 
     return(
-  
-            <div style={buttonStyles}>
-            <Button onClick={handleOpen}> + Add Task</Button>
-            <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-              <Box sx={modalStyle}>
-            
-              <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
+      <div style={funcionalitiesStyle}>
 
-               <form onSubmit={submit}>
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Name"
-                  name="name" 
-                  fullWidth
-                  margin="normal"
-                  multiline
-                  maxRows={4}
-                  value={value.name}
-                  onChange={handleChange}
-                 />
-                  <TextField
-                    id="outlined-multiline-static"
-                    fullWidth
-                    label="Description"
-                    name="description" 
-                    onChange={handleChange}
-                    margin="normal"
-                    multiline
-                    rows={2}
-                    
-                  />
+          <div style={titleStlye}>
+            <h1 >Recent task</h1>
+          </div>
 
-                <InputDate/>       
-                <div>
-                </div>
-                  <div style={{paddingTop:60}}>            
-                  <Button  onClick={increasePopulation} >Save </Button>
-                  <Button onClick={handleClose}>Close</Button>
-                  </div>
-                  </form>
-                <div>
-                </div>
-              </Box>
-            </Modal>
-            </div>         
+          <div style={buttonStyles}>
+                <Button onClick={handleOpen}> + Add Task</Button>
+                <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                  <Box sx={modalStyle}>
+
+                  <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
+
+                  <form onSubmit={submit}>
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          label="Name"
+                          name="name"
+                          fullWidth
+                          margin="normal"
+                          multiline
+                          maxRows={4}
+                          value={value.name}
+                          onChange={handleChange}
+                        />
+
+                          <TextField
+                            id="outlined-multiline-static"
+                            fullWidth
+                            label="Description"
+                            name="description"
+                            onChange={handleChange}
+                            margin="normal"
+                            multiline
+                            rows={2}
+                          />
+
+                        <InputDate/>
+
+                        <div>
+
+                        </div>
+                          <div style={{paddingTop:60}}>
+
+                          <Button  onClick={increasePopulation} >Save </Button>
+                          <Button onClick={handleClose}>Close</Button>
+
+                          </div>
+                      </form>
+                    <div>
+
+                    </div>
+
+                  </Box>
+                </Modal>
+          </div>
+
+
+  </div>
+
     )
 }
-
-
-
 const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -137,4 +153,23 @@ const buttonStyles ={
   paddingTop:'30px',
   paddingRight:'60px'
 
+}
+
+const funcionalitiesStyle = {
+  width: '100%',
+  height: '10%',
+  display: 'flex',
+  flexDirection: 'row',
+  paddingTop:'20px'
+
+}
+
+const titleStlye = {
+ margin: '20px 40px',
+ width:'50%'
+}
+
+const buttonStyle = {
+
+float: 'rigth'
 }

@@ -16,6 +16,9 @@ export const Task = props =>{
 
     const [ fewdays, setFewDays ] = useState(false)
 
+    const [ idTask, setIdTask ] = useState(1)
+
+
     const due = 2
 
     const tasks = {
@@ -92,13 +95,13 @@ export const Task = props =>{
             dangerMode: true
         })
         .then((willDelete) => {
-            console.log(willDelete);
+
             if ( willDelete ) {
                 swal("Poof! Task has been deleted successfully", {
                     icon: "success",
                 })
                 let datos = (data.filter((task) => task.id !== id))
-                
+
                 console.log('Tareas que quedan ', datos)
                 setData(datos)
                 localStorage.setItem(email, JSON.stringify(datos));
@@ -106,7 +109,7 @@ export const Task = props =>{
         });
     }
 
-    return (
+    return(
         <div style={tasks}>
             {!edit ? 
             <Card style={taskStyle1} onClick={() => { setEdit(!edit) }}>
