@@ -46,7 +46,7 @@ export const Formulario = ()=>{
       e.preventDefault()
      let id= data.length -1
      id++
-    
+    //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
       postForm(id, value.name, value.description)
      console.log(data.length, "tamaño array")
      console.log(id)
