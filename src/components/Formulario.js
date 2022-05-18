@@ -1,5 +1,5 @@
 
-import * as React from "react";
+import React, { useEffect, useState } from "react"
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
@@ -20,6 +20,11 @@ export const Formulario = ()=>{
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const email =  JSON.stringify(localStorage.getItem("email"))
+  const data =  JSON.parse(localStorage.getItem(email))
+
+
+
   const [value, setValue] = React.useState({
    
     name: '',
@@ -37,16 +42,26 @@ export const Formulario = ()=>{
       } );
 
     };
-    const submit = e =>{
+    const submit = (e) =>{
       e.preventDefault()
-      postForm( value.name, value.description)
+     let id= data.length -1
+     id++
+    
+      postForm(id, value.name, value.description)
+     console.log(data.length, "tamaño array")
+     console.log(id)
     }
 
     React.useEffect(()=>{
       getTask()
 
+  }, [])
+    React.useEffect(()=>{
+      getTask()
+
   }, [bears])
 
+ 
     return(
       <div style={funcionalitiesStyle}>
 

@@ -153,7 +153,7 @@ const HomePage = ()=> {
          
                     <div style={tasks} >
                         { task.map((task) =>
-                            <Task id={task.name} name={task.name} description={task.description}/>
+                            <Task id={task.id} name={task.name} description={task.description}/>
                         
                         )}
 
