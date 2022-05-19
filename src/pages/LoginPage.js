@@ -1,4 +1,4 @@
-import { TextField, Stack, Card, CardHeader, Button } from '@mui/material';
+import { TextField, Stack, Card, CardHeader, Button, FormHelperText } from '@mui/material';
 import React, { useState } from 'react';
 import {doLogin, getUsers} from '../services/user.service';
 import { loginStore } from '../store/loginStore';
@@ -10,12 +10,15 @@ const LoginPage = props => {
   const setLogin = loginStore(state => state.setLogin);
   const login = loginStore(state => state.login);
 
+  const [ correctUser, setCorrectUser ] = useState(true)
+
   const enterUser = async () => {
     await doLogin(email, password).then(async res => {
       console.log("Llega aqui", res)
       await setLogin(true);
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
+      setCorrectUser(false)
     })
   }
 
@@ -25,13 +28,12 @@ const LoginPage = props => {
 
     for ( let page = 1; page <= total_pages; page++) {
       getUsers(page).then(async res => {
-        // console.log("Llega a sacar los usuarios ", res.data.data)
+      
         total_pages = res.data.total_pages
         users = res.data.data;
         let user = await users.filter(person => person.email === email)
         if (user.length !== 0){
-          // console.log("Usuario con email del login ", user)
-          // console.log("Usuario que recoge ", user[0])
+     
           await localStorage.setItem('user', JSON.stringify(user[0]));
         }
 
@@ -76,21 +78,45 @@ const LoginPage = props => {
       <Card style={formLogin}>
         <CardHeader title="Log in to continue:" color='red' style={styleCardHeader}/>
         <Stack spacing={2}>
-          <TextField
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            placeholder="Enter email"
-          />
-          <TextField
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            placeholder="Enter password"
-            type="password"                 
-          />
+          {correctUser ? 
+          <>
+            <TextField
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              placeholder="Enter email"
+            />
+            <TextField
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              placeholder="Enter password"
+              type="password"                 
+            />
+          </> : 
+          <>
+          <FormHelperText style={{marginLeft: 10, color: "red"}}>Wrong username or password</FormHelperText>
+            <TextField
+              style={{marginTop: 0}}
+              error
+              value={email}
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              placeholder="Enter email"
+            />
+            <TextField
+              error
+              id="password"
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              placeholder="Enter password"
+              type="password"                 
+            />
+          </> }
+          
           <Button style={styleButton}
             onClick={() => getUser()}
             disabled={
@@ -109,11 +135,3 @@ const LoginPage = props => {
 }
 
 export default LoginPage;
-
-// Funcionamiento de Login:
-//  1. Recoger email y password de los input -> HECHO
-//  2. Sacar el token del usuario -> HECHO
-//  3. Si todo funciona bien poner la variable global de login a true -> Esto solo se usa en App.js para indicar que página quieres renderizar -> HECHO
-//  4. Cambiar de página cuando este logueado -> HECHO
-
-// Tengo que hacer una llamada a la api para traerme los usuarios

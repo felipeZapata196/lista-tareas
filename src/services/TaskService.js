@@ -1,11 +1,7 @@
 
 import axios from "axios";
 
-
-
-export const postTask = async(id, name, description, date) => {
-    console.log("Holaaaaaaa")
-
+export const postTask = async(id, name, description) => {
     return new Promise((resolve,reject)=>{
         axios({
             method: 'POST',
@@ -15,53 +11,36 @@ export const postTask = async(id, name, description, date) => {
                 name,
                 description
             }
-           
         })
         .then((response)=> {
-
             resolve(response.data)
-
-            console.log(" a ver qué imprime", response.data)
-
-            
         })
         .catch((err) =>{
             reject(err)
         });
-    
     })
-   
 }
-
 
 export const getTask =async() => {
     return new Promise((resolve,reject)=>{
         
         const email = JSON.stringify(localStorage.getItem("email"))
-       console.log(email, "hola mundillo")
+       
         if(localStorage.getItem(email)){
             resolve(JSON.parse(localStorage.getItem(email)))  
         }else{
             axios({
                 method: 'GET',
-                url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',
-               
+                url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',  
             })
             .then((response)=> {
                 localStorage.setItem(email, JSON.stringify(response.data))
                 resolve(response.data);
-               
             })
             .catch((err) =>{
                 reject(err)
             });
         }
-       
-    
     })
 
-}
-
-export const getAllTasks = ()=> {
-    const email = JSON.stringify(localStorage.getItem("email"))
 }

@@ -5,12 +5,8 @@ const headers = {
     'Content-Type': 'application/json',
     'Authorization': localStorage.getItem('token')
 }
-
 const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType: 'json'});
 
-/**
- * Iniciar sesion
- * */
  export const doLogin = (email, pass) => {
     return new Promise((resolve, reject) => {
       axios.post(
@@ -29,9 +25,6 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
     })
   }
   
-  /**
-   * Recoger todos los usuarios
-   * */
   export const getUsers = (page) => {
     return new Promise((resolve, reject) => {
       console.log("Página que llega a la función ", page)
@@ -46,11 +39,9 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
     })
   }
 
-  /**
-   * Cerrar sesion
-   * */
   export const doLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
 
   }
+

@@ -21,4 +21,3 @@ export function AuthNavigation(navigation) {
   );
 }
 
-// En App tengo que importar las funciones y dependiendo de si esta logueado o no, lanzar una u otra.

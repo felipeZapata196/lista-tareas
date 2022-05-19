@@ -1,14 +1,9 @@
 import create from 'zustand'
 
-
-
-
-
-
 const useStore = create((set) => ({
-  bears: 0,
-  increasePopulation: () => set(state => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 })
+  items: 0,
+  increaseItems: () => set(state => ({ items: state.items + 1 })),
+  removeAllItems: () => set({ items: 0 })
 }))
 
 
