@@ -35,7 +35,8 @@ export const getTask =async() => {
                 url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',  
             })
             .then((response)=> {
-                localStorage.setItem(email, JSON.stringify(response.data))
+                console.log("Que tiene response data ", response.data)
+                // localStorage.setItem(email, JSON.stringify(response.data))
                 resolve(response.data);
             })
             .catch((err) =>{

@@ -17,7 +17,6 @@ import swal from 'sweetalert';
 
 const HomePage = ()=> {
 
-  
   const today = moment().format('ll');
   const [anchorEl, setAnchorEl] = useState(null)
   const [ withUser, setWithUser ] = useState(null)
@@ -80,10 +79,24 @@ const HomePage = ()=> {
        
       }
 
+      // Creo que me falla porque al cargar no existe ningún item con la key "email".
+      // Entonces en data mete null, porque no encuentra nada. Lo que igual hay que
+      // hacer es al principio de todo un setItem con un array vacio o con la tarea de prueba 
+
       const getAllTasks =  () => {
         const email = JSON.stringify(localStorage.getItem("email"))
-        const data =  JSON.parse(localStorage.getItem(email))
+
+        console.log("valor de email: ", email)
+        let data =  JSON.parse(localStorage.getItem(email))
         console.log(data)
+
+        if (data === null) {
+            console.log("valor de data ",task)
+            data = JSON.parse(localStorage.getItem(email))
+            console.log("segundo valor de data ", data)
+            setTask(data)
+            setAllTasks(data)
+        }
         setTask(data)
         setAllTasks(data)
     }
@@ -118,11 +131,19 @@ const HomePage = ()=> {
     }
      /*DelteTaks*/
     React.useEffect(()=>{
+        getTask().then(async res => {
+            console.log("getTask devuelve: ", res)
+            localStorage.setItem(email, JSON.stringify(res))
+          }).catch(err => {
+            console.log('Error en el getTask ', err);
+          })
         getUser();
-        getTask()
-        getAllTasks()
+        getAllTasks();
+        
+        
   
     }, [])
+
     React.useEffect(()=>{
     
         getAllTasks()
@@ -203,7 +224,7 @@ const HomePage = ()=> {
                     <Formulario submit={submit}/>
          
                     <div style={tasks} >
-                        { task.map((task) =>
+                        { task !== null && task.map((task) =>
                             <Task 
                             id={task.id}
                             name={task.name} 
