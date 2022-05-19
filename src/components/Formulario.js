@@ -11,55 +11,51 @@ import { postForm } from "../hooks/postForm";
 import useStore from '../store/useStore'
 
 
-export const Formulario = ()=>{
+export const Formulario = ({submit})=>{
 
-  
-  const increasePopulation = useStore(state => state.increasePopulation)
-  const bears = useStore(state => state.bears)
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  const items = useStore(state => state.items)
+  const increaseItems =useStore(state=> state.increaseItems)
   const email =  JSON.stringify(localStorage.getItem("email"))
   const data =  JSON.parse(localStorage.getItem(email))
 
 
-
   const [value, setValue] = React.useState({
-   
     name: '',
     description: '',
     date: ''
 
   });
 
+  const handleChange = (event) => {
+    setValue({
+      ...value, 
+      [event.target.name]: event.target.value
 
-    const handleChange = (event) => {
-      setValue({
-        ...value, 
-        [event.target.name]: event.target.value
+    });
 
-      } );
-
-    };
-    const submit = (e) =>{
-      e.preventDefault()
-     let id= data.length -1
-     id++
+  };
+  const HandleSubmit = (e) =>{
+    e.preventDefault()
+    let id= data.length -1
+    id++
     //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
-      postForm(id, value.name, value.description)
-     console.log(data.length, "tamaño array")
-     console.log(id)
-    }
+    postForm(id, value.name, value.description)
+    submit(value)
+  
+  }
 
     React.useEffect(()=>{
       getTask()
-
   }, [])
-    React.useEffect(()=>{
-      getTask()
+  
 
-  }, [bears])
+  React.useEffect(()=>{
+    getTask() 
+  }, [items])
 
  
     return(
@@ -81,7 +77,7 @@ export const Formulario = ()=>{
                 
                   <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
 
-                  <form onSubmit={submit}>
+                  <form onSubmit={HandleSubmit}>
                         <TextField
                           id="outlined-multiline-flexible"
                           label="Name"
@@ -112,9 +108,10 @@ export const Formulario = ()=>{
                         </div>
                           <div style={{paddingTop:60}}>
              
-                          <Button  onClick={increasePopulation} >Save </Button>
-                          <Button onClick={handleClose}>Close</Button>
-          
+                          <Button  onClick={increaseItems} >Save </Button>
+                          
+                          <Button  onClick={handleClose} >close </Button>
+                          
                           </div>
                       </form>
                     <div>

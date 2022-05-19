@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, {useState} from "react"
 import moment from 'moment'
 import { Avatar, Menu, MenuItem, Typography, Box, ListItemIcon } from "@mui/material";
 import { doLogout } from "../services/user.service";
@@ -10,6 +10,7 @@ import  useStore from '../store/useStore'
 import '../App.css';
 import SideBar from '../components/Sidebar';
 import {Formulario} from '../components/Formulario'
+import swal from 'sweetalert';
 
 
 
@@ -19,28 +20,20 @@ const HomePage = ()=> {
   
   const today = moment().format('ll');
   const [anchorEl, setAnchorEl] = useState(null)
-  const openMenu = Boolean(anchorEl)
   const [ withUser, setWithUser ] = useState(null)
-  const setLogin = loginStore(state => state.setLogin)
   const [open, setOpen] = useState(false)
   const [task, setTask] = useState([])
-  const [allTasks, setAllTasks] =useState([])
-  const bears = useStore(state => state.bears)
-
-  
+  const [ edit, setEdit ] = useState(false)
   const [search, setSearch]= useState('')
+  const [allTasks, setAllTasks] =useState([])
+  const items = useStore(state => state.items)
+  const setLogin = loginStore(state => state.setLogin)
+  const openMenu = Boolean(anchorEl)
 
-
-  const [value, setValue] = React.useState({
-    name: '',
-    description: '',
-    date: ''
-    });
-
+    /*NavBarFuncionalities*/
+  
     const handleChange = (e)=>{
-        
         setSearch(e.target.value)
-      
         filter(e.target.value)
 
     }
@@ -69,14 +62,56 @@ const HomePage = ()=> {
             await setWithUser(user);
         }
     }
-    const getAllTasks =  () => {
+    
+     /*NavBarFuncionalities*/
+
+     /*TasksFuncionalities*/
+    const submit = (data) => {
+
+        setTask([
+          ...task,
+          data,
+        ])
+       
+      }
+
+      const getAllTasks =  () => {
         const email = JSON.stringify(localStorage.getItem("email"))
         const data =  JSON.parse(localStorage.getItem(email))
         console.log(data)
         setTask(data)
         setAllTasks(data)
     }
+    /*TasksFuncionalities*/
+  
 
+     /*DelteTaks*/
+    const showDelete = (id) => {
+        setEdit(false)
+        swal({
+            title: "Are you sure?",
+            text: "Task will be deleted",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        })
+        .then((willDelete) => {
+         
+            if ( willDelete ) {
+                swal("Poof! Task has been deleted successfully", {
+                    icon: "success",
+                })
+                const email = JSON.stringify(localStorage.getItem("email"))
+                const dataLocalStorage =  JSON.parse(localStorage.getItem(email))
+                const data =(dataLocalStorage.filter((task)=> task.id !==id))
+                localStorage.setItem(email, JSON.stringify(data))
+                setTask(data)
+                
+                
+            }
+        });
+    }
+     /*DelteTaks*/
     React.useEffect(()=>{
         getUser();
         getTask()
@@ -87,7 +122,7 @@ const HomePage = ()=> {
     
         getAllTasks()
   
-    }, [bears])
+    }, [items])
   
   
 
@@ -149,11 +184,15 @@ const HomePage = ()=> {
 
         <div style={layout}>
 
-                    <Formulario/>
+                    <Formulario submit={submit}/>
          
                     <div style={tasks} >
                         { task.map((task) =>
-                            <Task id={task.id} name={task.name} description={task.description}/>
+                            <Task 
+                            id={task.id}
+                            name={task.name} 
+                            description={task.description} 
+                            showDelete={showDelete}/>
                         
                         )}
 

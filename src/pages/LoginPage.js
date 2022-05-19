@@ -25,13 +25,12 @@ const LoginPage = props => {
 
     for ( let page = 1; page <= total_pages; page++) {
       getUsers(page).then(async res => {
-        // console.log("Llega a sacar los usuarios ", res.data.data)
+      
         total_pages = res.data.total_pages
         users = res.data.data;
         let user = await users.filter(person => person.email === email)
         if (user.length !== 0){
-          // console.log("Usuario con email del login ", user)
-          // console.log("Usuario que recoge ", user[0])
+     
           await localStorage.setItem('user', JSON.stringify(user[0]));
         }
 
@@ -109,11 +108,3 @@ const LoginPage = props => {
 }
 
 export default LoginPage;
-
-// Funcionamiento de Login:
-//  1. Recoger email y password de los input -> HECHO
-//  2. Sacar el token del usuario -> HECHO
-//  3. Si todo funciona bien poner la variable global de login a true -> Esto solo se usa en App.js para indicar que página quieres renderizar -> HECHO
-//  4. Cambiar de página cuando este logueado -> HECHO
-
-// Tengo que hacer una llamada a la api para traerme los usuarios

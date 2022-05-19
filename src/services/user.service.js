@@ -5,9 +5,7 @@ const headers = {
     'Content-Type': 'application/json',
     'Authorization': localStorage.getItem('token')
 }
-
 const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType: 'json'});
-
 
  export const doLogin = (email, pass) => {
     return new Promise((resolve, reject) => {
@@ -27,7 +25,6 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
     })
   }
   
-  
   export const getUsers = (page) => {
     return new Promise((resolve, reject) => {
       console.log("Página que llega a la función ", page)
@@ -41,7 +38,6 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
       })
     })
   }
-
 
   export const doLogout = () => {
     localStorage.removeItem('token')

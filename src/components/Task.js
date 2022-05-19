@@ -1,8 +1,7 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState} from "react";
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
-import swal from 'sweetalert';
-import { getTask } from "../services/TaskService";
+
 
 
 
@@ -11,44 +10,10 @@ export const Task = props =>{
     
 
     const [ edit, setEdit ] = useState(false)
-
     const [ completeTask, setCompleteTask ] = useState(false)
-
     const [ fewdays, setFewDays ] = useState(false)
-
     const [ idTask, setIdTask ] = useState(1)
-
- 
     const due = 2
-
-    const email = JSON.stringify(localStorage.getItem("email"))
-
-
-    const showDelete = (id) => {
-        setEdit(false)
-        swal({
-            title: "Are you sure?",
-            text: "Task will be deleted",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true
-        })
-        .then((willDelete) => {
-         
-            if ( willDelete ) {
-                swal("Poof! Task has been deleted successfully", {
-                    icon: "success",
-                })
-               
-                const dataLocalStorage =  JSON.parse(localStorage.getItem(email))
-               
-                const data =(dataLocalStorage.filter((task)=> task.id !==id))
-                localStorage.setItem(email, JSON.stringify(data))
-             
-                
-            }
-        });
-    }
 
     return(
         <div style={tasks}>
@@ -98,7 +63,7 @@ export const Task = props =>{
                             <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
                             onClick={() => console.log('Función editTask')} />
                             <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => showDelete(props.id)} />
+                            onClick={() => props.showDelete(props.id)} />
                         </div>
                     </Typography>
                     <Typography style={descriptionStyle} color="textSecondary" component="p">
@@ -143,10 +108,6 @@ const taskStyle2 = {
     backgroundColor: '#FFFFFF'
 }
 
-const borderBlue = {
-    border: 'solid 1.5px blue'
-}
-
 const positionDate = {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -179,10 +140,3 @@ const descriptionStyle = {
     wordWrap: 'break-word'
 }
 
-const iconsStyle = {
-    fontSize: 32, 
-    cursor: 'pointer',
-    '&:hover': {
-        color: 'blue'
-    }
-}
