@@ -26,7 +26,8 @@ export const Formulario = ({submit})=>{
   const [value, setValue] = React.useState({
     name: '',
     description: '',
-    date: ''
+    date: '',
+    completed: false
 
   });
 
@@ -43,7 +44,7 @@ export const Formulario = ({submit})=>{
     let id= data.length -1
     id++
     //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
-    postForm(id, value.name, value.description)
+    postForm(id, value.name, value.description, value.completed)
     submit(value)
   
   }

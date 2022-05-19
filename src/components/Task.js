@@ -1,13 +1,9 @@
-import React, { useState} from "react";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import React, { useEffect, useState} from "react";
+import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
 
 
-
-
-export const Task = props =>{
-
-    
+export const Task = props =>{ 
 
     const [ edit, setEdit ] = useState(false)
     const [ completeTask, setCompleteTask ] = useState(false)
@@ -15,10 +11,14 @@ export const Task = props =>{
     const [ idTask, setIdTask ] = useState(1)
     const due = 2
 
+    useEffect(() => {
+        setCompleteTask(props.completed)
+    }, [])
+
     return(
         <div style={tasks}>
-            {!edit ? 
-            <Card style={taskStyle1} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+            {!edit ?
+            <Card style={taskStyle1} >
                 {fewdays && 
                     <CardHeader style={alertStyle}
                     subheader={`Due in ${due} days`}
@@ -27,7 +27,7 @@ export const Task = props =>{
                     }
                 />
                 }
-                <CardContent style={{margin: 3}}>
+                <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
                     <Typography variant="h4" component="h2">
                         <b>{props.name}</b>
                     </Typography>
@@ -36,16 +36,22 @@ export const Task = props =>{
                             <b>In Progress</b>
                         </Typography>
                         :
-                        <Typography style={{fontSize: 25, textAlign: "center", paddingTop: 40 }} color="green" component="p">
+                        <Typography style={stateTaskStyle} color="green" component="p">
                             <b>Completed</b>
                         </Typography>
                     }
                 </CardContent>
-                <Typography style={positionDate} color="textSecondary" component="p">
+                <CardActions style={{display: 'flex', justifyContent: 'space-between'}} >
+                    <Checkbox color="success" onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                    checked={completeTask}
+                    />
+                    <Typography style={{fontSize: 18, marginRight: 7}} color="textSecondary" component="p">
                         12 May 2022
-                </Typography>
-            </Card> :
-            <Card style={taskStyle2} onClick={() => {setEdit(!edit); setCompleteTask(!completeTask); setFewDays(!fewdays)}}>
+                    </Typography>
+                </CardActions>
+            </Card>
+            :
+            <Card style={taskStyle2} >
                 <CardHeader style={alertStyle}
                     subheader={`Due in ${due} days`}
                     action={
@@ -55,7 +61,7 @@ export const Task = props =>{
                     }
                 >
                 </CardHeader>
-                <CardContent style={{margin: 3}}>
+                <CardContent style={{margin: 3}} onClick={() => {setEdit(!edit);  setFewDays(!fewdays)}}>
                     
                     <Typography variant="h4" component="h2" style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between'}}>
                         <b>{props.name}</b>
@@ -95,7 +101,8 @@ const taskStyle1 = {
     padding: 10,
     borderRadius: 6,
     border: 'solid 1px gray',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    cursor: 'default'
 }
 const taskStyle2 = {
     display: 'flex',
@@ -105,7 +112,8 @@ const taskStyle2 = {
     padding: 10,
     borderRadius: 6,
     border: 'solid 1.5px blue',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    cursor: 'default'
 }
 
 const positionDate = {

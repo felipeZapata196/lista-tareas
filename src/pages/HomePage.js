@@ -30,6 +30,11 @@ const HomePage = ()=> {
   const setLogin = loginStore(state => state.setLogin)
   const openMenu = Boolean(anchorEl)
 
+  const email = JSON.stringify(localStorage.getItem("email"))
+  const [ listTask, setListTask ] = useState(JSON.parse(localStorage.getItem(email)))
+
+//   const [ changed, setChanged ] = useState(false)
+
     /*NavBarFuncionalities*/
   
     const handleChange = (e)=>{
@@ -124,7 +129,18 @@ const HomePage = ()=> {
   
     }, [items])
   
-  
+    const changeState = (id) => {
+        let updateTasks = allTasks.map(task => {
+            if (task.id === id) {
+                task.completed = !task.completed
+                return task
+            } else {
+                return task
+            }
+        })
+
+        localStorage.setItem(email, JSON.stringify(updateTasks))
+    }
 
     return (
         <div className="general-containter">
@@ -191,9 +207,10 @@ const HomePage = ()=> {
                             <Task 
                             id={task.id}
                             name={task.name} 
-                            description={task.description} 
-                            showDelete={showDelete}/>
-                        
+                            description={task.description}
+                            completed={task.completed}
+                            showDelete={showDelete}
+                            changeState={changeState}/>
                         )}
 
                     </div>
