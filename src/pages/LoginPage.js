@@ -1,4 +1,4 @@
-import { TextField, Stack, Card, CardHeader, Button } from '@mui/material';
+import { TextField, Stack, Card, CardHeader, Button, FormHelperText } from '@mui/material';
 import React, { useState } from 'react';
 import {doLogin, getUsers} from '../services/user.service';
 import { loginStore } from '../store/loginStore';
@@ -10,12 +10,15 @@ const LoginPage = props => {
   const setLogin = loginStore(state => state.setLogin);
   const login = loginStore(state => state.login);
 
+  const [ correctUser, setCorrectUser ] = useState(true)
+
   const enterUser = async () => {
     await doLogin(email, password).then(async res => {
       console.log("Llega aqui", res)
       await setLogin(true);
     }).catch(err => {
       console.log('Error el loguear al usuario', err);
+      setCorrectUser(false)
     })
   }
 
@@ -75,21 +78,45 @@ const LoginPage = props => {
       <Card style={formLogin}>
         <CardHeader title="Log in to continue:" color='red' style={styleCardHeader}/>
         <Stack spacing={2}>
-          <TextField
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            placeholder="Enter email"
-          />
-          <TextField
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            placeholder="Enter password"
-            type="password"                 
-          />
+          {correctUser ? 
+          <>
+            <TextField
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              placeholder="Enter email"
+            />
+            <TextField
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              placeholder="Enter password"
+              type="password"                 
+            />
+          </> : 
+          <>
+          <FormHelperText style={{marginLeft: 10, color: "red"}}>Wrong username or password</FormHelperText>
+            <TextField
+              style={{marginTop: 0}}
+              error
+              value={email}
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              placeholder="Enter email"
+            />
+            <TextField
+              error
+              id="password"
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              placeholder="Enter password"
+              type="password"                 
+            />
+          </> }
+          
           <Button style={styleButton}
             onClick={() => getUser()}
             disabled={
