@@ -24,6 +24,7 @@ export const Formulario = ({submit})=>{
 
 
   const [value, setValue] = React.useState({
+    id: 0,
     name: '',
     description: '',
     date: '',
@@ -34,17 +35,22 @@ export const Formulario = ({submit})=>{
   const handleChange = (event) => {
     setValue({
       ...value, 
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      id: data[data.length -1].id +1
 
     });
-
   };
+
+  // Tengo que meter en value el id.
+
   const HandleSubmit = (e) =>{
     e.preventDefault()
-    // let id= data.length -1
+
     let id = data[data.length -1].id +1
+
     // id++
     //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
+    // postForm(id, value.name, value.description, value.completed)
     postForm(id, value.name, value.description, value.completed)
     submit(value)
   

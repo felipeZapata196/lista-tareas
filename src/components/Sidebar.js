@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card, CardContent, Typography } from "@mui/material";
 import { AccountCircle, ExpandLess, ExpandMore, Info, Assignment } from "@mui/icons-material";
+import { getTask } from "../services/TaskService";
 
 const SideBar = () => {
 
     const [open, setOpen] = React.useState(false);
+
+    const [ inProgress, setInProgress ] = useState([])
+    const [ completed, setCompleted ] = useState([])
 
     const openFilters = () => {
         setOpen(!open);
@@ -28,6 +32,45 @@ const SideBar = () => {
     const titleStyle = {
         fontSize: '40px',
         paddingLeft: '40px'
+    }
+
+    // Necesito usar el getTask, para recoger todos las tareas y luego hacer un filter del estado de las tareas
+
+    let cambio = false;
+    const [ filter, setFilter ] = useState(false)
+    const [ tasks, setTasks ] = useState([])
+
+    useEffect(() => {
+        getTask().then( res => {
+            console.log("Vuelta de getTask: ", res)
+            setTasks(res)
+        }).catch(err => {
+            console.log('Error en el getTask ', err);
+        })
+    }, [])
+
+    // const nuevaFunc = () => {
+    //     getTask().then( res => {
+    //         console.log("getTask devuelve: ", res)
+            
+    //         setAll(res);
+    //         setInProgress(res.filter(task => task.completed !== true))
+    //         setCompleted(res.filter(task => task.completed === true))
+
+    //         // setFilter(!filter)
+    //       }).catch(err => {
+    //         console.log('Error en el getTask ', err);
+    //       })
+    // }
+
+    // Lo que pasa es que no cambia el valor de task. Solo se setea la primera vez
+
+    const onlyInProgress = () => {
+        setInProgress(tasks.filter(task => task.completed !== true))
+    }
+
+    const onlyCompleted = () => {
+        setCompleted(tasks.filter(task => task.completed === true))
     }
 
     return (
@@ -55,19 +98,19 @@ const SideBar = () => {
                     <List component="div" disablePadding>
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="Recents" />
-                            <Card style={cardStyle}>
+                            <Card style={cardStyle} onClick={() => console.log("Todas las tareas ", tasks)}>
                                 12
                             </Card>
                         </ListItemButton>
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="In Progress" />
-                            <Card style={cardStyle}>
+                            <Card style={cardStyle} onClick={() => { onlyInProgress(); console.log("Tareas en progreso ", inProgress)}}>
                                 8
                             </Card>
                         </ListItemButton>
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="Completed" />
-                            <Card style={cardStyle}>
+                            <Card style={cardStyle} onClick={() => { onlyCompleted(); console.log("Tareas completadas ", completed)}}>
                                 4
                             </Card>
                         </ListItemButton>

@@ -36,7 +36,7 @@ export const getTask =async() => {
             })
             .then((response)=> {
                 console.log("Que tiene response data ", response.data)
-                // localStorage.setItem(email, JSON.stringify(response.data))
+                localStorage.setItem(email, JSON.stringify(response.data))
                 resolve(response.data);
             })
             .catch((err) =>{

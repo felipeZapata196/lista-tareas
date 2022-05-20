@@ -130,7 +130,7 @@ const HomePage = ()=> {
 
      /*DelteTaks*/
     useEffect( ()=>{
-        console.log("Inicio ")
+        console.log("Inicio ", task)
         searchTasks();
         getUser();
         // getAllTasks();
@@ -140,7 +140,7 @@ const HomePage = ()=> {
     const searchTasks = async () => {
         await getTask().then(async res => {
             console.log("getTask devuelve: ", res)
-            localStorage.setItem(email, JSON.stringify(res))
+        //    localStorage.setItem(email, JSON.stringify(res))
             setTask(res)
             setAllTasks(res)
           }).catch(err => {
@@ -156,7 +156,8 @@ const HomePage = ()=> {
     }, [items])
   
     const changeState = (id) => {
-        let updateTasks = allTasks.map(task => {
+        console.log("Contenido de task", task)
+        let updateTasks = task.map(task => {
             if (task.id === id) {
                 task.completed = !task.completed
                 return task
@@ -164,7 +165,7 @@ const HomePage = ()=> {
                 return task
             }
         })
-
+        console.log(updateTasks, 'tu puta madre')
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
 
