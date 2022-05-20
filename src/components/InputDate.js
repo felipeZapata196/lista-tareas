@@ -8,7 +8,8 @@ export const  InputDate= () =>{
   const [value, setValue] = React.useState(null);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider 
+    dateAdapter={AdapterDateFns}>
       <DatePicker
         label="Task completion"
         value={value}

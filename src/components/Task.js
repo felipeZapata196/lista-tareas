@@ -1,24 +1,31 @@
-import React, { useState} from "react";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import React, { useEffect, useState} from "react";
+import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { EditTask } from "./EditTask";
+
+
+export const Task = props =>{ 
 
 
 
-
-export const Task = props =>{
-
-    
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     const [ edit, setEdit ] = useState(false)
     const [ completeTask, setCompleteTask ] = useState(false)
     const [ fewdays, setFewDays ] = useState(false)
     const [ idTask, setIdTask ] = useState(1)
     const due = 2
 
+
+    useEffect(() => {
+        setCompleteTask(props.completed)
+    }, [])
+
     return(
         <div style={tasks}>
-            {!edit ? 
-            <Card style={taskStyle1} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+          
+            <Card style={taskStyle1} >
                 {fewdays && 
                     <CardHeader style={alertStyle}
                     subheader={`Due in ${due} days`}
@@ -27,54 +34,44 @@ export const Task = props =>{
                     }
                 />
                 }
-                <CardContent style={{margin: 3}}>
-                    <Typography variant="h4" component="h2">
+                <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+                <Typography variant="h4" component="h2" style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between'}}>
                         <b>{props.name}</b>
+                        <div>
+                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
+                            onClick={handleOpen} />
+                            <EditTask 
+                            handleClose={handleClose}
+                            handleOpen={handleOpen}
+                            open={open}
+                            id={props.id}
+                            editTasks={props.editTasks}
+            
+                            />
+                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
+                            onClick={() => props.showDelete(props.id)} />
+                        </div>
                     </Typography>
                     {!completeTask ?
                         <Typography style={stateTaskStyle} color="blue" component="p">
                             <b>In Progress</b>
                         </Typography>
                         :
-                        <Typography style={{fontSize: 25, textAlign: "center", paddingTop: 40 }} color="green" component="p">
+                        <Typography style={stateTaskStyle} color="green" component="p">
                             <b>Completed</b>
                         </Typography>
                     }
                 </CardContent>
-                <Typography style={positionDate} color="textSecondary" component="p">
+                <CardActions style={{display: 'flex', justifyContent: 'space-between'}} >
+                    <Checkbox color="success" onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                    checked={completeTask}
+                    />
+                    <Typography style={{fontSize: 18, marginRight: 7}} color="textSecondary" component="p">
                         12 May 2022
-                </Typography>
-            </Card> :
-            <Card style={taskStyle2} onClick={() => {setEdit(!edit); setCompleteTask(!completeTask); setFewDays(!fewdays)}}>
-                <CardHeader style={alertStyle}
-                    subheader={`Due in ${due} days`}
-                    action={
-                        <>
-                        <QueryBuilder sx={{color: 'orange'}} />
-                        </>
-                    }
-                >
-                </CardHeader>
-                <CardContent style={{margin: 3}}>
-                    
-                    <Typography variant="h4" component="h2" style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between'}}>
-                        <b>{props.name}</b>
-                        <div>
-                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => console.log('Función editTask')} />
-                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => props.showDelete(props.id)} />
-                        </div>
                     </Typography>
-                    <Typography style={descriptionStyle} color="textSecondary" component="p">
-                        {props.description}
-                    </Typography>
-                </CardContent>
-                <Typography style={positionDate} color="textSecondary" component="p">
-                        12 May 2022
-                </Typography>
+                </CardActions>
             </Card>
-            }
+          
             {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
         </div>
     )
@@ -95,7 +92,8 @@ const taskStyle1 = {
     padding: 10,
     borderRadius: 6,
     border: 'solid 1px gray',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    cursor: 'default'
 }
 const taskStyle2 = {
     display: 'flex',
@@ -105,7 +103,8 @@ const taskStyle2 = {
     padding: 10,
     borderRadius: 6,
     border: 'solid 1.5px blue',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    cursor: 'default'
 }
 
 const positionDate = {
@@ -139,4 +138,3 @@ const descriptionStyle = {
     fontSize: 20,
     wordWrap: 'break-word'
 }
-

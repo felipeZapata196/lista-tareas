@@ -29,6 +29,8 @@ const HomePage = ()=> {
   const items = useStore(state => state.items)
   const setLogin = loginStore(state => state.setLogin)
   const openMenu = Boolean(anchorEl)
+  const email = JSON.stringify(localStorage.getItem("email"))
+  
 
     /*NavBarFuncionalities*/
   
@@ -76,9 +78,9 @@ const HomePage = ()=> {
       }
 
       const getAllTasks =  () => {
-        const email = JSON.stringify(localStorage.getItem("email"))
+      
         const data =  JSON.parse(localStorage.getItem(email))
-        console.log(data)
+ 
         setTask(data)
         setAllTasks(data)
     }
@@ -102,16 +104,48 @@ const HomePage = ()=> {
                     icon: "success",
                 })
                 const email = JSON.stringify(localStorage.getItem("email"))
-                const dataLocalStorage =  JSON.parse(localStorage.getItem(email))
+                const dataLocalStorage =JSON.parse(localStorage.getItem(email))
                 const data =(dataLocalStorage.filter((task)=> task.id !==id))
                 localStorage.setItem(email, JSON.stringify(data))
                 setTask(data)
-                
-                
             }
         });
     }
      /*DelteTaks*/
+
+     /*ChageState*/
+     const changeState = (id) => {
+        let updateTasks = task.map(task => {
+            if (task.id === id) {
+                task.completed = !task.completed
+                return task
+            } else {
+                return task
+            }
+        })
+
+        localStorage.setItem(email, JSON.stringify(updateTasks))
+    }
+
+    const editTasks= (id, name, description) => {
+       let edited= task.map(task => {
+            if (task.id === id) {
+              
+                task.name = name
+                task.description = description
+                return task
+              
+            } else{
+               return task
+            }
+        })
+        console.log(edited)
+        localStorage.setItem(email, JSON.stringify(edited))
+        setTask(edited)
+    
+    }
+     /*ChageState*/
+    
     React.useEffect(()=>{
         getUser();
         getTask()
@@ -192,8 +226,11 @@ const HomePage = ()=> {
                             id={task.id}
                             name={task.name} 
                             description={task.description} 
-                            showDelete={showDelete}/>
-                        
+                            showDelete={showDelete}
+                            changeState={changeState}
+                            editTasks={editTasks}
+                            />
+                            
                         )}
 
                     </div>

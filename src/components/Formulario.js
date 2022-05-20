@@ -26,25 +26,27 @@ export const Formulario = ({submit})=>{
   const [value, setValue] = React.useState({
     name: '',
     description: '',
-    date: ''
-
+    completed: false
   });
 
   const handleChange = (event) => {
     setValue({
       ...value, 
       [event.target.name]: event.target.value
-
     });
-
   };
+
+
+ 
+
   const HandleSubmit = (e) =>{
     e.preventDefault()
     let id= data.length -1
     id++
-    //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
-    postForm(id, value.name, value.description)
+    postForm(id, value.name, value.description,value.completed)
     submit(value)
+    handleClose()
+   
   
   }
 
@@ -77,7 +79,7 @@ export const Formulario = ({submit})=>{
                 
                   <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
 
-                  <form onSubmit={HandleSubmit}>
+                 
                         <TextField
                           id="outlined-multiline-flexible"
                           label="Name"
@@ -101,19 +103,22 @@ export const Formulario = ({submit})=>{
                             rows={2}
                           />
 
-                        <InputDate/>
+                        <InputDate
+                            handleChange={handleChange}
+
+                          />
                           
                         <div>
 
                         </div>
                           <div style={{paddingTop:60}}>
              
-                          <Button  onClick={increaseItems} >Save </Button>
+                          <Button  onClick={HandleSubmit} >Save </Button>
                           
-                          <Button  onClick={handleClose} >close </Button>
+                      
                           
                           </div>
-                      </form>
+             
                     <div>
                 
                     </div>
@@ -133,7 +138,7 @@ const modalStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 600,
-    height: 580,
+    height: 480,
     bgcolor: 'background.paper',
     border: '0,5px solid #000',
     boxShadow: 24,
