@@ -123,7 +123,7 @@ const HomePage = ()=> {
                 return task
             }
         })
-
+            
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
 
