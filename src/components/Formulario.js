@@ -41,8 +41,9 @@ export const Formulario = ({submit})=>{
   };
   const HandleSubmit = (e) =>{
     e.preventDefault()
-    let id= data.length -1
-    id++
+    // let id= data.length -1
+    let id = data[data.length -1].id +1
+    // id++
     //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
     postForm(id, value.name, value.description, value.completed)
     submit(value)

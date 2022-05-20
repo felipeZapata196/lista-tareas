@@ -31,8 +31,8 @@ export const getTask =async() => {
             resolve(JSON.parse(localStorage.getItem(email)))  
         }else{
             axios({
-                method: 'GET',
-                url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',  
+            method: 'GET',
+            url: 'https://my-json-server.typicode.com/felipeZapata196/lista-tareas/tasks',  
             })
             .then((response)=> {
                 console.log("Que tiene response data ", response.data)

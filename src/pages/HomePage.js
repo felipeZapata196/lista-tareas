@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import moment from 'moment'
 import { Avatar, Menu, MenuItem, Typography, Box, ListItemIcon } from "@mui/material";
 import { doLogout } from "../services/user.service";
@@ -79,27 +79,25 @@ const HomePage = ()=> {
        
       }
 
-      // Creo que me falla porque al cargar no existe ningún item con la key "email".
-      // Entonces en data mete null, porque no encuentra nada. Lo que igual hay que
-      // hacer es al principio de todo un setItem con un array vacio o con la tarea de prueba 
+    //   BORRADO
 
-      const getAllTasks =  () => {
-        const email = JSON.stringify(localStorage.getItem("email"))
+    // const getAllTasks =  () => {
+    //     const email = JSON.stringify(localStorage.getItem("email"))
 
-        console.log("valor de email: ", email)
-        let data =  JSON.parse(localStorage.getItem(email))
-        console.log(data)
+    //     console.log("valor de email: ", email)
+    //     let data =  JSON.parse(localStorage.getItem(email))
+    //     console.log(data)
 
-        if (data === null) {
-            console.log("valor de data ",task)
-            data = JSON.parse(localStorage.getItem(email))
-            console.log("segundo valor de data ", data)
-            setTask(data)
-            setAllTasks(data)
-        }
-        setTask(data)
-        setAllTasks(data)
-    }
+    //     if (data === null) {
+    //         console.log("valor de data ",task)
+    //         data = JSON.parse(localStorage.getItem(email))
+    //         console.log("segundo valor de data ", data)
+    //         setTask(data)
+    //         setAllTasks(data)
+    //     }
+    //     setTask(data)
+    //     setAllTasks(data)
+    // }
     /*TasksFuncionalities*/
   
 
@@ -129,24 +127,31 @@ const HomePage = ()=> {
             }
         });
     }
+
      /*DelteTaks*/
-    React.useEffect(()=>{
-        getTask().then(async res => {
+    useEffect( ()=>{
+        console.log("Inicio ")
+        searchTasks();
+        getUser();
+        // getAllTasks();
+
+    }, [])
+
+    const searchTasks = async () => {
+        await getTask().then(async res => {
             console.log("getTask devuelve: ", res)
             localStorage.setItem(email, JSON.stringify(res))
+            setTask(res)
+            setAllTasks(res)
           }).catch(err => {
             console.log('Error en el getTask ', err);
           })
-        getUser();
-        getAllTasks();
-        
-        
-  
-    }, [])
+    }
 
-    React.useEffect(()=>{
+    useEffect(()=>{
     
-        getAllTasks()
+        // getAllTasks()
+        searchTasks();
   
     }, [items])
   
