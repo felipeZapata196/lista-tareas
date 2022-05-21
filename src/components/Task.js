@@ -20,7 +20,7 @@ export const Task = props =>{
 
     useEffect(() => {
         setCompleteTask(props.completed)
-        console.log(props.completed)
+        
     }, [])
 
     return(

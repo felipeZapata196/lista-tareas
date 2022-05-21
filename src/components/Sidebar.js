@@ -14,26 +14,7 @@ const SideBar = () => {
         setOpen(!open);
     };
 
-    const cardStyle = {
-        width: '30px',
-        height: '20px',
-        fontSize: 14,
-        textAlign: 'center'
-    }
-
-    const contentAll = {
-        float: 'left',
-        height: '100%',
-        width: '100%',
-        paddingTop: '40px',
-        backgroundColor: 'white'
-    }
-
-    const titleStyle = {
-        fontSize: '40px',
-        paddingLeft: '40px'
-    }
-
+  
     // Necesito usar el getTask, para recoger todos las tareas y luego hacer un filter del estado de las tareas
 
     let cambio = false;
@@ -125,6 +106,26 @@ const SideBar = () => {
             </List>
         </div>
     )
+}
+
+const cardStyle = {
+    width: '30px',
+    height: '20px',
+    fontSize: 14,
+    textAlign: 'center'
+}
+
+const contentAll = {
+    float: 'left',
+    height: '100%',
+    width: '100%',
+    paddingTop: '40px',
+    backgroundColor: 'white'
+}
+
+const titleStyle = {
+    fontSize: '40px',
+    paddingLeft: '40px'
 }
 
 export default SideBar
