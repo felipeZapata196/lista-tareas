@@ -4,17 +4,16 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export const  InputDate= () =>{
-  const [value, setValue] = React.useState(null);
-
+export const  InputDate= (props) =>{
+  
   return (
     <LocalizationProvider 
     dateAdapter={AdapterDateFns}>
       <DatePicker
         label="Task completion"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
+        value={props.value}
+        onChange={(date) => {
+          props.handleDate(date);
         }}
         renderInput={(params) => <TextField {...params} />}
       />

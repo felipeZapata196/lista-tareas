@@ -76,14 +76,17 @@ const HomePage = ()=> {
         ])
        
       }
-
-      const getAllTasks =  () => {
-      
-        const data =  JSON.parse(localStorage.getItem(email))
- 
-        setTask(data)
-        setAllTasks(data)
+      const getAllTasks = async () => {
+        await getTask().then(async res => {
+            console.log("getTask devuelve: ", res)
+            localStorage.setItem(email, JSON.stringify(res))
+            setTask(res)
+            setAllTasks(res)
+          }).catch(err => {
+            console.log('Error en el getTask ', err);
+          })
     }
+     
     /*TasksFuncionalities*/
   
 
@@ -126,7 +129,9 @@ const HomePage = ()=> {
             
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
-
+      /*ChageState*/
+        
+      /*EditTasks*/
     const editTasks= (id, name, description) => {
        let edited= task.map(task => {
             if (task.id === id) {
@@ -139,12 +144,11 @@ const HomePage = ()=> {
                return task
             }
         })
-        console.log(edited)
         localStorage.setItem(email, JSON.stringify(edited))
         setTask(edited)
     
     }
-     /*ChageState*/
+     /*EditTasks*/
     
     React.useEffect(()=>{
         getUser();
@@ -175,7 +179,7 @@ const HomePage = ()=> {
                         <div className="content-input" style={middle}>
 
                            <input className="ipSearch" style={inputSearch}  name="search" value={search}  onChange={handleChange} type="text"  required placeholder="Enter task name"/>
-                           <button className='btnSearch' style={buttonSearch}  >Search</button>
+                         
 
                         </div>
 
@@ -186,12 +190,12 @@ const HomePage = ()=> {
                                     src={withUser.avatar}
                                 /> }
                                 {withUser &&
-                                    <Typography
+                                    <Typography 
                                         variant="span"
                                         fontSize={"21px"}
                                         style={styleNameUser}
                                     >
-                                        {withUser.first_name} {withUser.last_name}
+                                        {withUser.first_name} 
                                     </Typography>
                                 }
                                 <ExpandMore
@@ -228,6 +232,7 @@ const HomePage = ()=> {
                             description={task.description} 
                             showDelete={showDelete}
                             changeState={changeState}
+                            completed={task.completed}
                             editTasks={editTasks}
                             />
                             
@@ -266,7 +271,8 @@ const navbarStyles ={
     height: '11%',
     justifyContent: 'space-between',
     padding: '0 50px',
-    boxShadow: '0 2px 3px rgb(0,0,0,0.1)',
+    boxShadow: '3px 2px 3px rgb(0,0,0,0.1)',
+    borderBottom: 'solid 2px #dbdbdb'
 }
 
     const container = {
@@ -280,7 +286,9 @@ const navbarStyles ={
         flex: 1,
         justifyContent: 'center',
         float: 'left',
-        paddingLeft: '13%'
+        paddingLeft: '8%',
+        paddingRigth: '10%',
+        
     }
 
     const middle = {
@@ -297,7 +305,6 @@ const navbarStyles ={
         justifyContent: 'center',
         alignItems: 'flex-end',
         float: 'right',
-        marginRight: '10%',
         marginLeft: '7%',
         cursor: "pointer"
     }
@@ -305,16 +312,12 @@ const navbarStyles ={
     const inputSearch = {
         fontSize: '20px',
         padding: '10px',
-        width: '60%'
+        width: '50%',
+        borderRadius: 7,
+        border: 'solid 1.4px #dbdbdb'
     }
 
-    const buttonSearch = {
-        fontSize: '20px',
-        padding: '12px',
-        backgroundColor: 'blue',
-        color: 'white',
-        border: 'none'
-    }
+  
 
     const styleNameUser = {
         paddingLeft: "15px",

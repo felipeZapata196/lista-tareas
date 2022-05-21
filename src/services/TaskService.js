@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-export const postTask = async(id, name, description) => {
+export const postTask = async(id, name, description, completed, date) => {
     return new Promise((resolve,reject)=>{
         axios({
             method: 'POST',
@@ -9,7 +9,10 @@ export const postTask = async(id, name, description) => {
             data: {
                 id,
                 name,
-                description
+                description,
+                completed,
+                date
+
             }
         })
         .then((response)=> {

@@ -20,6 +20,7 @@ export const Task = props =>{
 
     useEffect(() => {
         setCompleteTask(props.completed)
+        console.log(props.completed)
     }, [])
 
     return(
@@ -35,40 +36,52 @@ export const Task = props =>{
                 />
                 }
                 <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
-                <Typography variant="h4" component="h2" style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between'}}>
+                     <Typography variant="h4" component="h2"  color="textSecondary">
                         <b>{props.name}</b>
-                        <div>
-                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={handleOpen} />
-                            <EditTask 
-                            handleClose={handleClose}
-                            handleOpen={handleOpen}
-                            open={open}
-                            id={props.id}
-                            editTasks={props.editTasks}
-            
-                            />
-                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => props.showDelete(props.id)} />
-                        </div>
+                      
                     </Typography>
+                    <div style={{display: 'flex', flexDirection: 'row' }}>
                     {!completeTask ?
-                        <Typography style={stateTaskStyle} color="blue" component="p">
+                        <Typography style={stateTaskStyle} color="#0209b1" component="p">
                             <b>In Progress</b>
                         </Typography>
                         :
-                        <Typography style={stateTaskStyle} color="green" component="p">
+                        <Typography style={stateTaskStyle} color="#046307" component="p">
                             <b>Completed</b>
                         </Typography>
                     }
-                </CardContent>
-                <CardActions style={{display: 'flex', justifyContent: 'space-between'}} >
+                    
                     <Checkbox color="success" onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                    checked={completeTask}
-                    />
-                    <Typography style={{fontSize: 18, marginRight: 7}} color="textSecondary" component="p">
+                         checked={completeTask}
+                        />
+
+                    </div>
+                    <Typography style={descriptionStyle} color="textSecondary" component="p">
+                        {props.description}
+                    </Typography>
+                </CardContent>
+                <CardActions style={{display: 'flex',flexDirection:'row'}} >
+                   
+                   <Typography style={positionDate} color="textSecondary" component="p">
                         12 May 2022
                     </Typography>
+                
+                        <div style={{display: 'flex', float: "right"}}>
+                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            onClick={handleOpen}/>
+                           
+                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            onClick={() => props.showDelete(props.id)} />
+                        </div>
+      
+
+                                    <EditTask 
+                                        handleClose={handleClose}
+                                        open={open}
+                                        id={props.id}
+                                        editTasks={props.editTasks}
+                        
+                                        />
                 </CardActions>
             </Card>
           
@@ -77,7 +90,7 @@ export const Task = props =>{
     )
 }
 const tasks = {
-    width: '27%',
+    width: '29%',
     
     marginBottom: '2%',
     flexDirection: 'column',
@@ -87,34 +100,20 @@ const tasks = {
 const taskStyle1 = {
     display: 'flex',
     flexDirection: 'column',
-    height: 300,
+    height: 280,
+
     justifyContent: 'space-between',
     padding: 10,
-    borderRadius: 6,
-    border: 'solid 1px gray',
-    backgroundColor: '#FFFFFF',
-    cursor: 'default'
-}
-const taskStyle2 = {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 300,
-    justifyContent: 'space-between',
-    padding: 10,
-    borderRadius: 6,
-    border: 'solid 1.5px blue',
+    borderRadius: 5,
     backgroundColor: '#FFFFFF',
     cursor: 'default'
 }
 
 const positionDate = {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    
     marginRight: 7,
     fontSize: 18,
 }
-
 const alertStyle = {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -129,7 +128,7 @@ const stateTaskStyle = {
     fontSize: 25, 
     textAlign: "center",
     justifyContent: "center",
-    paddingTop: 50
+    
 }
 
 const descriptionStyle = {

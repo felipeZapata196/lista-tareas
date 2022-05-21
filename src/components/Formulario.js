@@ -17,33 +17,36 @@ export const Formulario = ({submit})=>{
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const items = useStore(state => state.items)
-  const increaseItems =useStore(state=> state.increaseItems)
   const email =  JSON.stringify(localStorage.getItem("email"))
   const data =  JSON.parse(localStorage.getItem(email))
 
 
   const [value, setValue] = React.useState({
+    id: 0,
     name: '',
     description: '',
-    completed: false
+    completed: false,
+    date:''
   });
 
   const handleChange = (event) => {
     setValue({
       ...value, 
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      id: data[data.length -1].id +1
     });
   };
 
-
- 
+const handleDate =(date)=> {
+  setValue({
+    ...value,
+    date: date
+  })
+} 
 
   const HandleSubmit = (e) =>{
     e.preventDefault()
-    let id= data.length -1
-    id++
-    postForm(id, value.name, value.description,value.completed)
+    postForm(value.id, value.name, value.description,value.completed, value.date)
     submit(value)
     handleClose()
    
@@ -57,7 +60,7 @@ export const Formulario = ({submit})=>{
 
   React.useEffect(()=>{
     getTask() 
-  }, [items])
+  }, [])
 
  
     return(
@@ -104,7 +107,8 @@ export const Formulario = ({submit})=>{
                           />
 
                         <InputDate
-                            handleChange={handleChange}
+                            handleDate={handleDate}
+                            value={value}
 
                           />
                           
@@ -137,7 +141,7 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
+    width: 530,
     height: 480,
     bgcolor: 'background.paper',
     border: '0,5px solid #000',

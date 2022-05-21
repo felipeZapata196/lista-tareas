@@ -5,7 +5,7 @@ import React from "react";
 
 export const Button= ({children, ...rest} )=>{
     const  buttonStyle = {
-        backgroundColor: '#f44336',
+        backgroundColor: '#0071c2',
         color: 'white',
         padding: '15px 35px',
         border: 'none',

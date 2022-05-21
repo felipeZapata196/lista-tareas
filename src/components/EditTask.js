@@ -37,7 +37,7 @@ export const EditTask= (props) => {
    
 
         <div style={buttonStyles}>
-              <Button onClick={props.handleOpen}> Edit Task</Button>
+              
               <Modal
               open={props.open}
               onClose={props.handleClose}
