@@ -172,7 +172,7 @@ const HomePage = ()=> {
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar />
+                <SideBar tasks={task} />
             </div>
             <div className="mainContainer">
               

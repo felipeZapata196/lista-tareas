@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card, CardContent, Typography } from "@mui/material";
 import { AccountCircle, ExpandLess, ExpandMore, Info, Assignment } from "@mui/icons-material";
 import { getTask } from "../services/TaskService";
+import  useStore from '../store/useStore'
 
-const SideBar = () => {
+const SideBar = (props) => {
 
     const [open, setOpen] = React.useState(false);
 
+    const [ tasks, setTasks ] = useState([])
     const [ inProgress, setInProgress ] = useState([])
     const [ completed, setCompleted ] = useState([])
+
+    const items = useStore(state => state.items)
 
     const openFilters = () => {
         setOpen(!open);
@@ -34,20 +38,29 @@ const SideBar = () => {
         paddingLeft: '40px'
     }
 
-    // Necesito usar el getTask, para recoger todos las tareas y luego hacer un filter del estado de las tareas
 
-    let cambio = false;
-    const [ filter, setFilter ] = useState(false)
-    const [ tasks, setTasks ] = useState([])
-
+    // Solo renderiza el sidebar cuando hago cambios. Por lo tanto solo setea cuando cambio codigo de Sidebar.js.
+    // Necesito que igual que renderiza HomePage cuando cambia algo. Renderice Sidebar
     useEffect(() => {
-        getTask().then( res => {
+        setTasks(props.tasks)
+
+        let progreso = props.tasks.filter(task => task.completed !== true)
+        console.log("Prueba de salida de progreso1 ", progreso)
+        setInProgress(props.tasks.filter(task => task.completed !== true))
+        setCompleted(props.tasks.filter(task => task.completed === true))
+
+        // fetchTasks()
+        
+    }, [])
+
+    const fetchTasks = async () => {
+        await getTask().then(async res => {
             console.log("Vuelta de getTask: ", res)
             setTasks(res)
-        }).catch(err => {
+          }).catch(err => {
             console.log('Error en el getTask ', err);
-        })
-    }, [])
+          })
+    }
 
     // const nuevaFunc = () => {
     //     getTask().then( res => {
@@ -63,14 +76,16 @@ const SideBar = () => {
     //       })
     // }
 
-    // Lo que pasa es que no cambia el valor de task. Solo se setea la primera vez
+    // Lo que pasa es que no cambia el valor de task. Solo se setea la primera vez.
 
     const onlyInProgress = () => {
-        setInProgress(tasks.filter(task => task.completed !== true))
+        // setInProgress(tasks.filter(task => task.completed !== true))
+        // setInProgress(props.tasks.filter(task => task.completed !== true))
     }
 
     const onlyCompleted = () => {
-        setCompleted(tasks.filter(task => task.completed === true))
+        // setCompleted(tasks.filter(task => task.completed === true))
+        // console.log("Lista de tareas en progreso ",inProgress)
     }
 
     return (
@@ -99,19 +114,19 @@ const SideBar = () => {
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle} onClick={() => console.log("Todas las tareas ", tasks)}>
-                                12
+                                {tasks.length}
                             </Card>
                         </ListItemButton>
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} onClick={() => { onlyInProgress(); console.log("Tareas en progreso ", inProgress)}}>
-                                8
+                                {inProgress.length}
                             </Card>
                         </ListItemButton>
                         <ListItemButton sx={{ pl: 6 }}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} onClick={() => { onlyCompleted(); console.log("Tareas completadas ", completed)}}>
-                                4
+                                {completed.length}
                             </Card>
                         </ListItemButton>
                     </List>
