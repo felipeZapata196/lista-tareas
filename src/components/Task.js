@@ -24,6 +24,8 @@ export const Task = props =>{
     }, [])
 
     return(
+
+        <div style={{display:'flex', width: '33%', justifyContent: 'center', alignItems: 'center', marginBottom: '35px'}}>
         <div style={tasks}>
           
             <Card style={taskStyle1} >
@@ -36,42 +38,49 @@ export const Task = props =>{
                 />
                 }
                 <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
-                     <Typography variant="h4" component="h2"  color="textSecondary">
-                        <b>{props.name}</b>
+                     <Typography variant="h4" component="h3"  color="textSecondary"
+                     
+                     >
+                        <div style={{display: 'flex', flexDirection: 'row' }}>
+                            <b>{props.name}</b>
+
+                            <div style={{marginLeft:'5px'}}>
+                            {!completeTask ?
+                            <Checkbox onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                            checked={completeTask}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
+                            />
+                            :
+                            <Checkbox  onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                            checked={completeTask}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
+                            />
+                            }
+                            </div>
+                            
+
+                        </div>
                       
                     </Typography>
-                    <div style={{display: 'flex', flexDirection: 'row' }}>
-                    {!completeTask ?
-                        <Checkbox onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                        checked={completeTask}
-                        sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
-                        />
-                        :
-                        <Checkbox  onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                        checked={completeTask}
-                        sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
-                        />
-                    }
-                    
-                        
-
-                    </div>
+                 
                     <Typography style={descriptionStyle} color="textSecondary" component="p">
                         {props.description}
                     </Typography>
                 </CardContent>
-                <CardActions style={{flexDirection:'row'}} >
-                   
-                   <Typography style={positionDate} color="textSecondary" component="p">
-                        12 May 2022
-                    </Typography>
-                
-                    <div style={{float: "right", position: 'relative',  right: -80}}>
-                        <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
-                        onClick={handleOpen}/>
-                        
-                        <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
-                        onClick={() => props.showDelete(props.id)} />
+                <CardActions style={{flexDirection:'row', }} >
+                   <div style={{width:'100%',display: 'flex', justifyContent:"space-between"}}>
+
+                    <Typography style={positionDate} color="textSecondary" component="p">
+                            12 May 2022
+                        </Typography>
+                    
+                        <div style={{display: 'flex',}}>
+                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            onClick={handleOpen}/>
+                            
+                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            onClick={() => props.showDelete(props.id)} />
+                        </div>
                     </div>
       
                 </CardActions>
@@ -89,10 +98,11 @@ export const Task = props =>{
           
             {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
         </div>
+        </div>
     )
 }
 const tasks = {
-    width: '29%',
+    width: '90%',
     
     marginBottom: '2%',
     flexDirection: 'column',

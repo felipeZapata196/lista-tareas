@@ -139,7 +139,7 @@ const navbarStyles ={
     const inputSearch = {
         fontSize: '20px',
         padding: '10px',
-        width: '50%',
+        width: '60%',
         borderRadius: 7,
         border: 'solid 1.4px #dbdbdb'
     }

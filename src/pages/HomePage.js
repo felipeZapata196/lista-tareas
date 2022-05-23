@@ -158,7 +158,7 @@ const layout = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
     width: '100%'
 }
 
