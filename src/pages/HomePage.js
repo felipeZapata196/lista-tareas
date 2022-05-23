@@ -29,7 +29,8 @@ const HomePage = ()=> {
   const email = JSON.stringify(localStorage.getItem("email"))
   const [ listTask, setListTask ] = useState(JSON.parse(localStorage.getItem(email)))
 
-  const [ filterTasks, setFilterTasks ] = useState(false)
+  // FALLA PORQUE -> No setea el filterTasks / Lo setea tarde
+  const [ filterTasks, setFilterTasks ] = useState(true)
   const [ showAll, setShowAll ] = useState(true)
 
     // const [ tasks, setTasks ] = useState([])
@@ -190,11 +191,14 @@ const HomePage = ()=> {
         // Recoger un valor del sidebar para decir que depende de donde toques hará un filter u otro
         console.log("Contenido de task ",tasks)
 
-        if (filterTasks === true){
+        if (filterTasks){
             setTask(tasks.filter(task => task.completed !== true))
+            
         } else {
             setTask(tasks.filter(task => task.completed === true))
         }
+        setInProgress(tasks.filter(task => task.completed !== true))
+        setCompleted(tasks.filter(task => task.completed === true))
     }
 
     // Necesito 4 listas 2 para el lenght de completado y en progreso, una para la lista con los filtros y otra con la lista con el añadido, editado y borrado
@@ -220,10 +224,19 @@ const HomePage = ()=> {
         // if ()
     }
 
+    const recentTasks = (all) => {
+        setShowAll(all)
+    }
+
+    const stateTasks = (all, complete) => {
+        setShowAll(all)
+        setFilterTasks(complete)
+    }
+
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} setShowAll={setShowAll} setFilterTasks={setFilterTasks} />
+                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} recentTasks={recentTasks} stateTasks={stateTasks} />
             </div>
             <div className="mainContainer">
               
