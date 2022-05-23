@@ -42,48 +42,50 @@ export const Task = props =>{
                     </Typography>
                     <div style={{display: 'flex', flexDirection: 'row' }}>
                     {!completeTask ?
-                        <Typography style={stateTaskStyle} color="#0209b1" component="p">
-                            <b>In Progress</b>
-                        </Typography>
+                        <Checkbox onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                        checked={completeTask}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
+                        />
                         :
-                        <Typography style={stateTaskStyle} color="#046307" component="p">
-                            <b>Completed</b>
-                        </Typography>
+                        <Checkbox  onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
+                        checked={completeTask}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
+                        />
                     }
                     
-                    <Checkbox color="success" onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                         checked={completeTask}
-                        />
+                        
 
                     </div>
                     <Typography style={descriptionStyle} color="textSecondary" component="p">
                         {props.description}
                     </Typography>
                 </CardContent>
-                <CardActions style={{display: 'flex',flexDirection:'row'}} >
+                <CardActions style={{flexDirection:'row'}} >
                    
                    <Typography style={positionDate} color="textSecondary" component="p">
                         12 May 2022
                     </Typography>
                 
-                        <div style={{display: 'flex', float: "right"}}>
-                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
-                            onClick={handleOpen}/>
-                           
-                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => props.showDelete(props.id)} />
-                        </div>
+                    <div style={{float: "right", position: 'relative',  right: -80}}>
+                        <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                        onClick={handleOpen}/>
+                        
+                        <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                        onClick={() => props.showDelete(props.id)} />
+                    </div>
       
+                </CardActions>
 
-                                    <EditTask 
+
+            </Card>
+
+            <EditTask 
                                         handleClose={handleClose}
                                         open={open}
                                         id={props.id}
                                         editTasks={props.editTasks}
                         
                                         />
-                </CardActions>
-            </Card>
           
             {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
         </div>
@@ -113,6 +115,7 @@ const positionDate = {
     
     marginRight: 7,
     fontSize: 18,
+    width: '45%'
 }
 const alertStyle = {
     display: 'flex',

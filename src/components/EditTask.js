@@ -36,7 +36,7 @@ export const EditTask= (props) => {
   return(
    
 
-        <div style={buttonStyles}>
+        <div>
               
               <Modal
               open={props.open}
@@ -108,11 +108,3 @@ const modalStyle = {
     borderRadius: '3px',
     p: 4,
 };
-const buttonStyles ={
-   
-  width: '50vw',
-  margin: '30 50px',
-  paddingTop:'30px',
-  paddingRight:'60px'
-
-}
