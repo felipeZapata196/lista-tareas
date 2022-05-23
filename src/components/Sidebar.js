@@ -6,11 +6,14 @@ import  useStore from '../store/useStore'
 
 const SideBar = (props) => {
 
+    // Necesito que al clicar en inProgress 
+    // La lista de tareas en progreso las tengo en Home
+
     const [open, setOpen] = React.useState(false);
 
-    const [ tasks, setTasks ] = useState([])
-    const [ inProgress, setInProgress ] = useState([])
-    const [ completed, setCompleted ] = useState([])
+    // const [ recents, setRecents ] = useState([])
+    // const [ inProgress, setInProgress ] = useState([])
+    // const [ completed, setCompleted ] = useState([])
 
     const items = useStore(state => state.items)
 
@@ -38,45 +41,20 @@ const SideBar = (props) => {
         paddingLeft: '40px'
     }
 
+    // useEffect(() => {
+    //     // setRecents(props.recents)
 
-    // Solo renderiza el sidebar cuando hago cambios. Por lo tanto solo setea cuando cambio codigo de Sidebar.js.
-    // Necesito que igual que renderiza HomePage cuando cambia algo. Renderice Sidebar
-    useEffect(() => {
-        setTasks(props.tasks)
+    //     // // let progreso = props.tasks.filter(task => task.completed !== true)
+    //     // // console.log("Prueba de salida de progreso1 ", progreso)
+    //     // setInProgress(props.inProgress)
+    //     // setCompleted(props.completed)
 
-        let progreso = props.tasks.filter(task => task.completed !== true)
-        console.log("Prueba de salida de progreso1 ", progreso)
-        setInProgress(props.tasks.filter(task => task.completed !== true))
-        setCompleted(props.tasks.filter(task => task.completed === true))
+    //     // console.log("Que trae props.inProgress ", props.inProgress)
 
-        // fetchTasks()
+    //     // fetchTasks()
         
-    }, [])
+    // }, [])
 
-    const fetchTasks = async () => {
-        await getTask().then(async res => {
-            console.log("Vuelta de getTask: ", res)
-            setTasks(res)
-          }).catch(err => {
-            console.log('Error en el getTask ', err);
-          })
-    }
-
-    // const nuevaFunc = () => {
-    //     getTask().then( res => {
-    //         console.log("getTask devuelve: ", res)
-            
-    //         setAll(res);
-    //         setInProgress(res.filter(task => task.completed !== true))
-    //         setCompleted(res.filter(task => task.completed === true))
-
-    //         // setFilter(!filter)
-    //       }).catch(err => {
-    //         console.log('Error en el getTask ', err);
-    //       })
-    // }
-
-    // Lo que pasa es que no cambia el valor de task. Solo se setea la primera vez.
 
     const onlyInProgress = () => {
         // setInProgress(tasks.filter(task => task.completed !== true))
@@ -111,22 +89,22 @@ const SideBar = (props) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={(e) => props.filterState("recents")}>
                             <ListItemText primary="Recents" />
-                            <Card style={cardStyle} onClick={() => console.log("Todas las tareas ", tasks)}>
-                                {tasks.length}
+                            <Card style={cardStyle}>
+                                {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={(e) => props.filterState("inProgress")}>
                             <ListItemText primary="In Progress" />
-                            <Card style={cardStyle} onClick={() => { onlyInProgress(); console.log("Tareas en progreso ", inProgress)}}>
-                                {inProgress.length}
+                            <Card style={cardStyle} >
+                                {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={(e) => props.filterState("completed")}>
                             <ListItemText primary="Completed" />
-                            <Card style={cardStyle} onClick={() => { onlyCompleted(); console.log("Tareas completadas ", completed)}}>
-                                {completed.length}
+                            <Card style={cardStyle} >
+                                {props.completed}
                             </Card>
                         </ListItemButton>
                     </List>

@@ -32,7 +32,9 @@ const HomePage = ()=> {
   const email = JSON.stringify(localStorage.getItem("email"))
   const [ listTask, setListTask ] = useState(JSON.parse(localStorage.getItem(email)))
 
-//   const [ changed, setChanged ] = useState(false)
+    // const [ tasks, setTasks ] = useState([])
+    const [ inProgress, setInProgress ] = useState([])
+    const [ completed, setCompleted ] = useState([])
 
     /*NavBarFuncionalities*/
   
@@ -41,7 +43,7 @@ const HomePage = ()=> {
         filter(e.target.value)
 
     }
-    const filter =  (itemSearch)=>{
+    const filter = (itemSearch)=>{
        var results = allTasks.filter( (item)=>{
            if(item.name.toLowerCase().includes(itemSearch.toLowerCase())
            ){
@@ -50,6 +52,20 @@ const HomePage = ()=> {
 
        });
       setTask(results)
+    }
+
+    const filterState = (itemFilter) => {
+        console.log("Que tiene itemFilter ", itemFilter)
+        switch (itemFilter) {
+            case "inProgress":
+                setTask(inProgress)
+                break;
+            case "completed":
+                setTask(completed)
+                break;
+            default:
+                setTask(allTasks)
+        }
     }
  
     const handleOpen = (e) => {
@@ -70,14 +86,22 @@ const HomePage = ()=> {
      /*NavBarFuncionalities*/
 
      /*TasksFuncionalities*/
-    const submit = (data) => {
+
+     // Revisar esta función
+    const submit = async (data) => {
 
         setTask([
           ...task,
           data,
         ])
+        setAllTasks([
+            ...allTasks,
+            data,
+        ])
+
+        saveState([...allTasks, data])
        
-      }
+    }
 
     //   BORRADO
 
@@ -122,18 +146,18 @@ const HomePage = ()=> {
                 const data =(dataLocalStorage.filter((task)=> task.id !==id))
                 localStorage.setItem(email, JSON.stringify(data))
                 setTask(data)
-                
-                
+                setAllTasks(data)
+                saveState(data)
             }
         });
     }
 
      /*DelteTaks*/
-    useEffect( ()=>{
-        console.log("Inicio ", task)
+    useEffect(()=>{
         searchTasks();
         getUser();
         // getAllTasks();
+        // saveState();
 
     }, [])
 
@@ -143,18 +167,25 @@ const HomePage = ()=> {
         //    localStorage.setItem(email, JSON.stringify(res))
             setTask(res)
             setAllTasks(res)
+            saveState(res)
           }).catch(err => {
             console.log('Error en el getTask ', err);
           })
     }
 
-    useEffect(()=>{
+    // useEffect(()=>{
     
-        // getAllTasks()
-        searchTasks();
+    //     // getAllTasks()
+    //     searchTasks();
   
-    }, [items])
-  
+    // }, [items])
+
+    const saveState = (tasks) => {
+        console.log("Contenido de task ",tasks)
+        setInProgress(tasks.filter(task => task.completed !== true))
+        setCompleted(tasks.filter(task => task.completed === true))
+    }
+
     const changeState = (id) => {
         console.log("Contenido de task", task)
         let updateTasks = task.map(task => {
@@ -165,14 +196,15 @@ const HomePage = ()=> {
                 return task
             }
         })
-        console.log(updateTasks, 'tu puta madre')
+        saveState(updateTasks)
+        console.log('Contenido de updateTasks ', updateTasks)
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
 
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar tasks={task} />
+                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} filterState={filterState} />
             </div>
             <div className="mainContainer">
               
