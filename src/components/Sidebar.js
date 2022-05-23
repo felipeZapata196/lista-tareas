@@ -1,70 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card, CardContent, Typography } from "@mui/material";
 import { AccountCircle, ExpandLess, ExpandMore, Info, Assignment } from "@mui/icons-material";
-import { getTask } from "../services/TaskService";
-import  useStore from '../store/useStore'
 
 const SideBar = (props) => {
 
-    // Necesito que al clicar en inProgress 
-    // La lista de tareas en progreso las tengo en Home
-
     const [open, setOpen] = React.useState(false);
-
-    // const [ recents, setRecents ] = useState([])
-    // const [ inProgress, setInProgress ] = useState([])
-    // const [ completed, setCompleted ] = useState([])
-
-    const items = useStore(state => state.items)
 
     const openFilters = () => {
         setOpen(!open);
     };
 
-    const cardStyle = {
-        width: '30px',
-        height: '20px',
-        fontSize: 14,
-        textAlign: 'center'
-    }
-
-    const contentAll = {
-        float: 'left',
-        height: '100%',
-        width: '100%',
-        paddingTop: '40px',
-        backgroundColor: 'white'
-    }
-
-    const titleStyle = {
-        fontSize: '40px',
-        paddingLeft: '40px'
-    }
-
-    // useEffect(() => {
-    //     // setRecents(props.recents)
-
-    //     // // let progreso = props.tasks.filter(task => task.completed !== true)
-    //     // // console.log("Prueba de salida de progreso1 ", progreso)
-    //     // setInProgress(props.inProgress)
-    //     // setCompleted(props.completed)
-
-    //     // console.log("Que trae props.inProgress ", props.inProgress)
-
-    //     // fetchTasks()
-        
-    // }, [])
-
-
-    const onlyInProgress = () => {
-        // setInProgress(tasks.filter(task => task.completed !== true))
-        // setInProgress(props.tasks.filter(task => task.completed !== true))
-    }
-
-    const onlyCompleted = () => {
-        // setCompleted(tasks.filter(task => task.completed === true))
-        // console.log("Lista de tareas en progreso ",inProgress)
-    }
+    // Crear una función y poner el props.setShowAll dentro.
 
     return (
         <div  style={contentAll}>
@@ -89,19 +35,19 @@ const SideBar = (props) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={(e) => props.filterState("recents")}>
+                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={() => props.setshowAll(true)}>
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle}>
                                 {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={(e) => props.filterState("inProgress")}>
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(false); props.setshowAll(false)}}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} >
                                 {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={(e) => props.filterState("completed")}>
+                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(true); props.setshowAll(false)}}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} >
                                 {props.completed}
@@ -118,6 +64,26 @@ const SideBar = (props) => {
             </List>
         </div>
     )
+}
+
+const cardStyle = {
+    width: '30px',
+    height: '20px',
+    fontSize: 14,
+    textAlign: 'center'
+}
+
+const contentAll = {
+    float: 'left',
+    height: '100%',
+    width: '100%',
+    paddingTop: '40px',
+    backgroundColor: 'white'
+}
+
+const titleStyle = {
+    fontSize: '40px',
+    paddingLeft: '40px'
 }
 
 export default SideBar

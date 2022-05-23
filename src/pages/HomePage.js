@@ -12,9 +12,6 @@ import SideBar from '../components/Sidebar';
 import {Formulario} from '../components/Formulario'
 import swal from 'sweetalert';
 
-
-
-
 const HomePage = ()=> {
 
   const today = moment().format('ll');
@@ -32,9 +29,30 @@ const HomePage = ()=> {
   const email = JSON.stringify(localStorage.getItem("email"))
   const [ listTask, setListTask ] = useState(JSON.parse(localStorage.getItem(email)))
 
+  const [ filterTasks, setFilterTasks ] = useState(false)
+  const [ showAll, setShowAll ] = useState(true)
+
     // const [ tasks, setTasks ] = useState([])
     const [ inProgress, setInProgress ] = useState([])
     const [ completed, setCompleted ] = useState([])
+
+    useEffect(()=>{
+        searchTasks();
+        getUser();
+        // getAllTasks();
+        // saveState();
+
+    }, [])
+
+    // useEffect(()=>{
+    //     // getAllTasks()
+    //     searchTasks();
+  
+    // }, [items])
+
+    // En allTask -> guardar los cambios de edición y modificación.
+    // En task -> hacer los filters
+    // Luego dependiendo de lo que clikes, mapeara allTask o task
 
     /*NavBarFuncionalities*/
   
@@ -43,6 +61,7 @@ const HomePage = ()=> {
         filter(e.target.value)
 
     }
+
     const filter = (itemSearch)=>{
        var results = allTasks.filter( (item)=>{
            if(item.name.toLowerCase().includes(itemSearch.toLowerCase())
@@ -52,20 +71,6 @@ const HomePage = ()=> {
 
        });
       setTask(results)
-    }
-
-    const filterState = (itemFilter) => {
-        console.log("Que tiene itemFilter ", itemFilter)
-        switch (itemFilter) {
-            case "inProgress":
-                setTask(inProgress)
-                break;
-            case "completed":
-                setTask(completed)
-                break;
-            default:
-                setTask(allTasks)
-        }
     }
  
     const handleOpen = (e) => {
@@ -82,18 +87,33 @@ const HomePage = ()=> {
             await setWithUser(user);
         }
     }
-    
-     /*NavBarFuncionalities*/
+    /*NavBarFuncionalities*/
 
-     /*TasksFuncionalities*/
+    /* SidebarFuncionalities */
+    const filterState = (itemFilter) => {
+        console.log("Que tiene itemFilter ", itemFilter)
+        switch (itemFilter) {
+            case "inProgress":
+                setTask(inProgress)
+                break;
+            case "completed":
+                setTask(completed)
+                break;
+            default:
+                setTask(allTasks)
+                // setAllTasks(allTasks)
+        }
+    }
 
-     // Revisar esta función
+    /*TasksFuncionalities*/
+
+     // Revisar esta función. La tarea se crea con el estado de la última tarea
     const submit = async (data) => {
 
-        setTask([
-          ...task,
-          data,
-        ])
+        // setTask([
+        //   ...task,
+        //   data,
+        // ])
         setAllTasks([
             ...allTasks,
             data,
@@ -145,21 +165,12 @@ const HomePage = ()=> {
                 const dataLocalStorage =  JSON.parse(localStorage.getItem(email))
                 const data =(dataLocalStorage.filter((task)=> task.id !==id))
                 localStorage.setItem(email, JSON.stringify(data))
-                setTask(data)
+                // setTask(data)
                 setAllTasks(data)
                 saveState(data)
             }
         });
     }
-
-     /*DelteTaks*/
-    useEffect(()=>{
-        searchTasks();
-        getUser();
-        // getAllTasks();
-        // saveState();
-
-    }, [])
 
     const searchTasks = async () => {
         await getTask().then(async res => {
@@ -173,22 +184,24 @@ const HomePage = ()=> {
           })
     }
 
-    // useEffect(()=>{
-    
-    //     // getAllTasks()
-    //     searchTasks();
-  
-    // }, [items])
+
 
     const saveState = (tasks) => {
+        // Recoger un valor del sidebar para decir que depende de donde toques hará un filter u otro
         console.log("Contenido de task ",tasks)
-        setInProgress(tasks.filter(task => task.completed !== true))
-        setCompleted(tasks.filter(task => task.completed === true))
+
+        if (filterTasks === true){
+            setTask(tasks.filter(task => task.completed !== true))
+        } else {
+            setTask(tasks.filter(task => task.completed === true))
+        }
     }
+
+    // Necesito 4 listas 2 para el lenght de completado y en progreso, una para la lista con los filtros y otra con la lista con el añadido, editado y borrado
 
     const changeState = (id) => {
         console.log("Contenido de task", task)
-        let updateTasks = task.map(task => {
+        let updateTasks = allTasks.map(task => {
             if (task.id === id) {
                 task.completed = !task.completed
                 return task
@@ -198,13 +211,19 @@ const HomePage = ()=> {
         })
         saveState(updateTasks)
         console.log('Contenido de updateTasks ', updateTasks)
+        console.log('Contenido que hay en allTasks: ', allTasks)
         localStorage.setItem(email, JSON.stringify(updateTasks))
+    }
+
+    // Tengo el nombre del filtro 
+    const lookFilter = () => {
+        // if ()
     }
 
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} filterState={filterState} />
+                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} setShowAll={setShowAll} setFilterTasks={setFilterTasks} />
             </div>
             <div className="mainContainer">
               
@@ -215,7 +234,7 @@ const HomePage = ()=> {
                        </div>
                         <div className="content-input" style={middle}>
 
-                           <input className="ipSearch" style={inputSearch}  name="search" value={search}  onChange={handleChange} type="text"  required placeholder="Enter task name"/>
+                           <input className="ipSearch" style={inputSearch}  name="search" value={search}  onChange={handleChange} type="text" required placeholder="Enter task name"/>
                            <button className='btnSearch' style={buttonSearch}  >Search</button>
 
                         </div>
@@ -262,7 +281,7 @@ const HomePage = ()=> {
                     <Formulario submit={submit}/>
          
                     <div style={tasks} >
-                        { task !== null && task.map((task) =>
+                        { showAll ? allTasks.map((task) =>
                             <Task 
                             id={task.id}
                             name={task.name} 
@@ -270,7 +289,17 @@ const HomePage = ()=> {
                             completed={task.completed}
                             showDelete={showDelete}
                             changeState={changeState}/>
-                        )}
+                        ) : 
+                        task.map((task) =>
+                        <Task 
+                        id={task.id}
+                        name={task.name} 
+                        description={task.description}
+                        completed={task.completed}
+                        showDelete={showDelete}
+                        changeState={changeState}/>
+                        )
+                        }
 
                     </div>
 
