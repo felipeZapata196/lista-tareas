@@ -42,7 +42,6 @@ const HomePage = ()=> {
       }
       const getAllTasks = async () => {
         await getTask().then(async res => {
-            console.log("getTask devuelve: ", res)
             localStorage.setItem(email, JSON.stringify(res))
             setTask(res)
             setAllTasks(res)
@@ -91,11 +90,12 @@ const HomePage = ()=> {
     }
         
       /*EditTasks*/
-    const editTasks= (id, name, description) => {
+    const editTasks= (id, name, description, date) => {
        let edited= task.map(task => {
             if (task.id === id) {
                 task.name = name
                 task.description = description
+                task.date = date
                 return task
             } else{
                return task
@@ -131,6 +131,7 @@ const HomePage = ()=> {
                                     id={task.id}
                                     name={task.name} 
                                     description={task.description} 
+                                    date = {task.date}
                                     showDelete={showDelete}
                                     changeState={changeState}
                                     completed={task.completed}

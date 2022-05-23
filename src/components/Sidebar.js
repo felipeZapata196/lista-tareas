@@ -1,58 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card, CardContent, Typography } from "@mui/material";
 import { AccountCircle, ExpandLess, ExpandMore, Info, Assignment } from "@mui/icons-material";
-import { getTask } from "../services/TaskService";
 
-const SideBar = () => {
+const SideBar = (props) => {
 
     const [open, setOpen] = React.useState(false);
-
-    const [ inProgress, setInProgress ] = useState([])
-    const [ completed, setCompleted ] = useState([])
 
     const openFilters = () => {
         setOpen(!open);
     };
 
-  
-    // Necesito usar el getTask, para recoger todos las tareas y luego hacer un filter del estado de las tareas
-
-    let cambio = false;
-    const [ filter, setFilter ] = useState(false)
-    const [ tasks, setTasks ] = useState([])
-
-    useEffect(() => {
-        getTask().then( res => {
-            console.log("Vuelta de getTask: ", res)
-            setTasks(res)
-        }).catch(err => {
-            console.log('Error en el getTask ', err);
-        })
-    }, [])
-
-    // const nuevaFunc = () => {
-    //     getTask().then( res => {
-    //         console.log("getTask devuelve: ", res)
-            
-    //         setAll(res);
-    //         setInProgress(res.filter(task => task.completed !== true))
-    //         setCompleted(res.filter(task => task.completed === true))
-
-    //         // setFilter(!filter)
-    //       }).catch(err => {
-    //         console.log('Error en el getTask ', err);
-    //       })
-    // }
-
-    // Lo que pasa es que no cambia el valor de task. Solo se setea la primera vez
-
-    const onlyInProgress = () => {
-        setInProgress(tasks.filter(task => task.completed !== true))
-    }
-
-    const onlyCompleted = () => {
-        setCompleted(tasks.filter(task => task.completed === true))
-    }
+    // Crear una función y poner el props.setShowAll dentro.
 
     return (
         <div  style={contentAll}>
@@ -77,22 +35,22 @@ const SideBar = () => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={() => props.setshowAll(true)}>
                             <ListItemText primary="Recents" />
-                            <Card style={cardStyle} onClick={() => console.log("Todas las tareas ", tasks)}>
-                                12
+                            <Card style={cardStyle}>
+                                {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(false); props.setshowAll(false)}}>
                             <ListItemText primary="In Progress" />
-                            <Card style={cardStyle} onClick={() => { onlyInProgress(); console.log("Tareas en progreso ", inProgress)}}>
-                                8
+                            <Card style={cardStyle} >
+                                {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }}>
+                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(true); props.setshowAll(false)}}>
                             <ListItemText primary="Completed" />
-                            <Card style={cardStyle} onClick={() => { onlyCompleted(); console.log("Tareas completadas ", completed)}}>
-                                4
+                            <Card style={cardStyle} >
+                                {props.completed}
                             </Card>
                         </ListItemButton>
                     </List>

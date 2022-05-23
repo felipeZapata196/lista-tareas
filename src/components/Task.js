@@ -6,8 +6,6 @@ import { EditTask } from "./EditTask";
 
 export const Task = props =>{ 
 
-
-
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -38,7 +36,7 @@ export const Task = props =>{
                 />
                 }
                 <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
-                     <Typography variant="h4" component="h3"  color="textSecondary"
+                     <Typography variant="h4" component="h3"  color="#3d3939"
                      
                      >
                         <div style={{display: 'flex', flexDirection: 'row' }}>
@@ -70,15 +68,15 @@ export const Task = props =>{
                 <CardActions style={{flexDirection:'row', }} >
                    <div style={{width:'100%',display: 'flex', justifyContent:"space-between"}}>
 
-                    <Typography style={positionDate} color="textSecondary" component="p">
-                            12 May 2022
+                        <Typography style={positionDate} color="textSecondary" component="p">
+                           {props.date}
                         </Typography>
                     
                         <div style={{display: 'flex',}}>
-                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 28, cursor: 'pointer', color: 'gray', paddingRight: '5px'}} 
                             onClick={handleOpen}/>
                             
-                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 25, cursor: 'pointer', color: 'gray' }} 
+                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 28, cursor: 'pointer', color: 'gray' }} 
                             onClick={() => props.showDelete(props.id)} />
                         </div>
                     </div>

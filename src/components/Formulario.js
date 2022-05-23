@@ -8,8 +8,7 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-import useStore from '../store/useStore'
-
+import moment from 'moment'
 
 export const Formulario = ({submit})=>{
 
@@ -26,7 +25,7 @@ export const Formulario = ({submit})=>{
     name: '',
     description: '',
     completed: false,
-    date:''
+    date:'May 26, 2022'
   });
 
   const handleChange = (event) => {
@@ -38,9 +37,16 @@ export const Formulario = ({submit})=>{
   };
 
 const handleDate =(date)=> {
+  
+  const d = new Date(date)
+  const dateFormated = moment(d).format('ll')
+  const t = moment().startOf(dateFormated).fromNow(); 
+  console.log(t, 'hola')
+ 
+  
   setValue({
     ...value,
-    date: date
+    date: dateFormated
   })
 } 
 
@@ -91,7 +97,6 @@ const handleDate =(date)=> {
                           margin="normal"
                           multiline
                           maxRows={4}
-                          value={value.name}
                           onChange={handleChange}
                         />
                      
@@ -108,7 +113,7 @@ const handleDate =(date)=> {
 
                         <InputDate
                             handleDate={handleDate}
-                            value={value}
+                            value={value.date}
 
                           />
                           
@@ -119,8 +124,7 @@ const handleDate =(date)=> {
              
                           <Button  onClick={HandleSubmit} >Save </Button>
                           
-                      
-                          
+
                           </div>
              
                     <div>

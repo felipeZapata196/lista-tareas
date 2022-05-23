@@ -6,14 +6,15 @@ import { TextField } from "@mui/material";
 import {Button} from './Button'
 import {InputDate} from './InputDate'
 import './Formulario.css'
-
+import moment from 'moment'
 
 
 export const EditTask= (props) => {
   
   const [value, setValue] = React.useState({
     name: '',
-    description: ''
+    description: '',
+    date: ''
       })
 
   const handleChange = (event)=>{
@@ -25,11 +26,22 @@ export const EditTask= (props) => {
 
 
 }
+const handleDate =(date)=> {
+  
+  const d = new Date(date)
+  const dateFormated = moment(d).format('ll')
+
+  
+  setValue({
+    ...value,
+    date: dateFormated
+  })
+} 
   const HandleSubmit = (e) =>{
     e.preventDefault()
-  
-    props.editTasks(props.id, value.name, value.description)
+    props.editTasks(props.id, value.name, value.description, value.date)
     props.handleClose()
+  
 
   }
 
@@ -54,6 +66,7 @@ export const EditTask= (props) => {
                         label="Name"
                         name="name" 
                         fullWidth
+                        value={value.name}
                         margin="normal"
                         multiline
                         maxRows={4}
@@ -66,13 +79,17 @@ export const EditTask= (props) => {
                           fullWidth
                           label="Description"
                           name="description" 
+                          value={value.description}
                           onChange={handleChange}
                           margin="normal"
                           multiline
                           rows={2}
                         />
 
-                      <InputDate/>
+                      <InputDate
+                       handleDate={handleDate}
+                       value={value.date}
+                      />
                         
                       <div>
 
