@@ -10,7 +10,7 @@ import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
 import moment from 'moment'
 
-export const Formulario = ({submit})=>{
+export const Formulario = ({submit, nameFilter})=>{
 
 
   const [open, setOpen] = React.useState(false);
@@ -55,7 +55,6 @@ const handleDate =(date)=> {
     postForm(value.id, value.name, value.description,value.completed, value.date)
     submit(value)
     handleClose()
-   
   
   }
 
@@ -73,7 +72,7 @@ const handleDate =(date)=> {
       <div style={funcionalitiesStyle}>
 
           <div style={titleStlye}>
-            <h1 >Recent task</h1>    
+            <h1>{nameFilter}</h1>    
           </div>
 
           <div style={buttonStyles}>

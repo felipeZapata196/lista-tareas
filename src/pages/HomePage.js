@@ -18,6 +18,13 @@ const HomePage = ()=> {
     const [allTasks, setAllTasks] =useState([])
     const items = useStore(state => state.items)
     const email = JSON.stringify(localStorage.getItem("email"))
+    const [ nameFilter, setNameFilter ] = useState('Recent tasks')
+    
+
+    
+ 
+    
+    
   
 
     /*useEfects*/
@@ -29,7 +36,11 @@ const HomePage = ()=> {
         getAllTasks()
     }, [items])
 
-
+    /*dinamic title*/
+    const stateFilter = (filter) => {
+        setNameFilter(filter)
+    }
+    
 
     /*NavBarFuncionalities*/
 
@@ -51,6 +62,10 @@ const HomePage = ()=> {
           ...task,
           data,
         ])
+        setAllTasks([
+            ...allTasks,
+            data,
+          ])
        
       }
       const getAllTasks = async () => {
@@ -91,25 +106,25 @@ const HomePage = ()=> {
     }
    
      /*ChageState*/
-     const changeState = (id) => {
-        let updateTasks = allTasks.map(task => {
+     const changeState = async (id) => {
+        let updateTasks = await allTasks.map(task => {
+           
             if (task.id === id) {
                 task.completed = !task.completed
                 return task
             } else {
+                console.log(task, 'hola mundo')
                 return task
+               
             }
         })
-            
+        setTask(updateTasks)    
         localStorage.setItem(email, JSON.stringify(updateTasks))
-        console.log(updateTasks)
-        console.log('se borra ahora')
-        setAllTasks(updateTasks)
     }
         
       /*EditTasks*/
     const editTasks= (id, name, description, date) => {
-       let edited= task.map(task => {
+       let edited= allTasks.map(task => {
             if (task.id === id) {
                 task.name = name
                 task.description = description
@@ -118,8 +133,10 @@ const HomePage = ()=> {
             } else{
                return task
             }})
+
         localStorage.setItem(email, JSON.stringify(edited))
         setTask(edited)
+      
     
     }
 
@@ -131,8 +148,9 @@ const HomePage = ()=> {
               }
             });
        setTask(results)
-      
-     }
+     
+    
+        }
   
   
     return (
@@ -140,15 +158,19 @@ const HomePage = ()=> {
             <div className="sidebar">
                 <SideBar 
                 filterBy={filterBy}
-                getAllTasks={getAllTasks}/>
+                getAllTasks={getAllTasks}
+                nameFilter={stateFilter}/>
             </div>
             <div className="mainContainer">
                 <NavBar
                 filter={filter}/>
                 <div style={layout}>
-                            <Formulario submit={submit}/>
+                                    <Formulario 
+                                    submit={submit}
+                                    nameFilter={nameFilter}
+                                            />
                             <div style={tasks} >
-                                { task.map((task) =>
+                                {task.slice(0).reverse().map((task)=>
                                     <Task 
                                     id={task.id}
                                     name={task.name} 
