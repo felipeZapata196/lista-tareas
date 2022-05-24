@@ -139,7 +139,8 @@ const HomePage = ()=> {
         <div className="general-containter">
             <div className="sidebar">
                 <SideBar 
-                filterBy={filterBy}/>
+                filterBy={filterBy}
+                getAllTasks={getAllTasks}/>
             </div>
             <div className="mainContainer">
                 <NavBar

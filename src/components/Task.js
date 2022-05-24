@@ -43,14 +43,14 @@ export const Task = props =>{
                             <b>{props.name}</b>
 
                             <div style={{marginLeft:'5px'}}>
-                            {!completeTask ?
-                            <Checkbox onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                            checked={completeTask}
+                            {!props.completed ?
+                            <Checkbox onChange={(e) => { props.changeState(props.id)}}
+                            checked={props.completed}
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
                             />
                             :
-                            <Checkbox  onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                            checked={completeTask}
+                            <Checkbox  onChange={(e) => { props.changeState(props.id); }}
+                            checked={props.completed}
                             sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
                             />
                             }

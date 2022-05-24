@@ -38,7 +38,7 @@ const SideBar = (props) => {
 
 
 
-                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} >
+                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={() => {props.getAllTasks()} } >
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle}>
                                 {props.recents}
