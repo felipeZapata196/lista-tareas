@@ -58,6 +58,10 @@ const HomePage = ()=> {
         setCompleted(allTasks.filter(task => task.completed === true))
     }, [filterTasks])
 
+    useEffect(() => {
+
+    }, [completed])
+
     // useEffect(()=>{
     //     // getAllTasks()
     //     searchTasks();
@@ -129,6 +133,9 @@ const HomePage = ()=> {
         //   ...task,
         //   data,
         // ])
+
+        // frutas.splice(0,0,'fresa');
+
         setAllTasks([
             ...allTasks,
             data,
@@ -278,7 +285,7 @@ const HomePage = ()=> {
                     <Formulario submit={submit} nameFilter={nameFilter}/>
          
                     <div style={tasks} >
-                        { showAll ? allTasks.map((task) =>
+                        { showAll ? allTasks.slice(0).reverse().map((task) =>
                             <Task 
                             id={task.id}
                             name={task.name} 
@@ -287,7 +294,7 @@ const HomePage = ()=> {
                             showDelete={showDelete}
                             changeState={changeState}/>
                         ) : 
-                        task.map((task) =>
+                        task.slice(0).reverse().map((task) =>
                         <Task 
                         id={task.id}
                         name={task.name} 
