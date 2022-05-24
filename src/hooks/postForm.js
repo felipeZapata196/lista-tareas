@@ -7,7 +7,6 @@ export const postForm = (id, name, description, completed, date)=>{
   let storageData = []
   storageData = JSON.parse(localStorage.getItem(email))
   storageData.push(res)
-  console.log(storageData, 'date')
   localStorage.setItem(email, JSON.stringify(storageData) )
 })
 .catch( err => {

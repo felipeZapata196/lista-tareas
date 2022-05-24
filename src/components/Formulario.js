@@ -41,7 +41,7 @@ const handleDate =(date)=> {
   const d = new Date(date)
   const dateFormated = moment(d).format('ll')
   const t = moment().startOf(dateFormated).fromNow(); 
-  console.log(t, 'hola')
+
  
   
   setValue({

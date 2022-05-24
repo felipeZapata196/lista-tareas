@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     isLogged().then((res) => {
-      console.log('res', res);
+
       setLogin(res);
     }).catch((err) => {
       setLogin(false)

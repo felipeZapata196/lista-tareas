@@ -113,9 +113,7 @@ const HomePage = ()=> {
                 task.completed = !task.completed
                 return task
             } else {
-                console.log(task, 'hola mundo')
                 return task
-               
             }
         })
         setTask(updateTasks)    
