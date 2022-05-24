@@ -20,13 +20,26 @@ const HomePage = ()=> {
     const email = JSON.stringify(localStorage.getItem("email"))
   
 
+    /*useEfects*/
+    React.useEffect(()=>{
+        getTask()
+        getAllTasks()
+    }, [])
+    React.useEffect(()=>{
+        getAllTasks()
+    }, [items])
+
+
+
     /*NavBarFuncionalities*/
 
     const filter =  (itemSearch)=>{
        var results = allTasks.filter( (item)=>{
            if(item.name.toLowerCase().includes(itemSearch.toLowerCase())
+           
            ){
                 return item
+           
              }});
       setTask(results)
     }
@@ -45,8 +58,10 @@ const HomePage = ()=> {
             localStorage.setItem(email, JSON.stringify(res))
             setTask(res)
             setAllTasks(res)
+            
           }).catch(err => {
             console.log('Error en el getTask ', err);
+            
           })
     }
      
@@ -77,7 +92,7 @@ const HomePage = ()=> {
    
      /*ChageState*/
      const changeState = (id) => {
-        let updateTasks = task.map(task => {
+        let updateTasks = allTasks.map(task => {
             if (task.id === id) {
                 task.completed = !task.completed
                 return task
@@ -87,6 +102,9 @@ const HomePage = ()=> {
         })
             
         localStorage.setItem(email, JSON.stringify(updateTasks))
+        console.log(updateTasks)
+        console.log('se borra ahora')
+        setAllTasks(updateTasks)
     }
         
       /*EditTasks*/
@@ -104,21 +122,24 @@ const HomePage = ()=> {
         setTask(edited)
     
     }
-     /*EditTasks*/
-    
-    React.useEffect(()=>{
-        getTask()
-        getAllTasks()
-    }, [])
-    React.useEffect(()=>{
-        getAllTasks()
-    }, [items])
+
+     /*FitlerTask*/
+     const filterBy =  (itemSearch)=>{
+        var results = allTasks.filter( (item)=>{
+            if(item.completed === itemSearch){
+                 return item
+              }
+            });
+       setTask(results)
+      
+     }
   
   
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar />
+                <SideBar 
+                filterBy={filterBy}/>
             </div>
             <div className="mainContainer">
                 <NavBar

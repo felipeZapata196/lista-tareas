@@ -35,19 +35,26 @@ const SideBar = (props) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={() => props.setshowAll(true)}>
+
+
+
+                        <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} >
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle}>
                                 {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(false); props.setshowAll(false)}}>
+
+
+                        
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.filterBy(false)}}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} >
                                 {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.setFilterTasks(true); props.setshowAll(false)}}>
+
+                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.filterBy(true)}}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} >
                                 {props.completed}
