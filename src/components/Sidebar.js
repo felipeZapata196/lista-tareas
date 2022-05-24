@@ -49,7 +49,7 @@ const SideBar = (props) => {
 
 
                         
-                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.filterBy(false); props.nameFilter("In progress Tasks")}}>
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.filterBy(false); props.nameFilter("In progress tasks")}}>
                             <ListItemText primary="In Progress" />
                           
                         </ListItemButton>

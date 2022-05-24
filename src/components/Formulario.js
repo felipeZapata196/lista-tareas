@@ -109,12 +109,13 @@ const handleDate =(date)=> {
                             multiline
                             rows={2}
                           />
+                        <div style={{paddingTop:'10px'}}>
+                          <InputDate
+                              handleDate={handleDate}
+                              value={value.date}
 
-                        <InputDate
-                            handleDate={handleDate}
-                            value={value.date}
-
-                          />
+                            />
+                          </div>
                           
                         <div>
 
