@@ -11,7 +11,7 @@ import { postForm } from "../hooks/postForm";
 import useStore from '../store/useStore'
 
 
-export const Formulario = ({submit})=>{
+export const Formulario = ({submit, nameFilter})=>{
 
 
   const [open, setOpen] = React.useState(false);
@@ -70,7 +70,8 @@ export const Formulario = ({submit})=>{
       <div style={funcionalitiesStyle}>
 
           <div style={titleStlye}>
-            <h1 >Recent task</h1>    
+
+            <h1 >{nameFilter}</h1>    
           </div>
 
           <div style={buttonStyles}>

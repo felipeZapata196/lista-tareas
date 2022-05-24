@@ -2,18 +2,12 @@ import React, { useEffect, useState} from "react";
 import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
 
-
 export const Task = props =>{ 
 
     const [ edit, setEdit ] = useState(false)
-    const [ completeTask, setCompleteTask ] = useState(false)
     const [ fewdays, setFewDays ] = useState(false)
     const [ idTask, setIdTask ] = useState(1)
     const due = 2
-
-    useEffect(() => {
-        setCompleteTask(props.completed)
-    }, [])
 
     return(
         <div style={tasks}>
@@ -31,7 +25,7 @@ export const Task = props =>{
                     <Typography variant="h4" component="h2">
                         <b>{props.name}</b>
                     </Typography>
-                    {!completeTask ?
+                    {!props.completed ?
                         <Typography style={stateTaskStyle} color="blue" component="p">
                             <b>In Progress</b>
                         </Typography>
@@ -42,8 +36,8 @@ export const Task = props =>{
                     }
                 </CardContent>
                 <CardActions style={{display: 'flex', justifyContent: 'space-between'}} >
-                    <Checkbox color="success" onChange={(e) => { props.changeState(props.id); setCompleteTask(!completeTask)}}
-                    checked={completeTask}
+                    <Checkbox color="success" onChange={(e) => { props.changeState(props.id)}}
+                    checked={props.completed}
                     />
                     <Typography style={{fontSize: 18, marginRight: 7}} color="textSecondary" component="p">
                         12 May 2022
@@ -81,7 +75,6 @@ export const Task = props =>{
                 </Typography>
             </Card>
             }
-            {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
         </div>
     )
 }

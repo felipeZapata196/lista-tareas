@@ -30,12 +30,13 @@ const HomePage = ()=> {
   const [ listTask, setListTask ] = useState(JSON.parse(localStorage.getItem(email)))
 
   // FALLA PORQUE -> No setea el filterTasks / Lo setea tarde
-  const [ filterTasks, setFilterTasks ] = useState(true)
+  const [ filterTasks, setFilterTasks ] = useState(false)
   const [ showAll, setShowAll ] = useState(true)
 
     // const [ tasks, setTasks ] = useState([])
     const [ inProgress, setInProgress ] = useState([])
     const [ completed, setCompleted ] = useState([])
+    const [ nameFilter, setNameFilter ] = useState('Recent tasks')
 
     useEffect(()=>{
         searchTasks();
@@ -44,6 +45,18 @@ const HomePage = ()=> {
         // saveState();
 
     }, [])
+
+    useEffect(() => {
+        console.log("filterTasks tiene: ", filterTasks)
+        if (filterTasks){
+            setTask(allTasks.filter(task => task.completed !== true))
+        } else {
+            setTask(allTasks.filter(task => task.completed === true))
+        }
+
+        setInProgress(allTasks.filter(task => task.completed !== true))
+        setCompleted(allTasks.filter(task => task.completed === true))
+    }, [filterTasks])
 
     // useEffect(()=>{
     //     // getAllTasks()
@@ -60,7 +73,6 @@ const HomePage = ()=> {
     const handleChange = (e)=>{
         setSearch(e.target.value)
         filter(e.target.value)
-
     }
 
     const filter = (itemSearch)=>{
@@ -69,7 +81,6 @@ const HomePage = ()=> {
            ){
                return item
            }
-
        });
       setTask(results)
     }
@@ -91,24 +102,32 @@ const HomePage = ()=> {
     /*NavBarFuncionalities*/
 
     /* SidebarFuncionalities */
-    const filterState = (itemFilter) => {
-        console.log("Que tiene itemFilter ", itemFilter)
-        switch (itemFilter) {
-            case "inProgress":
-                setTask(inProgress)
-                break;
-            case "completed":
-                setTask(completed)
-                break;
-            default:
-                setTask(allTasks)
-                // setAllTasks(allTasks)
+
+    const recentTasks = (all) => {
+        setShowAll(all)
+    }
+
+    const stateTasks = (all, complete) => {
+        setShowAll(all)
+        setFilterTasks(complete)
+    }
+
+    const saveState = (tasks) => {
+        if (filterTasks){
+            setTask(tasks.filter(task => task.completed !== true))
+        } else {
+            setTask(tasks.filter(task => task.completed === true))
         }
+        setInProgress(tasks.filter(task => task.completed !== true))
+        setCompleted(tasks.filter(task => task.completed === true))
+    }
+
+    const filterBy = (filter) => {
+        setNameFilter(filter)
     }
 
     /*TasksFuncionalities*/
 
-     // Revisar esta función. La tarea se crea con el estado de la última tarea
     const submit = async (data) => {
 
         // setTask([
@@ -185,24 +204,6 @@ const HomePage = ()=> {
           })
     }
 
-
-
-    const saveState = (tasks) => {
-        // Recoger un valor del sidebar para decir que depende de donde toques hará un filter u otro
-        console.log("Contenido de task ",tasks)
-
-        if (filterTasks){
-            setTask(tasks.filter(task => task.completed !== true))
-            
-        } else {
-            setTask(tasks.filter(task => task.completed === true))
-        }
-        setInProgress(tasks.filter(task => task.completed !== true))
-        setCompleted(tasks.filter(task => task.completed === true))
-    }
-
-    // Necesito 4 listas 2 para el lenght de completado y en progreso, una para la lista con los filtros y otra con la lista con el añadido, editado y borrado
-
     const changeState = (id) => {
         console.log("Contenido de task", task)
         let updateTasks = allTasks.map(task => {
@@ -219,24 +220,10 @@ const HomePage = ()=> {
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
 
-    // Tengo el nombre del filtro 
-    const lookFilter = () => {
-        // if ()
-    }
-
-    const recentTasks = (all) => {
-        setShowAll(all)
-    }
-
-    const stateTasks = (all, complete) => {
-        setShowAll(all)
-        setFilterTasks(complete)
-    }
-
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} recentTasks={recentTasks} stateTasks={stateTasks} />
+                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} recentTasks={recentTasks} stateTasks={stateTasks} filterBy={filterBy} />
             </div>
             <div className="mainContainer">
               
@@ -247,7 +234,7 @@ const HomePage = ()=> {
                        </div>
                         <div className="content-input" style={middle}>
 
-                           <input className="ipSearch" style={inputSearch}  name="search" value={search}  onChange={handleChange} type="text" required placeholder="Enter task name"/>
+                           <input className="ipSearch" style={inputSearch} name="search" value={search} onChange={handleChange} type="text" required placeholder="Enter task name"/>
                            <button className='btnSearch' style={buttonSearch}  >Search</button>
 
                         </div>
@@ -291,7 +278,7 @@ const HomePage = ()=> {
 
         <div style={layout}>
 
-                    <Formulario submit={submit}/>
+                    <Formulario submit={submit} nameFilter={nameFilter}/>
          
                     <div style={tasks} >
                         { showAll ? allTasks.map((task) =>
@@ -313,7 +300,6 @@ const HomePage = ()=> {
                         changeState={changeState}/>
                         )
                         }
-
                     </div>
 
         </div>

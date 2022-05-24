@@ -10,21 +10,6 @@ const SideBar = (props) => {
         setOpen(!open);
     };
 
-    // Crear una función y poner el props.setShowAll dentro.
-    // const showRecents = () => {
-    //     props.setshowAll(true)
-    // }
-
-    // const showInProgress = () => {
-    //     props.setshowAll(false)
-    //     props.setFilterTasks(false)
-    // }
-
-    // const showCompleted = () => {
-    //     props.setshowAll(false)
-    //     props.setFilterTasks(true)
-    // }
-
     return (
         <div  style={contentAll}>
             <h1 style={titleStyle}>Listapp</h1>
@@ -48,19 +33,19 @@ const SideBar = (props) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => props.recentTasks(true)}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.recentTasks(true)}}>
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle}>
                                 {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, false); console.log(props.inProgress)}}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, true)}}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} >
                                 {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, true); console.log(props.completed)}}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, false)}}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} >
                                 {props.completed}
