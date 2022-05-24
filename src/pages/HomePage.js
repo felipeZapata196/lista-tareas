@@ -64,10 +64,6 @@ const HomePage = ()=> {
   
     // }, [items])
 
-    // En allTask -> guardar los cambios de edición y modificación.
-    // En task -> hacer los filters
-    // Luego dependiendo de lo que clikes, mapeara allTask o task
-
     /*NavBarFuncionalities*/
   
     const handleChange = (e)=>{
@@ -103,13 +99,15 @@ const HomePage = ()=> {
 
     /* SidebarFuncionalities */
 
-    const recentTasks = (all) => {
+    const recentTasks = (all, filter) => {
         setShowAll(all)
+        setNameFilter(filter)
     }
 
-    const stateTasks = (all, complete) => {
+    const stateTasks = (all, complete, filter) => {
         setShowAll(all)
         setFilterTasks(complete)
+        setNameFilter(filter)
     }
 
     const saveState = (tasks) => {
@@ -122,12 +120,9 @@ const HomePage = ()=> {
         setCompleted(tasks.filter(task => task.completed === true))
     }
 
-    const filterBy = (filter) => {
-        setNameFilter(filter)
-    }
-
     /*TasksFuncionalities*/
 
+    /* AddTask */
     const submit = async (data) => {
 
         // setTask([
@@ -192,18 +187,7 @@ const HomePage = ()=> {
         });
     }
 
-    const searchTasks = async () => {
-        await getTask().then(async res => {
-            console.log("getTask devuelve: ", res)
-        //    localStorage.setItem(email, JSON.stringify(res))
-            setTask(res)
-            setAllTasks(res)
-            saveState(res)
-          }).catch(err => {
-            console.log('Error en el getTask ', err);
-          })
-    }
-
+    /* ChangeState */
     const changeState = (id) => {
         console.log("Contenido de task", task)
         let updateTasks = allTasks.map(task => {
@@ -220,10 +204,23 @@ const HomePage = ()=> {
         localStorage.setItem(email, JSON.stringify(updateTasks))
     }
 
+    /* getTasks */
+    const searchTasks = async () => {
+        await getTask().then(async res => {
+            console.log("getTask devuelve: ", res)
+        //    localStorage.setItem(email, JSON.stringify(res))
+            setTask(res)
+            setAllTasks(res)
+            saveState(res)
+          }).catch(err => {
+            console.log('Error en el getTask ', err);
+          })
+    }
+
     return (
         <div className="general-containter">
             <div className="sidebar">
-                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} recentTasks={recentTasks} stateTasks={stateTasks} filterBy={filterBy} />
+                <SideBar recents={allTasks.length} inProgress={inProgress.length} completed={completed.length} recentTasks={recentTasks} stateTasks={stateTasks} />
             </div>
             <div className="mainContainer">
               

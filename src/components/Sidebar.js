@@ -33,19 +33,19 @@ const SideBar = (props) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.recentTasks(true)}}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.recentTasks(true, "Recent tasks")}}>
                             <ListItemText primary="Recents" />
                             <Card style={cardStyle}>
                                 {props.recents}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, true)}}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, true, "Tasks in progress")}}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} >
                                 {props.inProgress}
                             </Card>
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, false)}}>
+                        <ListItemButton sx={{ pl: 6 }} onClick={() => {props.stateTasks(false, false, "Tasks completed")}}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} >
                                 {props.completed}
