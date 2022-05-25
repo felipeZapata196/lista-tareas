@@ -6,18 +6,15 @@ import { loginStore } from '../store/loginStore';
 const LoginPage = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [ correctUser, setCorrectUser ] = useState(true)
   const setLogin = loginStore(state => state.setLogin);
   const login = loginStore(state => state.login);
 
-  const [ correctUser, setCorrectUser ] = useState(true)
-
+ 
   const enterUser = async () => {
-    await doLogin(email, password).then(async res => {
-      console.log("Llega aqui", res)
+      await doLogin(email, password).then(async res => {
       await setLogin(true);
     }).catch(err => {
-      console.log('Error el loguear al usuario', err);
       setCorrectUser(false)
     })
   }
@@ -44,33 +41,7 @@ const LoginPage = props => {
     }
   }
 
-  const formLogin = {
-    width: "34%",
-    alignItems: "center",
-    marginLeft: "33%",
-    marginTop: "3%",
-    paddingTop: "1%",
-    padding: "1%",
-  }
 
-  const styleTitle = {
-    alignItems: "center",
-    marginLeft: "45%",
-    marginTop: '10%',
-    fontSize: "50px"
-  }
-  
-  const styleButton = {
-    marginBottom: "5%",
-    width: "50%",
-    marginLeft: "25%"
-  }
-
-  const styleCardHeader = {
-    alignItems: "center",
-    marginLeft: "28%",
-    color: "gray"
-  }
 
   return (
     <div>
@@ -132,6 +103,34 @@ const LoginPage = props => {
       </Card>
     </div>
   )
+}
+
+const formLogin = {
+  width: "34%",
+  alignItems: "center",
+  marginLeft: "33%",
+  marginTop: "3%",
+  paddingTop: "1%",
+  padding: "1%",
+}
+
+const styleTitle = {
+  alignItems: "center",
+  marginLeft: "45%",
+  marginTop: '10%',
+  fontSize: "50px"
+}
+
+const styleButton = {
+  marginBottom: "5%",
+  width: "50%",
+  marginLeft: "25%"
+}
+
+const styleCardHeader = {
+  alignItems: "center",
+  marginLeft: "28%",
+  color: "gray"
 }
 
 export default LoginPage;

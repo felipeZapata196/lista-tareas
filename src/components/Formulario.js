@@ -8,43 +8,53 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
-import useStore from '../store/useStore'
+import moment from 'moment'
 
-
-export const Formulario = ({submit})=>{
+export const Formulario = ({submit, nameFilter})=>{
 
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const items = useStore(state => state.items)
-  const increaseItems =useStore(state=> state.increaseItems)
   const email =  JSON.stringify(localStorage.getItem("email"))
   const data =  JSON.parse(localStorage.getItem(email))
 
 
   const [value, setValue] = React.useState({
+    id: 0,
     name: '',
     description: '',
-    date: ''
-
+    completed: false,
+    date:'May 26, 2022'
   });
 
   const handleChange = (event) => {
     setValue({
       ...value, 
-      [event.target.name]: event.target.value
-
+      [event.target.name]: event.target.value,
+      id: data[data.length -1].id +1
     });
-
   };
+
+const handleDate =(date)=> {
+  
+  const d = new Date(date)
+  const dateFormated = moment(d).format('ll')
+  const t = moment().startOf(dateFormated).fromNow(); 
+
+ 
+  
+  setValue({
+    ...value,
+    date: dateFormated
+  })
+} 
+
   const HandleSubmit = (e) =>{
     e.preventDefault()
-    let id= data.length -1
-    id++
-    //que el id se cree no en funcion del tamaño del array  sino segun el id más alto
-    postForm(id, value.name, value.description)
+    postForm(value.id, value.name, value.description,value.completed, value.date)
     submit(value)
+    handleClose()
   
   }
 
@@ -55,14 +65,14 @@ export const Formulario = ({submit})=>{
 
   React.useEffect(()=>{
     getTask() 
-  }, [items])
+  }, [])
 
  
     return(
       <div style={funcionalitiesStyle}>
 
           <div style={titleStlye}>
-            <h1 >Recent task</h1>    
+            <h1>{nameFilter}</h1>    
           </div>
 
           <div style={buttonStyles}>
@@ -77,7 +87,7 @@ export const Formulario = ({submit})=>{
                 
                   <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
 
-                  <form onSubmit={HandleSubmit}>
+                 
                         <TextField
                           id="outlined-multiline-flexible"
                           label="Name"
@@ -86,7 +96,6 @@ export const Formulario = ({submit})=>{
                           margin="normal"
                           multiline
                           maxRows={4}
-                          value={value.name}
                           onChange={handleChange}
                         />
                      
@@ -100,20 +109,24 @@ export const Formulario = ({submit})=>{
                             multiline
                             rows={2}
                           />
+                        <div style={{paddingTop:'10px'}}>
+                          <InputDate
+                              handleDate={handleDate}
+                              value={value.date}
 
-                        <InputDate/>
+                            />
+                          </div>
                           
                         <div>
 
                         </div>
                           <div style={{paddingTop:60}}>
              
-                          <Button  onClick={increaseItems} >Save </Button>
+                          <Button  onClick={HandleSubmit} >Save </Button>
                           
-                          <Button  onClick={handleClose} >close </Button>
-                          
+
                           </div>
-                      </form>
+             
                     <div>
                 
                     </div>
@@ -132,8 +145,8 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 600,
-    height: 580,
+    width: 530,
+    height: 480,
     bgcolor: 'background.paper',
     border: '0,5px solid #000',
     boxShadow: 24,

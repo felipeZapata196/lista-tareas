@@ -1,24 +1,32 @@
-import React, { useState} from "react";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import React, { useEffect, useState} from "react";
+import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { EditTask } from "./EditTask";
 
 
+export const Task = props =>{ 
 
-
-export const Task = props =>{
-
-    
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     const [ edit, setEdit ] = useState(false)
     const [ completeTask, setCompleteTask ] = useState(false)
     const [ fewdays, setFewDays ] = useState(false)
     const [ idTask, setIdTask ] = useState(1)
     const due = 2
 
+
+    useEffect(() => {
+        setCompleteTask(props.completed)
+        
+    }, [])
+
     return(
+
+        <div style={{display:'flex', width: '33%', justifyContent: 'center', alignItems: 'center', marginBottom: '35px'}}>
         <div style={tasks}>
-            {!edit ? 
-            <Card style={taskStyle1} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+          
+            <Card style={taskStyle1} >
                 {fewdays && 
                     <CardHeader style={alertStyle}
                     subheader={`Due in ${due} days`}
@@ -27,60 +35,72 @@ export const Task = props =>{
                     }
                 />
                 }
-                <CardContent style={{margin: 3}}>
-                    <Typography variant="h4" component="h2">
-                        <b>{props.name}</b>
-                    </Typography>
-                    {!completeTask ?
-                        <Typography style={stateTaskStyle} color="blue" component="p">
-                            <b>In Progress</b>
-                        </Typography>
-                        :
-                        <Typography style={{fontSize: 25, textAlign: "center", paddingTop: 40 }} color="green" component="p">
-                            <b>Completed</b>
-                        </Typography>
-                    }
-                </CardContent>
-                <Typography style={positionDate} color="textSecondary" component="p">
-                        12 May 2022
-                </Typography>
-            </Card> :
-            <Card style={taskStyle2} onClick={() => {setEdit(!edit); setCompleteTask(!completeTask); setFewDays(!fewdays)}}>
-                <CardHeader style={alertStyle}
-                    subheader={`Due in ${due} days`}
-                    action={
-                        <>
-                        <QueryBuilder sx={{color: 'orange'}} />
-                        </>
-                    }
-                >
-                </CardHeader>
-                <CardContent style={{margin: 3}}>
-                    
-                    <Typography variant="h4" component="h2" style={{display: 'flex', flexDirection: 'row' ,justifyContent: 'space-between'}}>
-                        <b>{props.name}</b>
-                        <div>
-                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => console.log('Función editTask')} />
-                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 30, cursor: 'pointer', color: 'gray' }} 
-                            onClick={() => props.showDelete(props.id)} />
+                <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+                     <Typography variant="h4" component="h3"  color="#3d3939"
+                     
+                     >
+                        <div style={{display: 'flex', flexDirection: 'row' }}>
+                            <b>{props.name}</b>
+
+                            <div style={{marginLeft:'5px'}}>
+                            {!props.completed ?
+                            <Checkbox onChange={(e) => { props.changeState(props.id)}}
+                            checked={props.completed}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
+                            />
+                            :
+                            <Checkbox  onChange={(e) => { props.changeState(props.id); }}
+                            checked={props.completed}
+                            sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
+                            />
+                            }
+                            </div>
+                            
+
                         </div>
+                      
                     </Typography>
+                 
                     <Typography style={descriptionStyle} color="textSecondary" component="p">
                         {props.description}
                     </Typography>
                 </CardContent>
-                <Typography style={positionDate} color="textSecondary" component="p">
-                        12 May 2022
-                </Typography>
+                <CardActions style={{flexDirection:'row', }} >
+                   <div style={{width:'100%',display: 'flex', justifyContent:"space-between"}}>
+
+                        <Typography style={positionDate} color="textSecondary" component="p">
+                           {props.date}
+                        </Typography>
+                    
+                        <div style={{display: 'flex',}}>
+                            <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 28, cursor: 'pointer', color: 'gray', paddingRight: '5px'}} 
+                            onClick={handleOpen}/>
+                            
+                            <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 28, cursor: 'pointer', color: 'gray' }} 
+                            onClick={() => props.showDelete(props.id)} />
+                        </div>
+                    </div>
+      
+                </CardActions>
+
+
             </Card>
-            }
+
+            <EditTask 
+                                        handleClose={handleClose}
+                                        open={open}
+                                        id={props.id}
+                                        editTasks={props.editTasks}
+                        
+                                        />
+          
             {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
+        </div>
         </div>
     )
 }
 const tasks = {
-    width: '27%',
+    width: '90%',
     
     marginBottom: '2%',
     flexDirection: 'column',
@@ -90,32 +110,21 @@ const tasks = {
 const taskStyle1 = {
     display: 'flex',
     flexDirection: 'column',
-    height: 300,
+    height: 280,
+
     justifyContent: 'space-between',
     padding: 10,
-    borderRadius: 6,
-    border: 'solid 1px gray',
-    backgroundColor: '#FFFFFF'
-}
-const taskStyle2 = {
-    display: 'flex',
-    flexDirection: 'column',
-    height: 300,
-    justifyContent: 'space-between',
-    padding: 10,
-    borderRadius: 6,
-    border: 'solid 1.5px blue',
-    backgroundColor: '#FFFFFF'
+    borderRadius: 5,
+    backgroundColor: '#FFFFFF',
+    cursor: 'default'
 }
 
 const positionDate = {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    
     marginRight: 7,
     fontSize: 18,
+    width: '45%'
 }
-
 const alertStyle = {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -130,7 +139,7 @@ const stateTaskStyle = {
     fontSize: 25, 
     textAlign: "center",
     justifyContent: "center",
-    paddingTop: 50
+    
 }
 
 const descriptionStyle = {
@@ -139,4 +148,3 @@ const descriptionStyle = {
     fontSize: 20,
     wordWrap: 'break-word'
 }
-

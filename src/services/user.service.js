@@ -27,7 +27,6 @@ const axiosInstance = axios.create({baseURL: 'https://reqres.in/', responseType:
   
   export const getUsers = (page) => {
     return new Promise((resolve, reject) => {
-      console.log("Página que llega a la función ", page)
       axios.get(
         `https://reqres.in/api/users?page=${page}`
       )
