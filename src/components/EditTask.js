@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect } from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
@@ -11,11 +10,12 @@ import moment from 'moment'
 
 export const EditTask= (props) => {
   
+  // SOLUCIÓN PARA SACAR LOS DATOS AL EDITAR ->  
   const [value, setValue] = React.useState({
-    name: '',
-    description: '',
-    date: ''
-      })
+    name: props.name,
+    description: props.description,
+    date: props.date
+  })
 
   const handleChange = (event)=>{
     setValue({
@@ -23,9 +23,8 @@ export const EditTask= (props) => {
       [event.target.name]: event.target.value
    
     })
-
-
 }
+
 const handleDate =(date)=> {
   
   const d = new Date(date)
@@ -42,7 +41,6 @@ const handleDate =(date)=> {
     props.editTasks(props.id, value.name, value.description, value.date)
     props.handleClose()
   
-
   }
 
   return(
@@ -60,7 +58,6 @@ const handleDate =(date)=> {
               
                 <h1 style={{textAlign:'center'}}>Edit your task</h1>
 
-               
                       <TextField
                         id="outlined-multiline-flexible"
                         label="Name"

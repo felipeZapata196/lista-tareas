@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 
 import {Task} from '../components/Task'
 import { getTask } from "../services/TaskService";
@@ -20,31 +20,44 @@ const HomePage = ()=> {
     const email = JSON.stringify(localStorage.getItem("email"))
     const [ nameFilter, setNameFilter ] = useState('Recent tasks')
     
+    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR ->
+    const [recents, setRecents ] = useState([])
+    const [inProgress, setInProgress] = useState([])
+    const [completed, setCompleted] = useState([])
+    
+    const [change, setChange] = useState(false)
 
-    
- 
-    
-    
-  
+    const listAll = async () => {
+        await setRecents(allTasks)
+        await setInProgress(allTasks.filter(task => task.completed !== true))
+        await setCompleted(allTasks.filter(task => task.completed === true))
+    }
 
     /*useEfects*/
     React.useEffect(()=>{
-        getTask()
-        getAllTasks()
-    }, [])
+        getAllTasks();
+    }, []);
     React.useEffect(()=>{
-        getAllTasks()
+        getAllTasks();
     }, [items])
+
+    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR ->
+    useEffect(()=>{
+        listAll();
+    }, [allTasks]);
+
+    useEffect(() => {
+        listAll()
+    }, [change])
 
     /*dinamic title*/
     const stateFilter = (filter) => {
         setNameFilter(filter)
     }
-    
 
     /*NavBarFuncionalities*/
 
-    const filter =  (itemSearch)=>{
+    const filter = (itemSearch)=>{
        var results = allTasks.filter( (item)=>{
            if(item.name.toLowerCase().includes(itemSearch.toLowerCase())
            
@@ -66,18 +79,22 @@ const HomePage = ()=> {
             ...allTasks,
             data,
           ])
-       
-      }
-      const getAllTasks = async () => {
-        await getTask().then(async res => {
-            localStorage.setItem(email, JSON.stringify(res))
-            setTask(res)
-            setAllTasks(res)
-            
-          }).catch(err => {
-            console.log('Error en el getTask ', err);
-            
-          })
+
+        setChange(!change)
+    }
+
+    const getAllTasks = () => {
+        return new Promise((resolve, reject) => {
+            getTask().then(async res => {
+                await localStorage.setItem(email, JSON.stringify(res))
+                await setTask(res)
+                await setAllTasks(res)
+                resolve();
+            }).catch(err => {
+                console.log('Error en el getTask ', err);
+                reject();
+            })
+        })
     }
      
      /*DelteTaks*/
@@ -99,9 +116,12 @@ const HomePage = ()=> {
                 const email = JSON.stringify(localStorage.getItem("email"))
                 const dataLocalStorage =JSON.parse(localStorage.getItem(email))
                 const data =(dataLocalStorage.filter((task)=> task.id !==id))
+                console.log("Que tiene data ", data)
                 localStorage.setItem(email, JSON.stringify(data))
                 setTask(data)
+                setAllTasks(data)
             }
+            setChange(!change)
         });
     }
    
@@ -118,6 +138,7 @@ const HomePage = ()=> {
         })
         setTask(updateTasks)    
         localStorage.setItem(email, JSON.stringify(updateTasks))
+        setChange(!change)
     }
         
       /*EditTasks*/
@@ -131,7 +152,6 @@ const HomePage = ()=> {
             } else{
                return task
             }})
-
         localStorage.setItem(email, JSON.stringify(edited))
         setTask(edited)
       
@@ -148,16 +168,21 @@ const HomePage = ()=> {
        setTask(results)
      
     
-        }
-  
-  
+    }
+
+    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR (Pasar al Sidebar la cantidad de tareas) ->
+    // SOLUCIÓN PARA SACAR LOS DATOS AL EDITAR (Pasar a Task la lista de tareas) ->  
     return (
         <div className="general-containter">
             <div className="sidebar">
                 <SideBar 
                 filterBy={filterBy}
                 getAllTasks={getAllTasks}
-                nameFilter={stateFilter}/>
+                nameFilter={stateFilter}
+                recents={recents.length}
+                inProgress={inProgress.length}
+                completed={completed.length}
+                />
             </div>
             <div className="mainContainer">
                 <NavBar

@@ -41,7 +41,7 @@ const handleDate =(date)=> {
   const d = new Date(date)
   const dateFormated = moment(d).format('ll')
   const t = moment().startOf(dateFormated).fromNow(); 
-
+  console.log(t, 'hola')
  
   
   setValue({
@@ -55,6 +55,7 @@ const handleDate =(date)=> {
     postForm(value.id, value.name, value.description,value.completed, value.date)
     submit(value)
     handleClose()
+   
   
   }
 
@@ -72,7 +73,7 @@ const handleDate =(date)=> {
       <div style={funcionalitiesStyle}>
 
           <div style={titleStlye}>
-            <h1>{nameFilter}</h1>    
+            <h1 >{nameFilter}</h1>    
           </div>
 
           <div style={buttonStyles}>
@@ -109,13 +110,12 @@ const handleDate =(date)=> {
                             multiline
                             rows={2}
                           />
-                        <div style={{paddingTop:'10px'}}>
-                          <InputDate
-                              handleDate={handleDate}
-                              value={value.date}
 
-                            />
-                          </div>
+                        <InputDate
+                            handleDate={handleDate}
+                            value={value.date}
+
+                          />
                           
                         <div>
 

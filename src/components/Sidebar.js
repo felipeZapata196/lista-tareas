@@ -44,19 +44,25 @@ const SideBar = (props) => {
 
                         <ListItemButton className={"recents"} defaultValue={"recents"} sx={{ pl: 6 }} onClick={() => {props.getAllTasks(); props.nameFilter("Recent tasks")} } >
                             <ListItemText primary="Recents" />
-                           
+                            <Card style={cardStyle}>
+                                {props.recents}
+                            </Card>
                         </ListItemButton>
 
 
                         
                         <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.filterBy(false); props.nameFilter("In progress tasks")}}>
                             <ListItemText primary="In Progress" />
-                          
+                            <Card style={cardStyle} >
+                                {props.inProgress}
+                            </Card>
                         </ListItemButton>
 
                         <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.filterBy(true); props.nameFilter("Completed tasks")}}>
                             <ListItemText primary="Completed" />
-                           
+                            <Card style={cardStyle} >
+                                {props.completed}
+                            </Card>
                         </ListItemButton>
                     </List>
                 </Collapse>

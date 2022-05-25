@@ -85,13 +85,15 @@ export const Task = props =>{
 
 
             </Card>
-
+            {/* SOLUCIÓN PARA SACAR LOS DATOS AL EDITAR (Pasar a EditTask el nombre, descripción y fecha) ->   */}
             <EditTask 
                                         handleClose={handleClose}
                                         open={open}
                                         id={props.id}
                                         editTasks={props.editTasks}
-                        
+                                        name={props.name}
+                                        description={props.description}
+                                        date={props.date}
                                         />
           
             {/* <TaskContext.Provider value={[idTask, edit]}>{props.children}</TaskContext.Provider> */}
