@@ -16,18 +16,12 @@ const HomePage = ()=> {
     const items = useStore(state => state.items)
     const email = JSON.stringify(localStorage.getItem("email"))
     const [ nameFilter, setNameFilter ] = useState('Recent tasks')
-    
     const [recents, setRecents ] = useState([])
     const [inProgress, setInProgress] = useState([])
     const [completed, setCompleted] = useState([])
-    
     const [change, setChange] = useState(false)
 
-    const listAll = async () => {
-        await setRecents(allTasks)
-        await setInProgress(allTasks.filter(task => task.completed !== true))
-        await setCompleted(allTasks.filter(task => task.completed === true))
-    }
+
 
     /*useEfects*/
     React.useEffect(()=>{
@@ -74,7 +68,6 @@ const HomePage = ()=> {
             ...allTasks,
             data,
           ])
-
         setChange(!change)
     }
 
@@ -91,7 +84,13 @@ const HomePage = ()=> {
             })
         })
     }
-     
+     /*Sidebar funcionalities*/
+     const listAll = async () => {
+        await setRecents(allTasks)
+        await setInProgress(allTasks.filter(task => task.completed !== true))
+        await setCompleted(allTasks.filter(task => task.completed === true))
+    }
+
      /*DelteTaks*/
     const showDelete = (id) => {
         swal({
