@@ -14,8 +14,6 @@ const SideBar = (props) => {
       
     }, [])
 
-    // Crear una función y poner el props.setShowAll dentro.
-
     return (
         <div  style={contentAll}>
             <h1 style={titleStyle}>Listapp</h1>

@@ -1,7 +1,4 @@
-
 import React from "react";
-
-
 
 export const Button= ({children, ...rest} )=>{
     const  buttonStyle = {
@@ -15,21 +12,13 @@ export const Button= ({children, ...rest} )=>{
         height: '3rem',
         margin: '5px 10px',
         fontSize: '1rem',
-      
 
     }
 
-
     return(
-      
-  
-       
-
         <button  style={buttonStyle}
                 {...rest}>
                        {children}
         </button>
-
-      
     )
 }

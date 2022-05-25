@@ -9,8 +9,7 @@ import moment from 'moment'
 
 
 export const EditTask= (props) => {
-  
-  // SOLUCIÓN PARA SACAR LOS DATOS AL EDITAR ->  
+   
   const [value, setValue] = React.useState({
     name: props.name,
     description: props.description,
@@ -44,66 +43,55 @@ const handleDate =(date)=> {
   }
 
   return(
-   
-
-        <div>
-              
-              <Modal
-              open={props.open}
-              onClose={props.handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description"
-            >
-                <Box sx={modalStyle}>
-              
-                <h1 style={{textAlign:'center'}}>Edit your task</h1>
-
-                      <TextField
-                        id="outlined-multiline-flexible"
-                        label="Name"
-                        name="name" 
-                        fullWidth
-                        value={value.name}
-                        margin="normal"
-                        multiline
-                        maxRows={4}
-                        onChange={handleChange}
-                       
-                      />
-                   
-                        <TextField
-                          id="outlined-multiline-static"
-                          fullWidth
-                          label="Description"
-                          name="description" 
-                          value={value.description}
-                          onChange={handleChange}
-                          margin="normal"
-                          multiline
-                          rows={2}
-                        />
-
-                      <InputDate
-                       handleDate={handleDate}
-                       value={value.date}
-                      />
-                        
-                      <div>
-
-                      </div>
-                        <div style={{paddingTop:10}}>
-           
-                        <Button onClick={HandleSubmit}>Save </Button>
-
-                        </div>
-                  
-                  <div>
-              
-                  </div>
+    <div>
           
-                </Box>
-              </Modal>
-        </div>
+      <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+      
+          <h1 style={{textAlign:'center'}}>Edit your task</h1>
+
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Name"
+            name="name" 
+            fullWidth
+            value={value.name}
+            margin="normal"
+            multiline
+            maxRows={4}
+            onChange={handleChange}
+            
+          />
+        
+          <TextField
+            id="outlined-multiline-static"
+            fullWidth
+            label="Description"
+            name="description" 
+            value={value.description}
+            onChange={handleChange}
+            margin="normal"
+            multiline
+            rows={2}
+          />
+
+          <InputDate
+            handleDate={handleDate}
+            value={value.date}
+          />
+          <div style={{paddingTop:10}}>
+
+            <Button onClick={HandleSubmit}>Save </Button>
+
+          </div>
+        </Box>
+      </Modal>
+    </div>
 
   )
 }

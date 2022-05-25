@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react"
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -12,13 +11,11 @@ import moment from 'moment'
 
 export const Formulario = ({submit, nameFilter})=>{
 
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const email =  JSON.stringify(localStorage.getItem("email"))
   const data =  JSON.parse(localStorage.getItem(email))
-
 
   const [value, setValue] = React.useState({
     id: 0,
@@ -42,7 +39,6 @@ const handleDate =(date)=> {
   const dateFormated = moment(d).format('ll')
   const t = moment().startOf(dateFormated).fromNow(); 
   console.log(t, 'hola')
- 
   
   setValue({
     ...value,
@@ -55,26 +51,23 @@ const handleDate =(date)=> {
     postForm(value.id, value.name, value.description,value.completed, value.date)
     submit(value)
     handleClose()
-   
   
   }
 
-    React.useEffect(()=>{
+  React.useEffect(()=>{
       getTask()
   }, [])
-  
 
   React.useEffect(()=>{
     getTask() 
   }, [])
-
  
     return(
       <div style={funcionalitiesStyle}>
 
-          <div style={titleStlye}>
-            <h1 >{nameFilter}</h1>    
-          </div>
+        <div style={titleStlye}>
+          <h1 >{nameFilter}</h1>    
+        </div>
 
           <div style={buttonStyles}>
                 <Button onClick={handleOpen}> + Add Task</Button>
@@ -87,8 +80,6 @@ const handleDate =(date)=> {
                   <Box sx={modalStyle}>
                 
                   <h1 style={{textAlign:'center', paddingBottom: 30}}>Add yours tasks</h1>
-
-                 
                         <TextField
                           id="outlined-multiline-flexible"
                           label="Name"
@@ -123,14 +114,8 @@ const handleDate =(date)=> {
                           <div style={{paddingTop:60}}>
              
                           <Button  onClick={HandleSubmit} >Save </Button>
-                          
 
-                          </div>
-             
-                    <div>
-                
-                    </div>
-            
+                        </div>
                   </Box>
                 </Modal>
           </div>

@@ -9,18 +9,14 @@ import {Formulario} from '../components/Formulario'
 import {NavBar} from '../components/NavBar'
 import swal from 'sweetalert';
 
-
-
 const HomePage = ()=> {
 
     const [task, setTask] = useState([])
-    const [ edit, setEdit ] = useState(false)
     const [allTasks, setAllTasks] =useState([])
     const items = useStore(state => state.items)
     const email = JSON.stringify(localStorage.getItem("email"))
     const [ nameFilter, setNameFilter ] = useState('Recent tasks')
     
-    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR ->
     const [recents, setRecents ] = useState([])
     const [inProgress, setInProgress] = useState([])
     const [completed, setCompleted] = useState([])
@@ -41,7 +37,6 @@ const HomePage = ()=> {
         getAllTasks();
     }, [items])
 
-    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR ->
     useEffect(()=>{
         listAll();
     }, [allTasks]);
@@ -99,7 +94,6 @@ const HomePage = ()=> {
      
      /*DelteTaks*/
     const showDelete = (id) => {
-        setEdit(false)
         swal({
             title: "Are you sure?",
             text: "Task will be deleted",
@@ -170,8 +164,6 @@ const HomePage = ()=> {
     
     }
 
-    // SOLUCIÓN PARA SACAR LOS NUMEROS DE TAREAS EN EL SIDEBAR (Pasar al Sidebar la cantidad de tareas) ->
-    // SOLUCIÓN PARA SACAR LOS DATOS AL EDITAR (Pasar a Task la lista de tareas) ->  
     return (
         <div className="general-containter">
             <div className="sidebar">
@@ -195,6 +187,7 @@ const HomePage = ()=> {
                             <div style={tasks} >
                                 {task.slice(0).reverse().map((task)=>
                                     <Task 
+                                    key={task.id}
                                     id={task.id}
                                     name={task.name} 
                                     description={task.description} 
