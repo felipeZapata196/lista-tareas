@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, createContext, useContext } from "react"
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@mui/material";
@@ -8,22 +8,33 @@ import './Formulario.css'
 import {getTask}  from './../services/TaskService'
 import { postForm } from "../hooks/postForm";
 import moment from 'moment'
+import SideBar, { FilterContext } from "./Sidebar";
 
-export const Formulario = ({submit, nameFilter})=>{
+export const Formulario = ({submit})=>{
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const email =  JSON.stringify(localStorage.getItem("email"))
   const data =  JSON.parse(localStorage.getItem(email))
 
-  const [value, setValue] = React.useState({
+  const context = useContext(FilterContext)
+
+  const [value, setValue] = useState({
     id: 0,
     name: '',
     description: '',
     completed: false,
     date:'May 26, 2022'
   });
+
+  // const FilterContext = createContext();
+  // const [ nameFilter, setNameFilter ] = useState('Recent tasks')
+
+  /*dinamic title*/
+  // const stateFilter = (filter) => {
+  //   setNameFilter(filter)
+  // }
 
   const handleChange = (event) => {
     setValue({
@@ -54,19 +65,15 @@ const handleDate =(date)=> {
   
   }
 
-  React.useEffect(()=>{
+  useEffect(()=>{
       getTask()
-  }, [])
-
-  React.useEffect(()=>{
-    getTask() 
   }, [])
  
     return(
       <div style={funcionalitiesStyle}>
 
         <div style={titleStlye}>
-          <h1 >{nameFilter}</h1>    
+          <h1 >{context.nameFilter}</h1>    
         </div>
 
           <div style={buttonStyles}>
@@ -119,10 +126,12 @@ const handleDate =(date)=> {
                   </Box>
                 </Modal>
           </div>
-              
-
+          {/* <FilterContext.Provider 
+            value={{nameFilter, setNameFilter}}
+          >
+            <SideBar />
+          </FilterContext.Provider> */}
   </div>
-    
     )
 }
 const modalStyle = {
@@ -159,9 +168,4 @@ const funcionalitiesStyle = {
 const titleStlye = {
  margin: '20px 40px',
  width:'50%'
-}
-
-const buttonStyle = {
-
-float: 'rigth'
 }

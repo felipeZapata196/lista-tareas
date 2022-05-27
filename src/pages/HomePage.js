@@ -14,29 +14,32 @@ const HomePage = ()=> {
     const [task, setTask] = useState([])
     const [allTasks, setAllTasks] =useState([])
     const items = useStore(state => state.items)
-    const email = JSON.stringify(localStorage.getItem("email"))
+    // const email = JSON.stringify(localStorage.getItem("email"))
     const [ nameFilter, setNameFilter ] = useState('Recent tasks')
     const [recents, setRecents ] = useState([])
     const [inProgress, setInProgress] = useState([])
     const [completed, setCompleted] = useState([])
+
     const [change, setChange] = useState(false)
 
-
-
     /*useEfects*/
-    React.useEffect(()=>{
-        getAllTasks();
-    }, []);
+    // Me sobra????
+    // React.useEffect(()=>{
+    //     getAllTasks();
+    // }, []);
     React.useEffect(()=>{
         getAllTasks();
     }, [items])
 
-    useEffect(()=>{
-        listAll();
-    }, [allTasks]);
+// Cambios para limpiar codigo de Home
+    // useEffect(()=>{
+    //     listAll();
+    // }, [allTasks]);
 
+    // Cambios para borrar una tarea
     useEffect(() => {
-        listAll()
+        getAllTasks();
+        // listAll();
     }, [change])
 
     /*dinamic title*/
@@ -58,23 +61,22 @@ const HomePage = ()=> {
     }
 
      /*TasksFuncionalities*/
-    const submit = (data) => {
+    const submit = async (data) => {
 
-        setTask([
+        await setTask([
           ...task,
           data,
         ])
-        setAllTasks([
+        await setAllTasks([
             ...allTasks,
             data,
-          ])
-        setChange(!change)
+        ])
     }
 
     const getAllTasks = () => {
         return new Promise((resolve, reject) => {
             getTask().then(async res => {
-                await localStorage.setItem(email, JSON.stringify(res))
+                // await localStorage.setItem(email, JSON.stringify(res))
                 await setTask(res)
                 await setAllTasks(res)
                 resolve();
@@ -83,75 +85,75 @@ const HomePage = ()=> {
                 reject();
             })
         })
+        
     }
      /*Sidebar funcionalities*/
-     const listAll = async () => {
-        await setRecents(allTasks)
-        await setInProgress(allTasks.filter(task => task.completed !== true))
-        await setCompleted(allTasks.filter(task => task.completed === true))
-    }
+    // const listAll = async () => {
+    //     await setRecents(allTasks)
+    //     await setInProgress(allTasks.filter(task => task.completed !== true))
+    //     await setCompleted(allTasks.filter(task => task.completed === true))
+    // }
 
-     /*DelteTaks*/
-    const showDelete = (id) => {
-        swal({
-            title: "Are you sure?",
-            text: "Task will be deleted",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true
-        })
-        .then((willDelete) => {
+    /*DelteTaks*/
+    // const showDelete = (id) => {
+    //     swal({
+    //         title: "Are you sure?",
+    //         text: "Task will be deleted",
+    //         icon: "warning",
+    //         buttons: true,
+    //         dangerMode: true
+    //     })
+    //     .then((willDelete) => {
          
-            if ( willDelete ) {
-                swal("Poof! Task has been deleted successfully", {
-                    icon: "success",
-                })
-                const email = JSON.stringify(localStorage.getItem("email"))
-                const dataLocalStorage =JSON.parse(localStorage.getItem(email))
-                const data =(dataLocalStorage.filter((task)=> task.id !==id))
-                console.log("Que tiene data ", data)
-                localStorage.setItem(email, JSON.stringify(data))
-                setTask(data)
-                setAllTasks(data)
-            }
-            setChange(!change)
-        });
-    }
+    //         if ( willDelete ) {
+    //             swal("Poof! Task has been deleted successfully", {
+    //                 icon: "success",
+    //             })
+    //             getTask().then((res) => {
+    //                 const data =(res.filter((task)=> task.id !==id))
+    //                 localStorage.setItem(email, JSON.stringify(data))
+    //                 setTask(data)
+    //                 setAllTasks(data)
+    //             })
+    //         }
+    //         setChange(!change)
+    //     });
+    // }
    
      /*ChageState*/
-     const changeState = async (id) => {
-        let updateTasks = await allTasks.map(task => {
+    //  const changeState = async (id) => {
+    //     let updateTasks = await allTasks.map(task => {
            
-            if (task.id === id) {
-                task.completed = !task.completed
-                return task
-            } else {
-                return task
-            }
-        })
-        setTask(updateTasks)    
-        localStorage.setItem(email, JSON.stringify(updateTasks))
-        setChange(!change)
-    }
+    //         if (task.id === id) {
+    //             task.completed = !task.completed
+    //             return task
+    //         } else {
+    //             return task
+    //         }
+    //     })
+    //     setTask(updateTasks)    
+    //     localStorage.setItem(email, JSON.stringify(updateTasks))
+    //     setChange(!change)
+    // }
         
       /*EditTasks*/
-    const editTasks= (id, name, description, date) => {
-       let edited= allTasks.map(task => {
-            if (task.id === id) {
-                task.name = name
-                task.description = description
-                task.date = date
-                return task
-            } else{
-               return task
-            }})
-        localStorage.setItem(email, JSON.stringify(edited))
-        setTask(edited)
+    // const editTasks= (id, name, description, date) => {
+    //    let edited= allTasks.map(task => {
+    //         if (task.id === id) {
+    //             task.name = name
+    //             task.description = description
+    //             task.date = date
+    //             return task
+    //         } else{
+    //            return task
+    //         }})
+    //     localStorage.setItem(email, JSON.stringify(edited))
+    //     setTask(edited)
       
     
-    }
+    // }
 
-     /*FitlerTask*/
+     /*FilterTask*/
      const filterBy =  (itemSearch)=>{
         var results = allTasks.filter( (item)=>{
             if(item.completed === itemSearch){
@@ -173,6 +175,7 @@ const HomePage = ()=> {
                 recents={recents.length}
                 inProgress={inProgress.length}
                 completed={completed.length}
+                change={change}
                 />
             </div>
             <div className="mainContainer">
@@ -191,10 +194,13 @@ const HomePage = ()=> {
                                     name={task.name} 
                                     description={task.description} 
                                     date = {task.date}
-                                    showDelete={showDelete}
-                                    changeState={changeState}
+                                    // showDelete={showDelete}
+                                    // changeState={changeState}
                                     completed={task.completed}
-                                    editTasks={editTasks}
+                                    // editTasks={editTasks}
+                                    change={change}
+                                    setChange={(value) => setChange(value)}
+                                    
                                     />
                                     
                                 )}

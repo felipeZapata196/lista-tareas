@@ -2,13 +2,12 @@ import React, { useEffect, useState} from "react";
 import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
 import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { EditTask } from "./EditTask";
-
+import { getTask, updateTasks } from "../services/TaskService";
+import swal from "sweetalert";
 
 export const Task = props =>{ 
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const [ edit, setEdit ] = useState(false)
     const [ completeTask, setCompleteTask ] = useState(false)
     const [ fewdays, setFewDays ] = useState(false)
@@ -19,6 +18,69 @@ export const Task = props =>{
         setCompleteTask(props.completed)
         
     }, [])
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+     /*DeleteTaks*/
+     const showDelete = (id) => {
+        swal({
+            title: "Are you sure?",
+            text: "Task will be deleted",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        })
+        .then((willDelete) => {
+         
+            if ( willDelete ) {
+                swal("Poof! Task has been deleted successfully", {
+                    icon: "success",
+                })
+                getTask().then((res) => {
+                    let data =(res.filter((task)=> task.id !==id))
+                    updateTasks(data)
+                })
+            }
+            props.setChange(!props.change)
+        });
+    }
+
+    /*ChageState*/
+    const changeState = async (id) => {
+        await getTask().then( async (res) => {
+            let data = await res.map(task => {
+                if (task.id === id) {
+                    task.completed = !task.completed
+                    return task
+                } else {
+                    return task
+                }
+            })
+            updateTasks(data)
+            props.setChange(!props.change)
+        })
+        
+    }
+
+    /*EditTasks*/
+    const editTasks = async (id, name, description, date) => {
+        await getTask().then((res) => {
+            let edited = res.map(task => {
+                if (task.id === id) {
+                    task.name = name
+                    task.description = description
+                    task.date = date
+                    return task
+                } else{
+                    return task
+                }
+            })
+            updateTasks(edited)
+            props.setChange(!props.change)
+        })
+        
+    }
 
     return(
 
@@ -43,12 +105,12 @@ export const Task = props =>{
 
                                 <div style={{marginLeft:'5px'}}>
                                     {!props.completed ?
-                                    <Checkbox onChange={(e) => { props.changeState(props.id)}}
+                                    <Checkbox onChange={(e) => { changeState(props.id)}}
                                     checked={props.completed}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: 30} }}
                                     />
                                     :
-                                    <Checkbox  onChange={(e) => { props.changeState(props.id); }}
+                                    <Checkbox  onChange={(e) => { changeState(props.id); }}
                                     checked={props.completed}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}
                                     />
@@ -74,7 +136,7 @@ export const Task = props =>{
                                 onClick={handleOpen}/>
                                 
                                 <DeleteOutline sx={{ "&:hover": { color: "red" }, fontSize: 28, cursor: 'pointer', color: 'gray' }} 
-                                onClick={() => props.showDelete(props.id)} />
+                                onClick={() => showDelete(props.id)} />
                             </div>
                         </div>
         
@@ -84,7 +146,7 @@ export const Task = props =>{
                     handleClose={handleClose}
                     open={open}
                     id={props.id}
-                    editTasks={props.editTasks}
+                    editTasks={editTasks}
                     name={props.name}
                     description={props.description}
                     date={props.date}
@@ -114,7 +176,6 @@ const taskStyle1 = {
 }
 
 const positionDate = {
-    
     marginRight: 7,
     fontSize: 18,
     width: '45%'

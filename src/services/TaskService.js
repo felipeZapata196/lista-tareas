@@ -1,5 +1,6 @@
-
 import axios from "axios";
+
+const email = JSON.stringify(localStorage.getItem("email"))
 
 export const postTask = async(id, name, description, completed, date) => {
     return new Promise((resolve,reject)=>{
@@ -24,13 +25,11 @@ export const postTask = async(id, name, description, completed, date) => {
     })
 }
 
-export const getTask =async() => {
-    return new Promise((resolve,reject)=>{
+export const getTask = () => {
+    return new Promise(async (resolve,reject)=>{
         
-        const email = JSON.stringify(localStorage.getItem("email"))
-       
         if(localStorage.getItem(email)){
-            resolve(JSON.parse(localStorage.getItem(email)))  
+            await resolve(JSON.parse(localStorage.getItem(email)))
         }else{
             axios({
                 method: 'GET',
@@ -46,4 +45,8 @@ export const getTask =async() => {
         }
     })
 
+}
+
+export const updateTasks = async (tasks) => {
+    localStorage.setItem(email, JSON.stringify(tasks))
 }
