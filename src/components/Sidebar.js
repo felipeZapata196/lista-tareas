@@ -35,6 +35,18 @@ const SideBar = (props) => {
         })
     }
 
+    /*FilterTask*/
+    const filterBy = (itemSearch)=>{
+        getTask().then(res => {
+            let results = res.filter( (item)=>{
+                if(item.completed === itemSearch){
+                    return item
+                  }
+                });
+            props.setTasks(results)
+        })
+    }
+
     const openFilters = () => {
         setOpen(!open);
     };
@@ -70,14 +82,14 @@ const SideBar = (props) => {
                             </Card>
                         </ListItemButton>
                         
-                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {props.filterBy(false); FilterContext.setNameFilter("In progress tasks")}}>
+                        <ListItemButton name={"inProgress"} sx={{ pl: 6 }} onClick={() => {filterBy(false); FilterContext.setNameFilter("In progress tasks")}}>
                             <ListItemText primary="In Progress" />
                             <Card style={cardStyle} >
                                 {inProgress.length}
                             </Card>
                         </ListItemButton>
 
-                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {props.filterBy(true); FilterContext.setNameFilter("Completed tasks")}}>
+                        <ListItemButton name={"completed"} sx={{ pl: 6 }} onClick={() => {filterBy(true); FilterContext.setNameFilter("Completed tasks")}}>
                             <ListItemText primary="Completed" />
                             <Card style={cardStyle} >
                                 {completed.length}

@@ -79,7 +79,6 @@ export const Task = props =>{
             updateTasks(edited)
             props.setChange(!props.change)
         })
-        
     }
 
     return(

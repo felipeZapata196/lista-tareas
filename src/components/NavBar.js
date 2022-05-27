@@ -4,8 +4,7 @@ import { doLogout } from "../services/user.service";
 import { loginStore } from '../store/loginStore';
 import { Logout, ExpandMore } from "@mui/icons-material";
 import moment from 'moment'
-
-
+import { getTask } from "../services/TaskService";
 
 export const NavBar= (props) =>{
    
@@ -24,8 +23,19 @@ export const NavBar= (props) =>{
         setAnchorEl(null)
     }
 
+    /*SearchTask*/
+    const filter = (itemSearch)=>{
+        getTask().then((res) => {
+            let results = res.filter( (item)=>{
+                if(item.name.toLowerCase().includes(itemSearch.toLowerCase())){
+                     return item
+                 }});
+            props.setTasks(results)
+        })    
+    }
+
     const handleChange = (e)=>{
-       props.filter(e.target.value)
+        filter(e.target.value)
         setSearch(e.target.value)
     }
 
@@ -36,15 +46,12 @@ export const NavBar= (props) =>{
         }
     }
   
-
-    React.useEffect(()=>{
+    useEffect(()=>{
         getUser();
       
     }, [])
 
     return(
-      
-
         <nav style={navbarStyles}>
         <div className="top-container" style={container}>
             <div style={left}>
@@ -90,8 +97,6 @@ export const NavBar= (props) =>{
              </div>
          </div>
      </nav>
-    
-      
     )
 } 
 
@@ -143,8 +148,6 @@ const navbarStyles ={
         borderRadius: 7,
         border: 'solid 1.4px #dbdbdb'
     }
-
-  
 
     const styleNameUser = {
         paddingLeft: "15px",

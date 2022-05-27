@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react"
-
 import {Task} from '../components/Task'
 import { getTask } from "../services/TaskService";
 import  useStore from '../store/useStore'
@@ -7,58 +6,24 @@ import '../App.css';
 import SideBar from '../components/Sidebar';
 import {Formulario} from '../components/Formulario'
 import {NavBar} from '../components/NavBar'
-import swal from 'sweetalert';
 
 const HomePage = ()=> {
 
     const [task, setTask] = useState([])
     const [allTasks, setAllTasks] =useState([])
-    const items = useStore(state => state.items)
-    // const email = JSON.stringify(localStorage.getItem("email"))
     const [ nameFilter, setNameFilter ] = useState('Recent tasks')
-    const [recents, setRecents ] = useState([])
-    const [inProgress, setInProgress] = useState([])
-    const [completed, setCompleted] = useState([])
-
     const [change, setChange] = useState(false)
 
+    const items = useStore(state => state.items)
+
     /*useEfects*/
-    // Me sobra????
-    // React.useEffect(()=>{
-    //     getAllTasks();
-    // }, []);
-    React.useEffect(()=>{
+    useEffect(()=>{
         getAllTasks();
     }, [items])
 
-// Cambios para limpiar codigo de Home
-    // useEffect(()=>{
-    //     listAll();
-    // }, [allTasks]);
-
-    // Cambios para borrar una tarea
     useEffect(() => {
         getAllTasks();
-        // listAll();
     }, [change])
-
-    /*dinamic title*/
-    const stateFilter = (filter) => {
-        setNameFilter(filter)
-    }
-
-    /*NavBarFuncionalities*/
-
-    const filter = (itemSearch)=>{
-       var results = allTasks.filter( (item)=>{
-           if(item.name.toLowerCase().includes(itemSearch.toLowerCase())
-           
-           ){
-                return item
-           
-             }});
-      setTask(results)
-    }
 
      /*TasksFuncionalities*/
     const submit = async (data) => {
@@ -76,7 +41,6 @@ const HomePage = ()=> {
     const getAllTasks = () => {
         return new Promise((resolve, reject) => {
             getTask().then(async res => {
-                // await localStorage.setItem(email, JSON.stringify(res))
                 await setTask(res)
                 await setAllTasks(res)
                 resolve();
@@ -84,128 +48,47 @@ const HomePage = ()=> {
                 console.log('Error en el getTask ', err);
                 reject();
             })
-        })
-        
+        }) 
     }
-     /*Sidebar funcionalities*/
-    // const listAll = async () => {
-    //     await setRecents(allTasks)
-    //     await setInProgress(allTasks.filter(task => task.completed !== true))
-    //     await setCompleted(allTasks.filter(task => task.completed === true))
-    // }
 
-    /*DelteTaks*/
-    // const showDelete = (id) => {
-    //     swal({
-    //         title: "Are you sure?",
-    //         text: "Task will be deleted",
-    //         icon: "warning",
-    //         buttons: true,
-    //         dangerMode: true
-    //     })
-    //     .then((willDelete) => {
-         
-    //         if ( willDelete ) {
-    //             swal("Poof! Task has been deleted successfully", {
-    //                 icon: "success",
-    //             })
-    //             getTask().then((res) => {
-    //                 const data =(res.filter((task)=> task.id !==id))
-    //                 localStorage.setItem(email, JSON.stringify(data))
-    //                 setTask(data)
-    //                 setAllTasks(data)
-    //             })
-    //         }
-    //         setChange(!change)
-    //     });
-    // }
-   
-     /*ChageState*/
-    //  const changeState = async (id) => {
-    //     let updateTasks = await allTasks.map(task => {
-           
-    //         if (task.id === id) {
-    //             task.completed = !task.completed
-    //             return task
-    //         } else {
-    //             return task
-    //         }
-    //     })
-    //     setTask(updateTasks)    
-    //     localStorage.setItem(email, JSON.stringify(updateTasks))
-    //     setChange(!change)
-    // }
-        
-      /*EditTasks*/
-    // const editTasks= (id, name, description, date) => {
-    //    let edited= allTasks.map(task => {
-    //         if (task.id === id) {
-    //             task.name = name
-    //             task.description = description
-    //             task.date = date
-    //             return task
-    //         } else{
-    //            return task
-    //         }})
-    //     localStorage.setItem(email, JSON.stringify(edited))
-    //     setTask(edited)
-      
-    
-    // }
-
-     /*FilterTask*/
-     const filterBy =  (itemSearch)=>{
-        var results = allTasks.filter( (item)=>{
-            if(item.completed === itemSearch){
-                 return item
-              }
-            });
-       setTask(results)
-     
-    
+    /*dinamic title*/
+    const stateFilter = (filter) => {
+        setNameFilter(filter)
     }
 
     return (
         <div className="general-containter">
             <div className="sidebar">
                 <SideBar 
-                filterBy={filterBy}
                 getAllTasks={getAllTasks}
                 nameFilter={stateFilter}
-                recents={recents.length}
-                inProgress={inProgress.length}
-                completed={completed.length}
                 change={change}
+                setTasks={(value) => setTask(value)}
                 />
             </div>
             <div className="mainContainer">
                 <NavBar
-                filter={filter}/>
+                    setTasks={(value) => setTask(value)}
+                />
                 <div style={layout}>
-                                    <Formulario 
-                                    submit={submit}
-                                    nameFilter={nameFilter}
-                                            />
-                            <div style={tasks} >
-                                {task.slice(0).reverse().map((task)=>
-                                    <Task 
-                                    key={task.id}
-                                    id={task.id}
-                                    name={task.name} 
-                                    description={task.description} 
-                                    date = {task.date}
-                                    // showDelete={showDelete}
-                                    // changeState={changeState}
-                                    completed={task.completed}
-                                    // editTasks={editTasks}
-                                    change={change}
-                                    setChange={(value) => setChange(value)}
-                                    
-                                    />
-                                    
-                                )}
-
-                            </div>
+                    <Formulario 
+                    submit={submit}
+                    nameFilter={nameFilter}
+                    />
+                    <div style={tasks} >
+                        {task.slice(0).reverse().map((task)=>
+                            <Task 
+                            key={task.id}
+                            id={task.id}
+                            name={task.name} 
+                            description={task.description} 
+                            date = {task.date}
+                            completed={task.completed}
+                            change={change}
+                            setChange={(value) => setChange(value)}
+                            />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -213,11 +96,9 @@ const HomePage = ()=> {
 }
 
 const layout = {
-        
     minHeight: '100%',
     width: '100%',
     backgroundColor:'#e5e4e2',
-
 }
 
  const tasks = {
@@ -227,6 +108,5 @@ const layout = {
     justifyContent: 'flex-start',
     width: '100%'
 }
-
 
 export default HomePage
