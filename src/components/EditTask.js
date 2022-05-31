@@ -7,7 +7,6 @@ import {InputDate} from './InputDate'
 import './Formulario.css'
 import moment from 'moment'
 
-
 export const EditTask= (props) => {
    
   const [value, setValue] = React.useState({
@@ -22,13 +21,12 @@ export const EditTask= (props) => {
       [event.target.name]: event.target.value
    
     })
-}
+  }
 
 const handleDate =(date)=> {
   
   const d = new Date(date)
   const dateFormated = moment(d).format('ll')
-
   
   setValue({
     ...value,
@@ -43,8 +41,7 @@ const handleDate =(date)=> {
   }
 
   return(
-    <div>
-          
+    <div>   
       <Modal
       open={props.open}
       onClose={props.handleClose}
@@ -52,9 +49,7 @@ const handleDate =(date)=> {
       aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyle}>
-      
           <h1 style={{textAlign:'center'}}>Edit your task</h1>
-
           <TextField
             id="outlined-multiline-flexible"
             label="Name"
@@ -65,9 +60,7 @@ const handleDate =(date)=> {
             multiline
             maxRows={4}
             onChange={handleChange}
-            
           />
-        
           <TextField
             id="outlined-multiline-static"
             fullWidth
@@ -79,15 +72,12 @@ const handleDate =(date)=> {
             multiline
             rows={2}
           />
-
           <InputDate
             handleDate={handleDate}
             value={value.date}
           />
           <div style={{paddingTop:10}}>
-
             <Button onClick={HandleSubmit}>Save </Button>
-
           </div>
         </Box>
       </Modal>
@@ -95,7 +85,6 @@ const handleDate =(date)=> {
 
   )
 }
-
 
 const modalStyle = {
     position: 'absolute',

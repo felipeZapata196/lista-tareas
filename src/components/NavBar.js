@@ -112,39 +112,28 @@ const navbarStyles ={
     const container = {
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'space-between',
         display: 'flex',
         alignItems: 'center'
     }
     const left = {
-        flex: 1,
         justifyContent: 'center',
-        float: 'left',
-        paddingLeft: '8%',
-        paddingRigth: '10%',
-        
+        marginLeft: '8%',
+        margingRigth: '10%',
     }
     const middle = {
-        flex: 5,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'relative',
-        marginLeft: '10%',
-        float: 'left'
+        width: '40%'
     }
 
     const right = {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        float: 'right',
-        marginLeft: '7%',
+        marginRight: '7%',
         cursor: "pointer"
     }
 
     const inputSearch = {
         fontSize: '20px',
         padding: '10px',
-        width: '60%',
+        width: '100%',
         borderRadius: 7,
         border: 'solid 1.4px #dbdbdb'
     }

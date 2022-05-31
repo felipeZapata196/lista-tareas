@@ -7,17 +7,8 @@ import swal from "sweetalert";
 
 export const Task = props =>{ 
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const [ edit, setEdit ] = useState(false)
-    const [ completeTask, setCompleteTask ] = useState(false)
-    const [ fewdays, setFewDays ] = useState(false)
-    const [ idTask, setIdTask ] = useState(1)
-    const due = 2
-
-    useEffect(() => {
-        setCompleteTask(props.completed)
-        
-    }, [])
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -87,15 +78,7 @@ export const Task = props =>{
             <div style={tasks}>
             
                 <Card style={taskStyle1} >
-                    {fewdays && 
-                        <CardHeader style={alertStyle}
-                        subheader={`Due in ${due} days`}
-                        action={
-                            <QueryBuilder style={{color: 'orange'}} />
-                        }
-                    />
-                    }
-                    <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit); setIdTask(props.id) }}>
+                    <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit) }}>
                         <Typography variant="h4" component="h3"  color="#3d3939"
                         
                         >

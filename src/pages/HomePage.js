@@ -4,14 +4,17 @@ import { getTask } from "../services/TaskService";
 import  useStore from '../store/useStore'
 import '../App.css';
 import SideBar from '../components/Sidebar';
-import {Formulario} from '../components/Formulario'
 import {NavBar} from '../components/NavBar'
+import {Button} from '../components/Button'
+import {AddTask} from "../components/AddTask";
 
 const HomePage = ()=> {
 
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+
     const [task, setTask] = useState([])
-    const [allTasks, setAllTasks] =useState([])
-    const [ nameFilter, setNameFilter ] = useState('Recent tasks')
+    const [nameFilter, setNameFilter] = useState('Recent tasks')
     const [change, setChange] = useState(false)
 
     const items = useStore(state => state.items)
@@ -25,24 +28,11 @@ const HomePage = ()=> {
         getAllTasks();
     }, [change])
 
-     /*TasksFuncionalities*/
-    const submit = async (data) => {
-
-        await setTask([
-          ...task,
-          data,
-        ])
-        await setAllTasks([
-            ...allTasks,
-            data,
-        ])
-    }
-
+    /*TasksFuncionalities*/
     const getAllTasks = () => {
         return new Promise((resolve, reject) => {
             getTask().then(async res => {
                 await setTask(res)
-                await setAllTasks(res)
                 resolve();
             }).catch(err => {
                 console.log('Error en el getTask ', err);
@@ -71,10 +61,10 @@ const HomePage = ()=> {
                     setTasks={(value) => setTask(value)}
                 />
                 <div style={layout}>
-                    <Formulario 
-                    submit={submit}
-                    nameFilter={nameFilter}
-                    />
+                    <div style={titleStyle}>
+                        <h1>{nameFilter}</h1> 
+                        <Button onClick={handleOpen}> + Add Task</Button>
+                    </div>
                     <div style={tasks} >
                         {task.slice(0).reverse().map((task)=>
                             <Task 
@@ -91,6 +81,13 @@ const HomePage = ()=> {
                     </div>
                 </div>
             </div>
+            <AddTask 
+            change={change} 
+            setChange={(value) => setChange(value)} 
+            open={open} 
+            setOpen={(value) => setOpen(value)} 
+            tasks={task}
+            />
         </div>
     )
 }
@@ -99,14 +96,25 @@ const layout = {
     minHeight: '100%',
     width: '100%',
     backgroundColor:'#e5e4e2',
+    paddingLeft: 15
 }
 
- const tasks = {
+const tasks = {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
     width: '100%'
+}
+
+const titleStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginLeft: 30,
+    marginRight: 30,
+    padding: 10,
+    justifyContent: 'space-between'
 }
 
 export default HomePage
