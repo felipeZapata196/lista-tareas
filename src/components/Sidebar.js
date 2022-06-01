@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState, createContext } from "react";
-import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card, CardContent, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { List, ListItemButton, ListItemIcon, ListItemText, Collapse, Card} from "@mui/material";
 import { AccountCircle, ExpandLess, ExpandMore, Info, Assignment } from "@mui/icons-material";
 import { getTask } from "../services/TaskService";
 

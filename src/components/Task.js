@@ -1,6 +1,6 @@
-import React, { useEffect, useState} from "react";
-import { Card, CardContent, CardHeader, Typography, Checkbox, CardActions } from "@mui/material";
-import { QueryBuilder, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import React, {useState} from "react";
+import { Card, CardContent, Typography, Checkbox, CardActions } from "@mui/material";
+import { DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { EditTask } from "./EditTask";
 import { getTask, updateTasks } from "../services/TaskService";
 import swal from "sweetalert";
@@ -51,7 +51,6 @@ export const Task = props =>{
             updateTasks(data)
             props.setChange(!props.change)
         })
-        
     }
 
     /*EditTasks*/
@@ -73,15 +72,11 @@ export const Task = props =>{
     }
 
     return(
-
         <div style={{display:'flex', width: '33%', justifyContent: 'center', alignItems: 'center', marginBottom: '35px'}}>
             <div style={tasks}>
-            
                 <Card style={taskStyle1} >
                     <CardContent style={{margin: 3}} onClick={() => { setEdit(!edit) }}>
-                        <Typography variant="h4" component="h3"  color="#3d3939"
-                        
-                        >
+                        <Typography variant="h4" component="h3"  color="#3d3939">
                             <div style={{display: 'flex', flexDirection: 'row' }}>
                                 <b>{props.name}</b>
 
@@ -99,7 +94,6 @@ export const Task = props =>{
                                     }
                                 </div>
                             </div>
-                        
                         </Typography>
                     
                         <Typography style={descriptionStyle} color="textSecondary" component="p">
@@ -107,12 +101,10 @@ export const Task = props =>{
                         </Typography>
                     </CardContent>
                     <CardActions style={{flexDirection:'row', }} >
-                    <div style={{width:'100%',display: 'flex', justifyContent:"space-between"}}>
-
+                        <div style={{width:'100%',display: 'flex', justifyContent:"space-between"}}>
                             <Typography style={positionDate} color="textSecondary" component="p">
-                            {props.date}
+                                {props.date}
                             </Typography>
-                        
                             <div style={{display: 'flex',}}>
                                 <EditOutlined sx={{ "&:hover": { color: "black" }, fontSize: 28, cursor: 'pointer', color: 'gray', paddingRight: '5px'}} 
                                 onClick={handleOpen}/>
@@ -121,7 +113,6 @@ export const Task = props =>{
                                 onClick={() => showDelete(props.id)} />
                             </div>
                         </div>
-        
                     </CardActions>
                 </Card>
                 <EditTask 
@@ -139,17 +130,14 @@ export const Task = props =>{
 }
 const tasks = {
     width: '90%',
-    
     marginBottom: '2%',
     flexDirection: 'column',
-   
 }
 
 const taskStyle1 = {
     display: 'flex',
     flexDirection: 'column',
     height: 280,
-
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 5,
@@ -161,22 +149,6 @@ const positionDate = {
     marginRight: 7,
     fontSize: 18,
     width: '45%'
-}
-const alertStyle = {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    padding: 2,
-    paddingRight: 10,
-    fontSize: 12,
-    textAlign: "end"
-}
-
-const stateTaskStyle = {
-    display: 'flex',
-    fontSize: 25, 
-    textAlign: "center",
-    justifyContent: "center",
-    
 }
 
 const descriptionStyle = {

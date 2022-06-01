@@ -140,5 +140,4 @@ const navbarStyles ={
 
     const styleNameUser = {
         paddingLeft: "15px",
-    }
-          
+    }   
